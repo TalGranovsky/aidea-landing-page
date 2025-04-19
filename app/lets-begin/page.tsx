@@ -1,9 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import { Playfair_Display } from 'next/font/google';
 import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+import PageTransition from '@/components/PageTransition';
+import EmailDomainSuggestions from '@/components/EmailDomainSuggestions';
 
 // Components
 import Navbar from '@/components/Navbar';
@@ -27,19 +32,21 @@ export default function LetsBegin() {
     budget: '',
     message: ''
   });
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const [formError, setFormError] = useState('');
-  const [formErrors, setFormErrors] = useState({
+  const [phone, setPhone] = useState('');
+  const [formErrors, setFormErrors] = useState<{
+    email: string;
+    phone: string;
+  }>({
     email: '',
     phone: ''
   });
+  const [formError, setFormError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
-  // Country code selection state
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState({ code: '+972', name: 'Israel' });
   const [countryDropdownOpen, setCountryDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [phone, setPhone] = useState('');
+  const emailInputRef = useRef<HTMLInputElement>(null);
 
   // Ensure scroll position is at the top when this page loads
   useEffect(() => {
@@ -323,6 +330,16 @@ export default function LetsBegin() {
                             aria-label="Email address"
                             aria-describedby="email-error"
                             autoComplete="email"
+                            ref={emailInputRef}
+                          />
+                          <EmailDomainSuggestions 
+                            email={formData.email}
+                            onSelectDomain={(fullEmail) => {
+                              setFormData({...formData, email: fullEmail});
+                              validateEmail(fullEmail);
+                            }}
+                            inputRef={emailInputRef}
+                            className="mt-2"
                           />
                           {formData.email && !formErrors.email && (
                             <div className="absolute right-3 top-1/2 transform -translate-y-1/2">

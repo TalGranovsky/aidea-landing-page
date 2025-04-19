@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Head from 'next/head'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { Roboto } from 'next/font/google'
+import { Roboto, Playfair_Display } from 'next/font/google'
 import Image from 'next/image'
 import Link from 'next/link'
 import LoadingScreen from '@/components/LoadingScreen'
@@ -11,6 +11,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import PageTransition from '@/components/PageTransition';
 import Script from 'next/script'
+import EmailDomainSuggestions from '@/components/EmailDomainSuggestions'
 
 // Country codes list
 const COUNTRY_CODES = [
@@ -461,6 +462,7 @@ export default function Page() {
   })
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const emailInputRef = useRef<HTMLInputElement>(null)
 
   // Handle form validation and submission
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -727,7 +729,7 @@ export default function Page() {
                 <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
                 <div className="w-16 h-16 md:w-20 md:h-20 bg-purple-900/40 rounded-full mb-4 md:mb-6 flex items-center justify-center relative z-10">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.7 2.7 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.7 2.7 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z" />
                   </svg>
                 </div>
                 <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center">Image Generation</h3>
@@ -834,7 +836,25 @@ export default function Page() {
                       aria-label="Email address"
                       aria-describedby="email-error"
                       autoComplete="email"
+                      ref={emailInputRef}
                     />
+                    <EmailDomainSuggestions 
+                      email={formData.email}
+                      onSelectDomain={(fullEmail) => {
+                        setFormData({...formData, email: fullEmail});
+                        // Validate the email after selection
+                        const isValid = fullEmail.endsWith('@gmail.com');
+                        setFormErrors({
+                          ...formErrors, 
+                          email: isValid ? '' : 'Please enter a valid Gmail address'
+                        });
+                      }}
+                      inputRef={emailInputRef}
+                      className="mt-2"
+                    />
+                    {formErrors.email && (
+                      <p id="email-error" className="text-red-500 text-xs mt-2 text-left">{formErrors.email}</p>
+                    )}
                     {formData.email && !formErrors.email && (
                       <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
@@ -843,9 +863,6 @@ export default function Page() {
                       </div>
                     )}
                   </div>
-                  {formErrors.email && (
-                    <p id="email-error" className="text-red-500 text-xs mt-2 text-left">{formErrors.email}</p>
-                  )}
                 </div>
                 <div className="flex flex-col w-full">
                   <div className="flex items-center w-full">
