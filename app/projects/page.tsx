@@ -117,20 +117,78 @@ export default function Projects() {
           position: relative;
           overflow: hidden;
           border-radius: 0.75rem;
-          transition: all 0.3s ease;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         
         .project-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 10px 30px -15px rgba(123, 0, 215, 0.3);
+          transform: translateY(-5px) scale(1.02);
+          box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.3);
         }
         
-        .project-card:hover .project-overlay {
-          opacity: 1;
+        .metallic-shine {
+          position: relative;
+          overflow: hidden;
         }
         
-        .project-card:hover .project-image {
-          transform: scale(1.05);
+        .metallic-shine::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.05) 20%,
+            rgba(255, 255, 255, 0.2) 40%,
+            rgba(255, 255, 255, 0.3) 50%,
+            rgba(255, 255, 255, 0.2) 60%,
+            rgba(255, 255, 255, 0.05) 80%,
+            transparent 100%
+          );
+          z-index: 2;
+          opacity: 0;
+          pointer-events: none;
+          transform: translateX(-100%) skewX(-15deg);
+        }
+        
+        .metallic-shine:hover::before {
+          animation: metallic-woosh 1.2s ease-in-out;
+        }
+        
+        @keyframes metallic-woosh {
+          0% {
+            transform: translateX(-100%) skewX(-15deg);
+            opacity: 0;
+          }
+          10% {
+            opacity: 0.5;
+          }
+          50% {
+            opacity: 0.7;
+          }
+          100% {
+            transform: translateX(200%) skewX(-15deg);
+            opacity: 0;
+          }
+        }
+        
+        @keyframes gradient-shift {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+        
+        .animate-gradient-shift {
+          animation: gradient-shift 8s ease infinite;
+          background-size: 200% 200%;
         }
         
         .project-image {
@@ -147,6 +205,10 @@ export default function Projects() {
           flex-direction: column;
           justify-content: flex-end;
           padding: 1.5rem;
+        }
+        
+        .project-overlay:hover {
+          opacity: 1;
         }
         
         .filter-button {
@@ -249,13 +311,15 @@ export default function Projects() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.1 * index }}
-                  className="project-card border border-neutral-800 rounded-xl overflow-hidden"
+                  className="project-card border border-neutral-800 hover:border-purple-500/70 rounded-xl overflow-hidden metallic-shine group"
                 >
                   <div className="relative h-64 overflow-hidden">
                     {/* Project image placeholder */}
                     <div className="project-image absolute inset-0 bg-gradient-to-br from-purple-900/30 to-blue-900/30"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                    <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
                     
-                    <div className="project-overlay">
+                    <div className="project-overlay relative z-10">
                       <h3 className="text-xl font-bold mb-2">{project.title}</h3>
                       <div className="flex flex-wrap gap-2 mb-3">
                         {project.tags.map((tag, i) => (
@@ -267,7 +331,7 @@ export default function Projects() {
                       <p className="text-sm text-neutral-300 line-clamp-2">{project.description}</p>
                     </div>
                   </div>
-                  <div className="p-4 bg-neutral-900/50">
+                  <div className="p-4 bg-neutral-900/50 relative z-10">
                     <button className="text-sm text-purple-400 hover:text-purple-300 transition-colors">
                       View Project →
                     </button>

@@ -475,16 +475,41 @@ export default function Page() {
       return
     }
     
-    // Check for @gmail.com specifically
-    if (!email.endsWith('@gmail.com')) {
-      setFormErrors({...formErrors, email: 'Please enter a valid Gmail address (e.g., example@gmail.com)'})
+    // Get domain part of the email
+    const parts = email.split('@')
+    if (parts.length !== 2) {
+      setFormErrors({...formErrors, email: 'Please enter a valid email address'})
       return
     }
     
+    const localPart = parts[0]
+    const domainPart = parts[1]
+    
     // Check local part (before @) has at least one character and valid format
-    const localPart = email.split('@')[0]
     if (!localPart || !/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+$/.test(localPart)) {
-      setFormErrors({...formErrors, email: 'Please enter a valid Gmail address'})
+      setFormErrors({...formErrors, email: 'Please enter a valid email address'})
+      return
+    }
+    
+    // List of accepted domains (same as in EmailDomainSuggestions component)
+    const acceptedDomains = [
+      'gmail.com',
+      'yahoo.com',
+      'hotmail.com',
+      'outlook.com',
+      'icloud.com',
+      'protonmail.com',
+      'aol.com',
+      'mail.com',
+      'zoho.com',
+      'gmx.com',
+      'yandex.com',
+      'live.com'
+    ]
+    
+    // Check if the domain is in our accepted list
+    if (domainPart && !acceptedDomains.includes(domainPart)) {
+      setFormErrors({...formErrors, email: `Please use one of our supported email domains`})
       return
     }
     
@@ -602,6 +627,22 @@ export default function Page() {
           100% {
             background-position: 0% 50%;
           }
+        }
+        
+        .metallic-shine {
+          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .metallic-shine:hover {
+          transform: scale(1.02);
+        }
+        
+        .hover-scale {
+          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .hover-scale:hover {
+          transform: scale(1.02);
         }
       `}</style>
       
@@ -724,7 +765,7 @@ export default function Page() {
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 md:gap-8">
               {/* Top Left: Service Card 1 */}
-              <div className="service-card p-6 md:p-8 bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-500 hover:shadow-xl hover:shadow-purple-900/30 sm:col-span-1 lg:col-span-3 flex flex-col items-center justify-center transform hover:scale-[1.02] hover:translate-y-[-5px] relative overflow-hidden group">
+              <div className="service-card p-6 md:p-8 bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-900/30 sm:col-span-1 lg:col-span-3 flex flex-col items-center justify-center hover-scale metallic-shine relative overflow-hidden group">
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                 <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
                 <div className="w-16 h-16 md:w-20 md:h-20 bg-purple-900/40 rounded-full mb-4 md:mb-6 flex items-center justify-center relative z-10">
@@ -741,7 +782,7 @@ export default function Page() {
               </div>
               
               {/* Center: Featured Card */}
-              <div className="service-card p-6 md:p-10 col-span-1 sm:col-span-2 lg:col-span-6 lg:row-span-2 bg-gradient-to-br from-purple-900/20 to-blue-900/20 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-700 hover:shadow-xl hover:shadow-purple-900/30 flex flex-col items-center justify-center transform hover:scale-[1.02] relative overflow-hidden group">
+              <div className="service-card p-6 md:p-10 col-span-1 sm:col-span-2 lg:col-span-6 lg:row-span-2 bg-gradient-to-br from-purple-900/20 to-blue-900/20 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-900/30 flex flex-col items-center justify-center hover-scale metallic-shine relative overflow-hidden group">
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                 <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/30 via-transparent to-blue-600/30 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
                 <h3 className="text-2xl md:text-3xl font-bold mb-6 md:mb-10 text-center relative z-10">Experience Our Work</h3>
@@ -753,7 +794,7 @@ export default function Page() {
               </div>
               
               {/* Top Right: Service Card 2 */}
-              <div className="service-card p-6 md:p-8 bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-500 hover:shadow-xl hover:shadow-purple-900/30 sm:col-span-1 lg:col-span-3 flex flex-col items-center justify-center transform hover:scale-[1.02] hover:translate-y-[-5px] relative overflow-hidden group">
+              <div className="service-card p-6 md:p-8 bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-900/30 sm:col-span-1 lg:col-span-3 flex flex-col items-center justify-center hover-scale metallic-shine relative overflow-hidden group">
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                 <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
                 <div className="w-16 h-16 md:w-20 md:h-20 bg-blue-900/40 rounded-full mb-4 md:mb-6 flex items-center justify-center relative z-10">
@@ -770,7 +811,7 @@ export default function Page() {
               </div>
               
               {/* Bottom Left: Service Card 4 */}
-              <div className="service-card p-6 md:p-8 bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-500 hover:shadow-xl hover:shadow-purple-900/30 sm:col-span-1 lg:col-span-3 flex flex-col items-center justify-center transform hover:scale-[1.02] hover:translate-y-[-5px] relative overflow-hidden group">
+              <div className="service-card p-6 md:p-8 bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-900/30 sm:col-span-1 lg:col-span-3 flex flex-col items-center justify-center hover-scale metallic-shine relative overflow-hidden group">
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                 <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
                 <div className="w-16 h-16 md:w-20 md:h-20 bg-pink-900/40 rounded-full mb-4 md:mb-6 flex items-center justify-center relative z-10">
@@ -787,7 +828,7 @@ export default function Page() {
               </div>
               
               {/* Bottom Right: Service Card 5 */}
-              <div className="service-card p-6 md:p-8 bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-500 hover:shadow-xl hover:shadow-purple-900/30 sm:col-span-1 lg:col-span-3 flex flex-col items-center justify-center transform hover:scale-[1.02] hover:translate-y-[-5px] relative overflow-hidden group">
+              <div className="service-card p-6 md:p-8 bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-900/30 sm:col-span-1 lg:col-span-3 flex flex-col items-center justify-center hover-scale metallic-shine relative overflow-hidden group">
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                 <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
                 <div className="w-16 h-16 md:w-20 md:h-20 bg-green-900/40 rounded-full mb-4 md:mb-6 flex items-center justify-center relative z-10">
@@ -842,11 +883,28 @@ export default function Page() {
                       email={formData.email}
                       onSelectDomain={(fullEmail) => {
                         setFormData({...formData, email: fullEmail});
-                        // Validate the email after selection
-                        const isValid = fullEmail.endsWith('@gmail.com');
+                        // Validate the email after selection - this will always pass for autocomplete selections
+                        const parts = fullEmail.split('@');
+                        const domainPart = parts.length === 2 ? parts[1] : '';
+                        const acceptedDomains = [
+                          'gmail.com',
+                          'yahoo.com',
+                          'hotmail.com',
+                          'outlook.com',
+                          'icloud.com',
+                          'protonmail.com',
+                          'aol.com',
+                          'mail.com',
+                          'zoho.com',
+                          'gmx.com',
+                          'yandex.com',
+                          'live.com'
+                        ];
+                        
+                        const isValid = acceptedDomains.includes(domainPart);
                         setFormErrors({
                           ...formErrors, 
-                          email: isValid ? '' : 'Please enter a valid Gmail address'
+                          email: isValid ? '' : 'Please use one of our supported email domains'
                         });
                       }}
                       inputRef={emailInputRef}
@@ -946,7 +1004,7 @@ export default function Page() {
                     <div className="relative">
                       <input
                         type="tel"
-                        placeholder={selectedCountry.code === '+972' ? '050-123-4567' : '(555) 123-4567'}
+                        placeholder={selectedCountry.code === '+972' ? '54-232-7876' : '(555) 123-4567'}
                         className={`w-full px-3 md:px-4 py-2.5 md:py-3 bg-neutral-800/80 border ${formErrors.phone ? 'border-red-500' : formData.phone && !formErrors.phone ? 'border-green-500' : 'border-neutral-700'} rounded-r-md border-l-0 text-sm md:text-base pr-10`}
                         value={formData.phone}
                         onChange={handlePhoneChange}

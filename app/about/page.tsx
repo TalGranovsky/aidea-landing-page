@@ -54,6 +54,81 @@ export default function About() {
           border-radius: 0.5rem;
           overflow: hidden;
         }
+        
+        .metallic-shine {
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .metallic-shine::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.05) 20%,
+            rgba(255, 255, 255, 0.2) 40%,
+            rgba(255, 255, 255, 0.3) 50%,
+            rgba(255, 255, 255, 0.2) 60%,
+            rgba(255, 255, 255, 0.05) 80%,
+            transparent 100%
+          );
+          z-index: 2;
+          opacity: 0;
+          pointer-events: none;
+          transform: translateX(-100%) skewX(-15deg);
+        }
+        
+        .metallic-shine:hover::before {
+          animation: metallic-woosh 1.2s ease-in-out;
+        }
+        
+        @keyframes metallic-woosh {
+          0% {
+            transform: translateX(-100%) skewX(-15deg);
+            opacity: 0;
+          }
+          10% {
+            opacity: 0.5;
+          }
+          50% {
+            opacity: 0.7;
+          }
+          100% {
+            transform: translateX(200%) skewX(-15deg);
+            opacity: 0;
+          }
+        }
+        
+        @keyframes gradient-shift {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+        
+        .animate-gradient-shift {
+          animation: gradient-shift 8s ease infinite;
+          background-size: 200% 200%;
+        }
+        
+        .team-card {
+          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+        }
+        
+        .team-card:hover {
+          transform: translateY(-5px) scale(1.02);
+          box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.3);
+        }
       `}</style>
       
       {/* Page Transition Animation */}
@@ -157,11 +232,13 @@ export default function About() {
             >
               <h2 className={`text-3xl md:text-4xl font-bold mb-10 text-center ${playfair.className}`}>Our Team</h2>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                 {/* Team Member 1 */}
-                <div className="bg-neutral-900/50 backdrop-blur-sm rounded-xl border border-neutral-800 overflow-hidden group">
+                <div className="bg-neutral-900/50 backdrop-blur-sm rounded-xl border border-neutral-800 hover:border-purple-500/70 overflow-hidden group team-card metallic-shine">
                   <div className="h-64 bg-neutral-800 relative overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-5"></div>
+                    <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift z-5"></div>
                     <div className="absolute bottom-4 left-4 z-20">
                       <h3 className="text-xl font-bold">Alex Morgan</h3>
                       <p className="text-neutral-400 text-sm">Founder & CEO</p>
@@ -169,7 +246,7 @@ export default function About() {
                     {/* Placeholder for team member image */}
                     <div className="absolute inset-0 bg-neutral-700 z-0 group-hover:scale-105 transition-transform duration-500"></div>
                   </div>
-                  <div className="p-4">
+                  <div className="p-4 relative z-10">
                     <p className="text-neutral-400 text-sm">
                       AI researcher with a background in computational creativity and human-computer interaction.
                     </p>
@@ -177,9 +254,11 @@ export default function About() {
                 </div>
                 
                 {/* Team Member 2 */}
-                <div className="bg-neutral-900/50 backdrop-blur-sm rounded-xl border border-neutral-800 overflow-hidden group">
+                <div className="bg-neutral-900/50 backdrop-blur-sm rounded-xl border border-neutral-800 hover:border-purple-500/70 overflow-hidden group team-card metallic-shine">
                   <div className="h-64 bg-neutral-800 relative overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-5"></div>
+                    <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift z-5"></div>
                     <div className="absolute bottom-4 left-4 z-20">
                       <h3 className="text-xl font-bold">Samantha Chen</h3>
                       <p className="text-neutral-400 text-sm">Creative Director</p>
@@ -187,7 +266,7 @@ export default function About() {
                     {/* Placeholder for team member image */}
                     <div className="absolute inset-0 bg-neutral-700 z-0 group-hover:scale-105 transition-transform duration-500"></div>
                   </div>
-                  <div className="p-4">
+                  <div className="p-4 relative z-10">
                     <p className="text-neutral-400 text-sm">
                       Award-winning designer with expertise in digital experiences and brand identity systems.
                     </p>
@@ -195,9 +274,11 @@ export default function About() {
                 </div>
                 
                 {/* Team Member 3 */}
-                <div className="bg-neutral-900/50 backdrop-blur-sm rounded-xl border border-neutral-800 overflow-hidden group">
+                <div className="bg-neutral-900/50 backdrop-blur-sm rounded-xl border border-neutral-800 hover:border-purple-500/70 overflow-hidden group team-card metallic-shine">
                   <div className="h-64 bg-neutral-800 relative overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-5"></div>
+                    <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift z-5"></div>
                     <div className="absolute bottom-4 left-4 z-20">
                       <h3 className="text-xl font-bold">Marcus Johnson</h3>
                       <p className="text-neutral-400 text-sm">Technical Lead</p>
@@ -205,7 +286,7 @@ export default function About() {
                     {/* Placeholder for team member image */}
                     <div className="absolute inset-0 bg-neutral-700 z-0 group-hover:scale-105 transition-transform duration-500"></div>
                   </div>
-                  <div className="p-4">
+                  <div className="p-4 relative z-10">
                     <p className="text-neutral-400 text-sm">
                       Full-stack developer specializing in AI integration and immersive web experiences.
                     </p>
@@ -213,9 +294,11 @@ export default function About() {
                 </div>
                 
                 {/* Team Member 4 */}
-                <div className="bg-neutral-900/50 backdrop-blur-sm rounded-xl border border-neutral-800 overflow-hidden group">
+                <div className="bg-neutral-900/50 backdrop-blur-sm rounded-xl border border-neutral-800 hover:border-purple-500/70 overflow-hidden group team-card metallic-shine">
                   <div className="h-64 bg-neutral-800 relative overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-5"></div>
+                    <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift z-5"></div>
                     <div className="absolute bottom-4 left-4 z-20">
                       <h3 className="text-xl font-bold">Olivia Kim</h3>
                       <p className="text-neutral-400 text-sm">AI Researcher</p>
@@ -223,7 +306,7 @@ export default function About() {
                     {/* Placeholder for team member image */}
                     <div className="absolute inset-0 bg-neutral-700 z-0 group-hover:scale-105 transition-transform duration-500"></div>
                   </div>
-                  <div className="p-4">
+                  <div className="p-4 relative z-10">
                     <p className="text-neutral-400 text-sm">
                       PhD in machine learning with focus on generative models and creative applications.
                     </p>

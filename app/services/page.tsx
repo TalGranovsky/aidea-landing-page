@@ -54,6 +54,41 @@ export default function Services() {
           border-radius: 0.5rem;
           overflow: hidden;
         }
+        
+        .metallic-shine {
+          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .metallic-shine:hover {
+          transform: scale(1.05);
+        }
+        
+        .hover-scale {
+          transition: transform 0.2s ease-in-out;
+        }
+        
+        .hover-scale:hover {
+          transform: scale(1.05);
+        }
+        
+        @keyframes gradient-shift {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+        
+        .animate-gradient-shift {
+          animation: gradient-shift 8s ease infinite;
+          background-size: 200% 200%;
+        }
       `}</style>
       
       {/* Page Transition Animation */}
@@ -193,13 +228,15 @@ function ServiceCard({ title, description, icon, color }: {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="service-card p-6 md:p-8 bg-neutral-900/50 backdrop-blur-sm rounded-xl border border-neutral-800 hover:border-purple-900/50 transition-all duration-300 flex flex-col items-center text-center"
+      className="service-card p-6 md:p-8 bg-neutral-900/50 backdrop-blur-sm rounded-xl border border-neutral-800 hover:border-purple-500/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-900/30 flex flex-col items-center text-center metallic-shine hover-scale relative overflow-hidden group"
     >
-      <div className={`w-16 h-16 md:w-20 md:h-20 ${bgColorMap[color]} rounded-full mb-4 md:mb-6 flex items-center justify-center`}>
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+      <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
+      <div className={`w-16 h-16 md:w-20 md:h-20 ${bgColorMap[color]} rounded-full mb-4 md:mb-6 flex items-center justify-center relative z-10`}>
         {icon}
       </div>
-      <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6">{title}</h3>
-      <p className="text-neutral-400">{description}</p>
+      <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 relative z-10">{title}</h3>
+      <p className="text-neutral-400 relative z-10">{description}</p>
     </motion.div>
   );
 }

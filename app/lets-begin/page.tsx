@@ -111,16 +111,41 @@ export default function LetsBegin() {
       return false;
     }
     
-    // Check for @gmail.com specifically
-    if (!email.endsWith('@gmail.com')) {
-      setFormErrors(prev => ({ ...prev, email: 'Please enter a valid Gmail address (e.g., example@gmail.com)' }));
+    // Get domain part of the email
+    const parts = email.split('@');
+    if (parts.length !== 2) {
+      setFormErrors(prev => ({ ...prev, email: 'Please enter a valid email address' }));
       return false;
     }
     
+    const localPart = parts[0];
+    const domainPart = parts[1];
+    
     // Check local part (before @) has at least one character and valid format
-    const localPart = email.split('@')[0];
     if (!localPart || !/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+$/.test(localPart)) {
-      setFormErrors(prev => ({ ...prev, email: 'Please enter a valid Gmail address' }));
+      setFormErrors(prev => ({ ...prev, email: 'Please enter a valid email address' }));
+      return false;
+    }
+    
+    // List of accepted domains (same as in EmailDomainSuggestions component)
+    const acceptedDomains = [
+      'gmail.com',
+      'yahoo.com',
+      'hotmail.com',
+      'outlook.com',
+      'icloud.com',
+      'protonmail.com',
+      'aol.com',
+      'mail.com',
+      'zoho.com',
+      'gmx.com',
+      'yandex.com',
+      'live.com'
+    ];
+    
+    // Check if the domain is in our accepted list
+    if (domainPart && !acceptedDomains.includes(domainPart)) {
+      setFormErrors(prev => ({ ...prev, email: `Please use one of our supported email domains` }));
       return false;
     }
     
@@ -444,7 +469,7 @@ export default function LetsBegin() {
                           <input
                             type="tel"
                             className={`w-full bg-black/50 border ${formErrors.phone ? 'border-red-500' : phone && !formErrors.phone ? 'border-green-500' : 'border-gray-700'} border-l-0 rounded-r-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all pr-10`}
-                            placeholder={selectedCountry.code === '+972' ? '050-123-4567' : '(555) 123-4567'}
+                            placeholder={selectedCountry.code === '+972' ? '54-232-7876' : '(555) 123-4567'}
                             value={phone}
                             onChange={handlePhoneChange}
                             required
