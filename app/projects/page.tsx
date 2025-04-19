@@ -122,59 +122,44 @@ export default function Projects() {
         
         .project-card:hover {
           transform: translateY(-5px) scale(1.02);
-          box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.3);
+          box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.2);
         }
         
         .metallic-shine {
           position: relative;
-          overflow: hidden;
         }
         
         .metallic-shine::before {
           content: '';
           position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
+          top: -100%;
+          left: -100%;
+          width: 300%;
+          height: 300%;
           background: linear-gradient(
-            90deg,
-            transparent 0%,
-            rgba(255, 255, 255, 0.05) 20%,
-            rgba(255, 255, 255, 0.2) 40%,
-            rgba(255, 255, 255, 0.3) 50%,
-            rgba(255, 255, 255, 0.2) 60%,
-            rgba(255, 255, 255, 0.05) 80%,
-            transparent 100%
+            45deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0) 45%,
+            rgba(255, 255, 255, 0.1) 50%,
+            rgba(255, 255, 255, 0) 55%,
+            rgba(255, 255, 255, 0) 100%
           );
+          transition: all 0.6s ease-in-out;
           z-index: 2;
-          opacity: 0;
           pointer-events: none;
-          transform: translateX(-100%) skewX(-15deg);
         }
         
         .metallic-shine:hover::before {
-          animation: metallic-woosh 1.2s ease-in-out;
+          top: 0;
+          left: 0;
+          transform: translateX(100%) translateY(100%) rotate(45deg);
         }
         
-        @keyframes metallic-woosh {
-          0% {
-            transform: translateX(-100%) skewX(-15deg);
-            opacity: 0;
-          }
-          10% {
-            opacity: 0.5;
-          }
-          50% {
-            opacity: 0.7;
-          }
-          100% {
-            transform: translateX(200%) skewX(-15deg);
-            opacity: 0;
-          }
+        .animate-gradient-shift {
+          animation: gradientShift 8s ease infinite;
         }
         
-        @keyframes gradient-shift {
+        @keyframes gradientShift {
           0% {
             background-position: 0% 50%;
           }
@@ -184,10 +169,6 @@ export default function Projects() {
           100% {
             background-position: 0% 50%;
           }
-        }
-        
-        .animate-gradient-shift {
-          animation: gradient-shift 8s ease infinite;
           background-size: 200% 200%;
         }
         
@@ -315,7 +296,7 @@ export default function Projects() {
                 >
                   <div className="relative h-64 overflow-hidden">
                     {/* Project image placeholder */}
-                    <div className="project-image absolute inset-0 bg-gradient-to-br from-purple-900/30 to-blue-900/30"></div>
+                    <div className="project-image absolute inset-0 bg-gradient-to-br from-purple-900/30 to-blue-900/30 group-hover:scale-110 transition-transform duration-700"></div>
                     <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                     <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
                     
