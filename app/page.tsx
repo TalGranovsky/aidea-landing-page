@@ -7,6 +7,10 @@ import { Playfair_Display, Inter } from 'next/font/google'
 import Image from 'next/image'
 import Link from 'next/link'
 import LoadingScreen from '@/components/LoadingScreen'
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import PageTransition from '@/components/PageTransition';
+import Script from 'next/script'
 
 // Country codes list
 const COUNTRY_CODES = [
@@ -270,6 +274,8 @@ export default function Page() {
   const [countrySearchTerm, setCountrySearchTerm] = useState('')
   const countryDropdownRef = useRef<HTMLDivElement>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [transitionTarget, setTransitionTarget] = useState('');
   
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -350,6 +356,62 @@ export default function Page() {
     setIsMounted(true)
   }, [])
   
+  // Create refs for sections
+  const contactSectionRef = useRef<HTMLElement>(null);
+  
+  // Navigation transition
+  const handleNavigation = (href: string) => {
+    setTransitionTarget(href);
+    setIsTransitioning(true);
+    
+    // After animation completes, navigate to the page
+    setTimeout(() => {
+      window.location.href = href;
+    }, 500);
+  };
+
+  // Smooth scroll function with transition animation
+  const scrollToSection = (elementRef: React.RefObject<HTMLElement>, href: string = '') => {
+    // Start transition animation
+    setTransitionTarget(href);
+    setIsTransitioning(true);
+    
+    // After animation completes, scroll to section
+    setTimeout(() => {
+      if (elementRef.current) {
+        elementRef.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      } else if (href && href.startsWith('/')) {
+        // For links to other pages
+        window.location.href = href;
+      } else if (href) {
+        // For links that don't have a ref (like Home)
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      
+      // End transition animation
+      setTimeout(() => {
+        setIsTransitioning(false);
+      }, 500);
+    }, 500);
+    
+    // Close mobile menu if open
+    setMobileMenuOpen(false);
+  };
+
+  // Ensure scroll position is at the top when this page loads
+  useEffect(() => {
+    // Force scroll to top on page load
+    window.scrollTo(0, 0);
+    
+    // Disable browser's automatic scroll restoration
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+  }, []);
+
   return (
     <>
       <Head>
@@ -467,6 +529,7 @@ export default function Page() {
           height: 100%;
           background: linear-gradient(
             90deg,
+            transparent,
             rgba(123, 0, 215, 0),
             rgba(123, 0, 215, 0.3),
             rgba(123, 0, 215, 0)
@@ -618,10 +681,121 @@ export default function Page() {
           min-height: 100vh;
           overflow: visible;
         }
+        
+        .text-shadow-purple {
+          text-shadow: 0 0 10px rgba(123, 0, 215, 0.5), 0 0 20px rgba(123, 0, 215, 0.3), 0 0 30px rgba(123, 0, 215, 0.2);
+        }
+        
+        /* Hamburger menu animation */
+        .hamburger-line {
+          width: 24px;
+          height: 2px;
+          background-color: white;
+          transition: all 0.3s ease;
+          position: relative;
+        }
+        
+        .hamburger-top {
+          transform: translateY(-4px);
+        }
+        
+        .hamburger-middle {
+          margin: 5px 0;
+        }
+        
+        .hamburger-bottom {
+          transform: translateY(4px);
+        }
+        
+        .open .hamburger-top {
+          transform: rotate(45deg) translateY(6px) translateX(6px);
+        }
+        
+        .open .hamburger-middle {
+          opacity: 0;
+        }
+        
+        .open .hamburger-bottom {
+          transform: rotate(-45deg) translateY(-6px) translateX(6px);
+        }
+        
+        /* Menu link continuous glossy animation */
+        .menu-link {
+          position: relative;
+          overflow: hidden;
+          padding: 0.5rem 2rem;
+          border-radius: 8px;
+          transition: all 0.3s ease;
+          z-index: 1;
+          background: rgba(123, 0, 215, 0.05);
+        }
+        
+        .menu-link:before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.03),
+            rgba(255, 255, 255, 0.08),
+            rgba(255, 255, 255, 0.03)
+          );
+          background-size: 200% 100%;
+          animation: glossyEffect 5s infinite ease-in-out;
+          z-index: -1;
+        }
+        
+        @keyframes glossyEffect {
+          0% {
+            transform: translateX(-100%);
+          }
+          100% {
+            transform: translateX(100%);
+          }
+        }
+        
+        .menu-link:hover {
+          background: rgba(123, 0, 215, 0.1);
+        }
+        
+        /* Page transition animation */
+        .page-transition {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, rgba(0,0,0,0), rgba(123, 0, 215, 0.2), rgba(0,0,0,0));
+          transform: translateX(-100%);
+          z-index: 100;
+          pointer-events: none;
+          opacity: 0;
+          transition: opacity 0.2s ease;
+        }
+        
+        .page-transition.active {
+          animation: wipeTransition 1s ease-in-out forwards;
+          opacity: 1;
+        }
+        
+        @keyframes wipeTransition {
+          0% {
+            transform: translateX(-100%);
+          }
+          100% {
+            transform: translateX(100%);
+          }
+        }
       `}</style>
       
       {/* Loading Screen - only render on client side */}
       {isMounted && isLoading && <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />}
+      
+      {/* Page Transition Animation */}
+      <PageTransition isTransitioning={isTransitioning} />
       
       {/* Main Content */}
       <main 
@@ -634,99 +808,51 @@ export default function Page() {
           height: 'auto'
         }}
       >
-        {/* Navigation */}
-        <header className="fixed top-0 left-0 right-0 flex items-center justify-between py-4 px-4 sm:px-6 border-b border-neutral-800/20 bg-black/50 backdrop-blur-md z-50">
-          <Link href="/" className={`text-2xl md:text-3xl font-medium ${playfair.className}`}>
-            AIDEA
-          </Link>
-          <nav className="hidden md:flex items-center gap-4">
-            <Link href="/" className="text-sm text-neutral-400 hover:text-white">
-              Home
-            </Link>
-            <Link href="#about" className="text-sm text-neutral-400 hover:text-white">
-              About
-            </Link>
-            <Link href="#services" className="text-sm text-neutral-400 hover:text-white">
-              Services
-            </Link>
-            <Link href="#contact" className="text-sm text-neutral-400 hover:text-white">
-              Contact
-            </Link>
-          </nav>
-          
-          {/* Mobile menu button */}
-          <button 
-            className="md:hidden text-white p-2" 
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d={mobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5"} />
-            </svg>
-          </button>
-        </header>
-        
-        {/* Mobile menu */}
-        {mobileMenuOpen && (
-          <div className="fixed inset-0 z-40 bg-black/95 backdrop-blur-md flex flex-col items-center justify-center md:hidden">
-            <button 
-              className="absolute top-4 right-4 text-white p-2" 
-              onClick={() => setMobileMenuOpen(false)}
-              aria-label="Close menu"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-            <nav className="flex flex-col items-center justify-center gap-8 text-center">
-              <Link href="/" className="text-xl text-white" onClick={() => setMobileMenuOpen(false)}>
-                Home
-              </Link>
-              <Link href="#about" className="text-xl text-white" onClick={() => setMobileMenuOpen(false)}>
-                About
-              </Link>
-              <Link href="#services" className="text-xl text-white" onClick={() => setMobileMenuOpen(false)}>
-                Services
-              </Link>
-              <Link href="#contact" className="text-xl text-white" onClick={() => setMobileMenuOpen(false)}>
-                Contact
-              </Link>
-            </nav>
-          </div>
-        )}
+        {/* Header */}
+        <Navbar onNavigate={handleNavigation} currentPath="/" />
         
         {/* Hero Section */}
         <section className="py-12 md:py-20 px-4 sm:px-6 relative min-h-[90vh] md:min-h-[80vh] flex items-center justify-center overflow-hidden">
           {/* Spline 3D Animation as Background */}
           <div className="absolute inset-0 w-full h-full z-0">
             <div className="absolute inset-0 bg-transparent"></div>
-            <iframe 
-              src='https://my.spline.design/abstractnirvana-BPv8KkDNYJdLF7EUI20rMo8d/' 
-              frameBorder='0' 
-              width='100%' 
-              height='100%'
-              title="AIDEA 3D Animation"
-              className="absolute inset-0"
-              style={{ pointerEvents: 'none' }}
-            ></iframe>
+            <Script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js" />
+            <div 
+              className="absolute inset-0 scale-[1.5] sm:scale-[1.3] md:scale-[1.1] lg:scale-100 origin-center"
+              style={{ 
+                width: '100%',
+                height: '100%',
+                pointerEvents: 'none',
+                transform: 'translate3d(0, 0, 0)'
+              }}
+              dangerouslySetInnerHTML={{
+                __html: `<spline-viewer url="https://prod.spline.design/K1uWPfLyeDeWdxiO/scene.splinecode"></spline-viewer>`
+              }}
+            />
           </div>
           
           <div className="hero-glow z-[1]" />
           <div className="max-w-[1200px] w-full mx-auto text-center relative z-10">
-            <div className="flex flex-col items-center justify-center">
-              <h1 className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 ${playfair.className} text-white leading-tight max-w-3xl mx-auto`}>
-                <span className="block opacity-0">YOUR CREATIVE</span>
-                <span className="block opacity-0">AGENCY</span>
+            <div className="flex flex-col items-center justify-center pt-16 sm:pt-12 md:pt-8 lg:pt-0">
+              <h1 className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 ${playfair.className} text-white leading-tight max-w-3xl mx-auto text-shadow-purple`}>
+                <span className="block">YOUR CREATIVE</span>
+                <span className="block">AGENCY</span>
               </h1>
-              <p className="text-lg opacity-0 md:text-xl text-red-300 mb-8 max-w-xl mx-auto px-4">
+              <p className="text-lg md:text-xl text-neutral-200 drop-shadow-lg mb-8 max-w-xl mx-auto px-4">
                 Bringing your AI ideas to life with cutting-edge technology
               </p>
-              <Link 
-                href="#contact"
+              <button 
+                onClick={() => {
+                  setTransitionTarget('/lets-begin');
+                  setIsTransitioning(true);
+                  setTimeout(() => {
+                    window.location.href = '/lets-begin';
+                  }, 500);
+                }}
                 className="inline-flex items-center bg-gradient-to-r from-purple-600 to-blue-600 px-5 py-3 md:px-6 md:py-3 rounded-full text-white font-medium transition-all hover:opacity-90 hover:scale-[1.03] text-sm md:text-base"
               >
                 Get Started »
-              </Link>
+              </button>
             </div>
           </div>
         </section>
@@ -735,7 +861,7 @@ export default function Page() {
         <section id="noteable-collabs" className="py-10 md:py-16 bg-[#190a37]/50 backdrop-blur-md w-full overflow-hidden relative">
           <div>
             <div className="text-center mb-8 md:mb-12">
-              <h2 className={`text-2xl md:text-3xl font-bold ${playfair.className}`}>OUR NOTEABLE COLLABS</h2>
+              <h2 className={`text-2xl md:text-3xl font-medium ${playfair.className}`}>OUR NOTEABLE COLLABS</h2>
             </div>
             
             {/* Marquee for all screen sizes */}
@@ -743,39 +869,39 @@ export default function Page() {
               <div className="flex w-[200%] animate-marquee">
                 {/* First set of logos */}
                 <div className="flex w-1/2 justify-around items-center">
-                  <div className="w-24 h-24 md:w-32 md:h-32 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
-                    <img src="/images/ATLANTIC.png" alt="Partner Logo" className="w-16 h-16 md:w-20 md:h-20 object-contain transition-transform duration-500 group-hover:scale-110" />
+                  <div className="w-20 h-20 md:w-28 md:h-28 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
+                    <img src="/images/ATLANTIC.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain transition-transform duration-500 group-hover:scale-110" />
                   </div>
-                  <div className="w-24 h-24 md:w-32 md:h-32 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
-                    <img src="/images/WB.png" alt="Partner Logo" className="w-16 h-16 md:w-20 md:h-20 object-contain transition-transform duration-500 group-hover:scale-110" />
+                  <div className="w-20 h-20 md:w-28 md:h-28 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
+                    <img src="/images/WB.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain transition-transform duration-500 group-hover:scale-110" />
                   </div>
-                  <div className="w-24 h-24 md:w-32 md:h-32 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
-                    <img src="/images/Vector-3.png" alt="Partner Logo" className="w-16 h-16 md:w-20 md:h-20 object-contain transition-transform duration-500 group-hover:scale-110" />
+                  <div className="w-20 h-20 md:w-28 md:h-28 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
+                    <img src="/images/Vector-3.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain transition-transform duration-500 group-hover:scale-110" />
                   </div>
-                  <div className="w-24 h-24 md:w-32 md:h-32 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
-                    <img src="/images/alibaba.png" alt="Partner Logo" className="w-16 h-16 md:w-20 md:h-20 object-contain transition-transform duration-500 group-hover:scale-110" />
+                  <div className="w-20 h-20 md:w-28 md:h-28 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
+                    <img src="/images/alibaba.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain transition-transform duration-500 group-hover:scale-110" />
                   </div>
-                  <div className="w-24 h-24 md:w-32 md:h-32 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
-                    <img src="/images/GMC.png" alt="Partner Logo" className="w-16 h-16 md:w-20 md:h-20 object-contain transition-transform duration-500 group-hover:scale-110" />
+                  <div className="w-20 h-20 md:w-28 md:h-28 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
+                    <img src="/images/GMC.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain transition-transform duration-500 group-hover:scale-110" />
                   </div>
                 </div>
                 
                 {/* Duplicate set for infinite effect */}
                 <div className="flex w-1/2 justify-around items-center">
-                  <div className="w-24 h-24 md:w-32 md:h-32 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
-                    <img src="/images/ATLANTIC.png" alt="Partner Logo" className="w-16 h-16 md:w-20 md:h-20 object-contain transition-transform duration-500 group-hover:scale-110" />
+                  <div className="w-20 h-20 md:w-28 md:h-28 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
+                    <img src="/images/ATLANTIC.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain transition-transform duration-500 group-hover:scale-110" />
                   </div>
-                  <div className="w-24 h-24 md:w-32 md:h-32 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
-                    <img src="/images/WB.png" alt="Partner Logo" className="w-16 h-16 md:w-20 md:h-20 object-contain transition-transform duration-500 group-hover:scale-110" />
+                  <div className="w-20 h-20 md:w-28 md:h-28 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
+                    <img src="/images/WB.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain transition-transform duration-500 group-hover:scale-110" />
                   </div>
-                  <div className="w-24 h-24 md:w-32 md:h-32 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
-                    <img src="/images/Vector-3.png" alt="Partner Logo" className="w-16 h-16 md:w-20 md:h-20 object-contain transition-transform duration-500 group-hover:scale-110" />
+                  <div className="w-20 h-20 md:w-28 md:h-28 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
+                    <img src="/images/Vector-3.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain transition-transform duration-500 group-hover:scale-110" />
                   </div>
-                  <div className="w-24 h-24 md:w-32 md:h-32 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
-                    <img src="/images/alibaba.png" alt="Partner Logo" className="w-16 h-16 md:w-20 md:h-20 object-contain transition-transform duration-500 group-hover:scale-110" />
+                  <div className="w-20 h-20 md:w-28 md:h-28 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
+                    <img src="/images/alibaba.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain transition-transform duration-500 group-hover:scale-110" />
                   </div>
-                  <div className="w-24 h-24 md:w-32 md:h-32 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
-                    <img src="/images/GMC.png" alt="Partner Logo" className="w-16 h-16 md:w-20 md:h-20 object-contain transition-transform duration-500 group-hover:scale-110" />
+                  <div className="w-20 h-20 md:w-28 md:h-28 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
+                    <img src="/images/GMC.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain transition-transform duration-500 group-hover:scale-110" />
                   </div>
                 </div>
               </div>
@@ -796,7 +922,7 @@ export default function Page() {
               <div className="service-card p-6 md:p-8 card sm:col-span-1 lg:col-span-3 flex flex-col items-center justify-center">
                 <div className="w-16 h-16 md:w-20 md:h-20 bg-purple-900/40 rounded-full mb-4 md:mb-6 flex items-center justify-center">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z" />
                   </svg>
                 </div>
                 <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center">Image Generation</h3>
@@ -836,7 +962,7 @@ export default function Page() {
               <div className="service-card p-6 md:p-8 card sm:col-span-1 lg:col-span-3 flex flex-col items-center justify-center">
                 <div className="w-16 h-16 md:w-20 md:h-20 bg-pink-900/40 rounded-full mb-4 md:mb-6 flex items-center justify-center">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21.7 7.93a2.7 2.7 0 0 0-1.9-2.7c-.189-.189-.387-.387-.59-.59a2.7 2.7 0 0 0-2.7 2.7s.387 2.7.59 3.59c.2.2.387.387.59.387a2.7 2.7 0 0 0 2.7-2.7c.2-.2.387-.387.59-.387a2.7 2.7 0 0 0 2.7-2.7z" />
                   </svg>
                 </div>
                 <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center">Music Production</h3>
@@ -851,7 +977,7 @@ export default function Page() {
               <div className="service-card p-6 md:p-8 card sm:col-span-1 lg:col-span-3 flex flex-col items-center justify-center">
                 <div className="w-16 h-16 md:w-20 md:h-20 bg-green-900/40 rounded-full mb-4 md:mb-6 flex items-center justify-center">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5v2.25m0-2.25l2.25 1.313M3 7.5l2.25-1.313M3 7.5v2.25m0-2.25l2.25 1.313" />
                   </svg>
                 </div>
                 <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center">3D Models</h3>
@@ -866,7 +992,7 @@ export default function Page() {
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="py-12 md:py-20 px-4 sm:px-6 relative">
+        <section id="contact" ref={contactSectionRef} className="py-12 md:py-20 px-4 sm:px-6 relative">
           <div className="max-w-[1200px] mx-auto text-center">
             <h2 className={`text-2xl md:text-4xl font-medium mb-4 md:mb-6 ${playfair.className}`}>Get in Touch</h2>
             <div className="max-w-md mx-auto">
@@ -886,12 +1012,12 @@ export default function Page() {
                     <button 
                       type="button"
                       id="countryCodeButton"
-                      className="flex items-center justify-between gap-2 bg-neutral-800/80 border border-neutral-700 rounded-l-md px-2 md:px-3 py-2.5 md:py-3 text-neutral-400 min-w-[80px] md:min-w-[90px] text-sm md:text-base"
+                      className="flex items-center justify-between gap-2 bg-neutral-800/80 border border-neutral-700 rounded-l-md px-2 md:px-3 py-2.5 md:py-3 text-white min-w-[80px] md:min-w-[90px] text-sm md:text-base"
                       onClick={() => setShowCountryDropdown(prev => !prev)}
                     >
                       <span>{selectedCountry.code}</span>
                       <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16" className="text-white">
-                        <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 001.5-1.5V6a1 1 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
                       </svg>
                     </button>
                     <div 
@@ -947,7 +1073,7 @@ export default function Page() {
                               </div>
                               {selectedCountry.code === country.code && (
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" className="text-white">
-                                  <path d="M10.97 4.97a.75.75 0 0 1-2.063 0l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                                  <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
                                 </svg>
                               )}
                             </div>
@@ -979,63 +1105,7 @@ export default function Page() {
         </section>
 
         {/* Footer */}
-        <footer className="py-6 md:py-8 px-4 sm:px-6 border-t border-neutral-800/50">
-          <div className="max-w-[1200px] mx-auto">
-            <div className="flex flex-col md:flex-row items-center justify-between">
-              <Link href="/" className={`text-xl font-medium mb-4 md:mb-0 ${playfair.className}`}>
-                AIDEA
-              </Link>
-              <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4">
-                <Link href="/" className="text-xs md:text-sm text-neutral-400 hover:text-white">Home</Link>
-                <Link href="#about" className="text-xs md:text-sm text-neutral-400 hover:text-white">About</Link>
-                <Link href="#services" className="text-xs md:text-sm text-neutral-400 hover:text-white">Services</Link>
-                <Link href="#contact" className="text-xs md:text-sm text-neutral-400 hover:text-white">Contact</Link>
-              </div>
-            </div>
-            
-            {/* Social Media Links */}
-            <div className="flex justify-center gap-4 md:gap-6 my-6 md:my-8">
-              {/* X (Twitter) */}
-              <a href="#" className="text-neutral-400 hover:text-white transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.324 8.384l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                </svg>
-              </a>
-              
-              {/* Facebook */}
-              <a href="#" className="text-neutral-400 hover:text-white transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6">
-                  <path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z" />
-              </svg>
-              </a>
-              
-              {/* LinkedIn */}
-              <a href="#" className="text-neutral-400 hover:text-white transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-              </svg>
-              </a>
-              
-              {/* YouTube */}
-              <a href="#" className="text-neutral-400 hover:text-white transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6">
-                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-              </svg>
-              </a>
-              
-              {/* Instagram */}
-              <a href="#" className="text-neutral-400 hover:text-white transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" />
-              </svg>
-              </a>
-            </div>
-            
-            <div className="text-center text-xs md:text-sm text-neutral-500 mt-4 md:mt-6">
-              <p>&copy; 2024 AIDEA. All rights reserved.</p>
-            </div>
-          </div>
-        </footer>
+        <Footer onNavigate={handleNavigation} currentPath="/" />
       </main>
     </>
   )

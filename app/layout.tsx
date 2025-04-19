@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import ScrollToTop from '@/components/ScrollToTop';
 
 const playfair = Playfair_Display({ 
   subsets: ['latin'],
@@ -96,7 +97,10 @@ export default function RootLayout({
           `
         }} />
       </head>
-      <body className={`${inter.className} bg-black bg-dotted-grid`}>{children}</body>
+      <body className={`${inter.className} bg-black bg-dotted-grid`}>
+        <ScrollToTop />
+        {children}
+      </body>
     </html>
   );
 }
