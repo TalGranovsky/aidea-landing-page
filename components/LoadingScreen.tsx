@@ -1,39 +1,38 @@
-'use client'
+'use client';
 
-import React, { useState, useEffect, useRef } from 'react'
-import { Playfair_Display } from 'next/font/google'
-
-// Initialize fonts with all required weights
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  display: 'swap',
-  weight: ['400', '500', '700'],
-})
+import React, { useState, useEffect, useRef } from 'react';
+import Script from 'next/script';
 
 // Define props interface
 interface LoadingScreenProps {
-  onLoadingComplete: () => void
+  onLoadingComplete: () => void;
 }
 
 export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
   // State to track loading progress (starting at 0% for accurate feedback)
-  const [progress, setProgress] = useState(0)
-  const [showCurtain, setShowCurtain] = useState(false)
-  const animationFrameRef = useRef<number | null>(null)
-  const initialRenderComplete = useRef(false)
-  const lastUpdateTime = useRef<number>(Date.now())
+  const [progress, setProgress] = useState(0);
+  const [showCurtain, setShowCurtain] = useState(false);
+  const animationFrameRef = useRef<number | null>(null);
+  const initialRenderComplete = useRef(false);
+  const lastUpdateTime = useRef<number>(Date.now());
   
   // Critical CSS styles directly injected
   useEffect(() => {
     if (typeof document !== 'undefined') {
       // Set initial render complete
-      initialRenderComplete.current = true
+      initialRenderComplete.current = true;
+      
+      // Prevent scrolling during loading
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
       
       // Create and inject a critical style element with highest priority
-      const criticalStyle = document.createElement('style')
-      criticalStyle.setAttribute('id', 'critical-loading-styles')
-      criticalStyle.setAttribute('data-priority', 'highest')
+      const criticalStyle = document.createElement('style');
+      criticalStyle.setAttribute('id', 'critical-loading-styles');
+      criticalStyle.setAttribute('data-priority', 'highest');
       criticalStyle.innerHTML = `
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+        
         html, body {
           background-color: #000 !important;
           margin: 0 !important;
@@ -52,34 +51,127 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
           z-index: 9999 !important;
           opacity: 1 !important;
           visibility: visible !important;
+          font-family: 'Roboto', sans-serif !important;
         }
-        @keyframes gradientShift {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
+        
+        @keyframes purpleHaze {
+          0% { opacity: 0.3; transform: translate(-5%, -5%) scale(0.9); }
+          33% { opacity: 0.6; transform: translate(3%, 2%) scale(1.1); }
+          66% { opacity: 0.4; transform: translate(-2%, 5%) scale(1); }
+          100% { opacity: 0.3; transform: translate(-5%, -5%) scale(0.9); }
         }
+        
+        @keyframes purpleHaze2 {
+          0% { opacity: 0.4; transform: translate(5%, 5%) scale(1.1); }
+          33% { opacity: 0.2; transform: translate(-3%, -2%) scale(0.9); }
+          66% { opacity: 0.5; transform: translate(2%, -5%) scale(1); }
+          100% { opacity: 0.4; transform: translate(5%, 5%) scale(1.1); }
+        }
+        
+        @keyframes textGlow {
+          0% { text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(138, 43, 226, 0.5), 0 0 30px rgba(138, 43, 226, 0.3); }
+          50% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 25px rgba(138, 43, 226, 0.7), 0 0 35px rgba(138, 43, 226, 0.5); }
+          100% { text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(138, 43, 226, 0.5), 0 0 30px rgba(138, 43, 226, 0.3); }
+        }
+        
+        @keyframes metalicShine {
+          0% { background-position: -100% 0; }
+          100% { background-position: 200% 0; }
+        }
+        
         @keyframes pulse {
           0% { opacity: 0.7; }
           50% { opacity: 0.9; }
           100% { opacity: 0.7; }
         }
+        
         @keyframes curtain-up {
           0% { transform: translateY(0); }
           100% { transform: translateY(-100%); }
         }
+        
         .animate-curtain-up {
           animation: curtain-up 1.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
         }
-      `
+        
+        @keyframes slide-up-exit {
+          0% { transform: translateY(0); opacity: 1; }
+          100% { transform: translateY(-100%); opacity: 0; }
+        }
+        
+        .slide-up-exit {
+          animation: slide-up-exit 0.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+        }
+        
+        .purple-haze {
+          position: absolute;
+          width: 50%;
+          height: 50%;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(138, 43, 226, 0.4) 0%, rgba(138, 43, 226, 0.1) 50%, rgba(0, 0, 0, 0) 70%);
+          filter: blur(40px);
+          will-change: transform, opacity;
+        }
+        
+        .purple-haze-1 {
+          top: 20%;
+          left: 20%;
+          animation: purpleHaze 8s infinite ease-in-out;
+        }
+        
+        .purple-haze-2 {
+          bottom: 20%;
+          right: 20%;
+          animation: purpleHaze2 10s infinite ease-in-out;
+        }
+        
+        .glowy-text {
+          color: white;
+          animation: textGlow 3s infinite ease-in-out;
+        }
+        
+        .metalic-bar {
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .metalic-bar::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 200%;
+          height: 100%;
+          background: linear-gradient(90deg, 
+            transparent, 
+            rgba(255, 255, 255, 0.15), 
+            transparent
+          );
+          animation: metalicShine 2s infinite linear;
+          will-change: transform;
+        }
+        
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        
+        .circular-loader {
+          width: 60px;
+          height: 60px;
+          border: 3px solid rgba(138, 43, 226, 0.1);
+          border-top: 3px solid rgba(138, 43, 226, 0.9);
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+          margin: 0 auto 2rem auto;
+          box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+        }
+      `;
       
-      // Insert at the beginning of head for highest priority
-      if (document.head) {
-        document.head.insertBefore(criticalStyle, document.head.firstChild)
+      // Insert the style element at the beginning of the head
+      if (document.head.firstChild) {
+        document.head.insertBefore(criticalStyle, document.head.firstChild);
       }
-      
-      // Force body styles only during loading
-      document.documentElement.style.overflow = 'hidden';
-      document.body.style.overflow = 'hidden';
       
       return () => {
         // When component unmounts, restore scrolling
@@ -87,86 +179,95 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
         document.body.style.overflow = 'visible';
         document.body.style.overflowY = 'auto';
         
-        // Remove the critical styles
-        const styleElement = document.getElementById('critical-loading-styles');
-        if (styleElement && styleElement.parentNode) {
-          styleElement.parentNode.removeChild(styleElement);
+        // Remove the critical style element
+        const criticalStyleElement = document.getElementById('critical-loading-styles');
+        if (criticalStyleElement) {
+          criticalStyleElement.remove();
         }
       };
     }
-  }, [])
+  }, []);
   
   // Handle loading progress simulation
   useEffect(() => {
-    if (!initialRenderComplete.current) return
+    if (!initialRenderComplete.current) return;
 
     const simulateLoading = (timestamp: number) => {
-      const currentTime = Date.now()
-      const deltaTime = currentTime - lastUpdateTime.current
+      const currentTime = Date.now();
+      const deltaTime = currentTime - lastUpdateTime.current;
       
-      // Only update if enough time has passed (throttle updates)
-      if (deltaTime > 50) { // Reduced from 100ms to 50ms for faster updates
-        lastUpdateTime.current = currentTime
+      // Only update if enough time has passed (throttle updates for better performance)
+      if (deltaTime > 40) { // Reduced from 50ms to 40ms for slightly faster updates
+        lastUpdateTime.current = currentTime;
         
-        // Faster increments for quicker loading
-        let increment: number
+        // Optimize increments for faster loading
+        let increment: number;
         
         if (progress < 30) {
           // Start faster (early loading)
-          increment = Math.random() * 3 + 2
-        } else if (progress < 70) {
-          // Medium speed (bulk of loading)
-          increment = Math.random() * 2.5 + 1.5
-        } else if (progress < 90) {
-          // Slower (approaching completion)
-          increment = Math.random() * 1.5 + 1
+          increment = Math.random() * 2.5 + 1.5; // Increased speed
+        } else if (progress < 60) {
+          // Medium speed (middle loading)
+          increment = Math.random() * 2 + 0.8; // Increased speed
+        } else if (progress < 80) {
+          // Slow down (later loading)
+          increment = Math.random() * 1 + 0.3; // Increased speed
+        } else if (progress < 95) {
+          // Very slow (final loading)
+          increment = Math.random() * 0.5 + 0.2; // Increased speed
         } else {
-          // Very slow (final stage)
-          increment = Math.random() * 1 + 0.5
+          // Final push to 100%
+          increment = Math.random() * 0.3 + 0.1; // Increased speed
         }
         
-        // Update progress
-        setProgress(prev => {
-          const newProgress = Math.min(prev + increment, 100)
-          // When loading is complete, trigger the callback
-          if (newProgress >= 100) {
-            // Wait for the curtain animation to complete before calling onLoadingComplete
+        setProgress(prevProgress => {
+          const newProgress = Math.min(prevProgress + increment, 100);
+          
+          // When we reach 100%, show the curtain and trigger the completion callback
+          if (newProgress >= 100 && prevProgress < 100) {
+            // Apply slide-up animation to the entire loading screen
+            const loadingScreen = document.querySelector('.loading-screen');
+            if (loadingScreen) {
+              loadingScreen.classList.add('slide-up-exit');
+            }
+            
+            // After animation completes, call onLoadingComplete
             setTimeout(() => {
-              // Before calling onLoadingComplete, ensure scrolling is restored
+              // Restore scrolling
               if (typeof document !== 'undefined') {
                 document.documentElement.style.overflow = 'visible';
                 document.body.style.overflow = 'visible';
                 document.body.style.overflowY = 'auto';
               }
               
-              onLoadingComplete()
-            }, 800) // Reduced from 1000ms to 800ms for faster transition
-            return 100
+              onLoadingComplete();
+            }, 800); // Match with animation duration
+            return 100;
           }
-          return newProgress
-        })
+          return newProgress;
+        });
       }
       
       // Continue animation loop if not at 100%
       if (progress < 100) {
-        animationFrameRef.current = requestAnimationFrame(simulateLoading)
+        animationFrameRef.current = requestAnimationFrame(simulateLoading);
       }
-    }
+    };
     
     // Start the animation loop
-    animationFrameRef.current = requestAnimationFrame(simulateLoading)
+    animationFrameRef.current = requestAnimationFrame(simulateLoading);
     
     // Cleanup function
     return () => {
       if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current)
+        cancelAnimationFrame(animationFrameRef.current);
       }
-    }
-  }, [progress, onLoadingComplete, initialRenderComplete])
+    };
+  }, [progress, onLoadingComplete, initialRenderComplete]);
   
-  // Don't render anything on the server or before client-side hydration
-  if (typeof window === 'undefined' || !initialRenderComplete.current) {
-    return null
+  // Don't render anything on the server
+  if (typeof window === 'undefined') {
+    return null;
   }
 
   return (
@@ -179,26 +280,9 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
         opacity: 1
       }}
     >
-      {/* Animated gradient background - preloaded with CSS */}
-      <div 
-        className="absolute inset-0 overflow-hidden"
-        style={{
-          background: 'linear-gradient(45deg, #000000, #3a0048, #600060, #4300b0, #000000)',
-          backgroundSize: '400% 400%',
-          animation: 'gradientShift 10s ease infinite',
-          willChange: 'background-position',
-        }}
-      >
-        {/* Radial overlay */}
-        <div 
-          className="absolute inset-0" 
-          style={{
-            background: 'radial-gradient(circle at center, rgba(123, 0, 215, 0.3) 0%, rgba(0, 0, 0, 0.7) 70%)',
-            animation: 'pulse 8s ease-in-out infinite',
-            willChange: 'opacity',
-          }}
-        />
-      </div>
+      {/* Purple haze effects */}
+      <div className="purple-haze purple-haze-1"></div>
+      <div className="purple-haze purple-haze-2"></div>
       
       {/* Curtain overlay - slides from bottom to top */}
       {showCurtain && (
@@ -215,43 +299,43 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
       <div className="relative z-10 w-full max-w-md px-4 flex flex-col items-center">
         {/* Logo */}
         <h1 
-          className={`${playfair.className} text-8xl font-bold mb-6 tracking-wider`}
+          className="glowy-text text-8xl font-bold mb-6 tracking-wider"
           style={{
-            background: 'linear-gradient(to right, #bd00ff, #7000f8, #4287f5)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            textShadow: '0 0 30px rgba(123, 0, 215, 0.5)'
+            fontFamily: "'Roboto', sans-serif"
           }}
         >
           AIDEA
         </h1>
         
         {/* Tagline */}
-        <p className="text-white text-xl mb-16 font-medium tracking-wide">
-          WE BRING YOUR AIDEAS TO LIFE
+        <p className="text-white text-xl mb-8 font-medium tracking-wide" style={{ fontFamily: "'Roboto', sans-serif" }}>
+          YOUR CREATIVE AGENCY
         </p>
         
+        {/* Circular Loading Animation */}
+        <div className="circular-loader mb-8"></div>
+        
         {/* Loading bar container */}
-        <div className="w-full h-3 bg-gray-800/70 rounded-full overflow-hidden mb-4 border border-purple-500/20">
+        <div className="w-full h-3 bg-gray-800/30 backdrop-blur-sm rounded-full overflow-hidden mb-4 border border-purple-500/20 metalic-bar">
           {/* Progress bar with gradient */}
           <div 
             className="h-full rounded-full"
             style={{
               width: `${Math.floor(progress)}%`,
-              background: 'linear-gradient(to right, #bd00ff, #7000f8, #4287f5)',
-              boxShadow: '0 0 10px rgba(123, 0, 215, 0.5)',
-              transition: 'width 300ms ease-out', // Smoother transition
+              background: 'linear-gradient(90deg, #6d28d9, #9333ea, #6d28d9)',
+              boxShadow: '0 0 15px rgba(123, 0, 215, 0.7)',
+              transition: 'width 250ms ease-out', // Faster transition
               willChange: 'width',
             }}
           />
         </div>
         
         {/* Loading info */}
-        <div className="w-full flex justify-between text-sm text-white">
+        <div className="w-full flex justify-between text-sm text-white" style={{ fontFamily: "'Roboto', sans-serif" }}>
           <span>LOADING</span>
           <span>{Math.floor(progress)}%</span>
         </div>
       </div>
     </div>
-  )
-} 
+  );
+}

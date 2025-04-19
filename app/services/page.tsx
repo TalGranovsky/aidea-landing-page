@@ -42,7 +42,7 @@ export default function Services() {
     
     setTimeout(() => {
       window.location.href = href;
-    }, 500);
+    }, 800); // Increased from 500ms to 800ms to ensure transition completes before navigation
   };
 
   return (
@@ -153,14 +153,14 @@ export default function Services() {
             {/* CTA Section */}
             <div className="mt-16 text-center">
               <Link 
-                href="/#contact" 
+                href="/lets-begin" 
                 className="inline-block bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-8 rounded-full transition-colors duration-300"
                 onClick={(e) => {
                   e.preventDefault();
-                  handleNavigation('/#contact');
+                  handleNavigation('/lets-begin');
                 }}
               >
-                Get in Touch
+                Let's Begin
               </Link>
             </div>
           </div>

@@ -29,9 +29,14 @@ export default function LetsBegin() {
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formError, setFormError] = useState('');
+  const [formErrors, setFormErrors] = useState({
+    email: '',
+    phone: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   // Country code selection state
-  const [selectedCountry, setSelectedCountry] = useState({ code: '+1', name: 'United States' });
+  const [selectedCountry, setSelectedCountry] = useState({ code: '+972', name: 'Israel' });
   const [countryDropdownOpen, setCountryDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [phone, setPhone] = useState('');
@@ -45,6 +50,19 @@ export default function LetsBegin() {
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
     }
+    
+    // Ensure scrolling is enabled
+    document.body.style.overflow = 'auto';
+    document.documentElement.style.overflow = 'auto';
+    document.body.style.overflowX = 'hidden';
+    document.documentElement.style.overflowX = 'hidden';
+    
+    // Cleanup function
+    return () => {
+      // Reset overflow when component unmounts
+      document.body.style.overflow = 'auto';
+      document.documentElement.style.overflow = 'auto';
+    }
   }, []);
 
   useEffect(() => {
@@ -57,43 +75,131 @@ export default function LetsBegin() {
   }, []);
 
   const handleNavigate = (href: string) => {
-    if (href === '/lets-begin') return; // Already on this page
-    
-    setIsTransitioning(true);
     setTransitionTarget(href);
+    setIsTransitioning(true);
     
     setTimeout(() => {
-      router.push(href);
-    }, 500); // Match this with your CSS transition time
+      window.location.href = href;
+    }, 800); // Increased from 500ms to 800ms to ensure transition completes before navigation
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    
+    // Clear general form error when user starts typing
+    if (formError) {
+      setFormError('');
+    }
+    
+    // Email validation
+    if (name === 'email') {
+      validateEmail(value);
+    }
+  };
+
+  const validateEmail = (email: string) => {
+    if (!email) {
+      setFormErrors(prev => ({ ...prev, email: '' }));
+      return false;
+    }
+    
+    // Check for @gmail.com specifically
+    if (!email.endsWith('@gmail.com')) {
+      setFormErrors(prev => ({ ...prev, email: 'Please enter a valid Gmail address (e.g., example@gmail.com)' }));
+      return false;
+    }
+    
+    // Check local part (before @) has at least one character and valid format
+    const localPart = email.split('@')[0];
+    if (!localPart || !/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+$/.test(localPart)) {
+      setFormErrors(prev => ({ ...prev, email: 'Please enter a valid Gmail address' }));
+      return false;
+    }
+    
+    setFormErrors(prev => ({ ...prev, email: '' }));
+    return true;
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Keep formatting characters for display
+    const rawValue = e.target.value;
+    setPhone(rawValue);
+    
+    // Remove non-digits for validation
+    const phoneDigits = rawValue.replace(/\D/g, '');
+    
+    if (!phoneDigits) {
+      setFormErrors(prev => ({ ...prev, phone: '' }));
+      return false;
+    }
+    
+    // Validation based on country code
+    let isValid = true;
+    let errorMessage = '';
+    
+    // Israel (+972) validation
+    if (selectedCountry.code === '+972') {
+      // Israeli numbers should have 9 digits (with or without leading 0)
+      const effectiveLength = phoneDigits.length;
+      if (effectiveLength !== 9) {
+        isValid = false;
+        errorMessage = 'Israeli phone numbers require 9 digits';
+      }
+    } 
+    // US (+1) validation
+    else if (selectedCountry.code === '+1') {
+      if (phoneDigits.length !== 10) {
+        isValid = false;
+        errorMessage = 'US phone numbers require 10 digits';
+      }
+    }
+    // UK (+44) validation
+    else if (selectedCountry.code === '+44') {
+      if (phoneDigits.length < 10 || phoneDigits.length > 11) {
+        isValid = false;
+        errorMessage = 'UK phone numbers require 10-11 digits';
+      }
+    }
+    // Generic validation for other countries
+    else if (phoneDigits.length < 7 || phoneDigits.length > 15) {
+      isValid = false;
+      errorMessage = `Please enter a valid phone number for ${selectedCountry.name}`;
+    }
+    
+    setFormErrors(prev => ({ ...prev, phone: isValid ? '' : errorMessage }));
+    return isValid;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     // Basic validation
-    if (!formData.name || !formData.email || !formData.message) {
+    if (!formData.name || !formData.email || !formData.message || !phone) {
       setFormError('Please fill out all required fields');
       return;
     }
     
     // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      setFormError('Please enter a valid email address');
+    if (!validateEmail(formData.email)) {
+      return;
+    }
+    
+    // Phone validation
+    const phoneDigits = phone.replace(/\D/g, '');
+    if (!phoneDigits || formErrors.phone) {
       return;
     }
     
     // Clear any previous errors
     setFormError('');
+    setIsSubmitting(true);
     
     // Simulate form submission
     setTimeout(() => {
+      setIsSubmitting(false);
       setFormSubmitted(true);
+      
       // Reset form
       setFormData({
         name: '',
@@ -103,16 +209,21 @@ export default function LetsBegin() {
         message: ''
       });
       setPhone('');
+      setFormErrors({
+        email: '',
+        phone: ''
+      });
       
       // Reset form after showing success message
       setTimeout(() => {
         setFormSubmitted(false);
       }, 5000);
-    }, 1000);
+    }, 1500);
   };
 
   // List of countries with country codes
   const countries = [
+    { code: '+972', name: 'Israel' },
     { code: '+1', name: 'United States' },
     { code: '+44', name: 'United Kingdom' },
     { code: '+49', name: 'Germany' },
@@ -198,17 +309,32 @@ export default function LetsBegin() {
                       </div>
                       
                       <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">Your Email *</label>
-                        <input
-                          type="email"
-                          id="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                          placeholder="john@example.com"
-                          required
-                        />
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">Email Address *</label>
+                        <div className="relative">
+                          <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
+                            className={`w-full bg-black/50 border ${formErrors.email ? 'border-red-500' : formData.email && !formErrors.email ? 'border-green-500' : 'border-gray-700'} rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all pr-10`}
+                            placeholder="johndoe@gmail.com"
+                            required
+                            aria-label="Email address"
+                            aria-describedby="email-error"
+                            autoComplete="email"
+                          />
+                          {formData.email && !formErrors.email && (
+                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                              </svg>
+                            </div>
+                          )}
+                        </div>
+                        {formErrors.email && (
+                          <p id="email-error" className="text-red-500 text-xs mt-2 text-left">{formErrors.email}</p>
+                        )}
                       </div>
                     </div>
                     
@@ -241,29 +367,33 @@ export default function LetsBegin() {
                     </div>
                     
                     <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-1">Phone Number</label>
+                      <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-1">Phone Number *</label>
                       <div className="flex">
                         <div className="relative">
                           <button
                             type="button"
-                            className="flex items-center justify-between bg-black/50 border border-gray-700 rounded-l-lg px-3 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                            className="flex items-center gap-2 bg-black/50 border border-gray-700 rounded-l-lg px-3 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                             onClick={() => setCountryDropdownOpen(!countryDropdownOpen)}
+                            aria-label="Select country code"
+                            aria-expanded={countryDropdownOpen}
+                            aria-controls="countryDropdown"
                           >
                             <span>{selectedCountry.code}</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                             </svg>
                           </button>
                           
                           {countryDropdownOpen && (
-                            <div className="absolute z-10 mt-1 w-60 bg-gray-900 border border-gray-700 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                            <div id="countryDropdown" className="absolute z-10 mt-1 w-60 bg-black/90 border border-gray-700 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                               <div className="p-2">
                                 <input
                                   type="text"
-                                  className="w-full bg-black/50 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                                  className="w-full bg-black/50 border border-gray-700 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                                   placeholder="Search countries..."
                                   value={searchQuery}
                                   onChange={(e) => setSearchQuery(e.target.value)}
+                                  aria-label="Search countries"
                                 />
                               </div>
                               <div className="py-1">
@@ -275,7 +405,13 @@ export default function LetsBegin() {
                                       setSelectedCountry(country);
                                       setCountryDropdownOpen(false);
                                       setSearchQuery('');
+                                      // Re-validate phone when country changes
+                                      if (phone) {
+                                        handlePhoneChange({ target: { value: phone } } as React.ChangeEvent<HTMLInputElement>);
+                                      }
                                     }}
+                                    role="option"
+                                    aria-selected={selectedCountry.code === country.code && selectedCountry.name === country.name}
                                   >
                                     <div>
                                       <span className="w-12 md:w-14 inline-block font-medium text-sm md:text-base">{country.code}</span> {country.name}
@@ -287,14 +423,30 @@ export default function LetsBegin() {
                           )}
                         </div>
                         
-                        <input
-                          type="tel"
-                          className="flex-1 bg-black/50 border border-gray-700 border-l-0 rounded-r-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                          placeholder="(555) 123-4567"
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
-                        />
+                        <div className="relative flex-1">
+                          <input
+                            type="tel"
+                            className={`w-full bg-black/50 border ${formErrors.phone ? 'border-red-500' : phone && !formErrors.phone ? 'border-green-500' : 'border-gray-700'} border-l-0 rounded-r-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all pr-10`}
+                            placeholder={selectedCountry.code === '+972' ? '050-123-4567' : '(555) 123-4567'}
+                            value={phone}
+                            onChange={handlePhoneChange}
+                            required
+                            aria-label="Phone number"
+                            aria-describedby="phone-error"
+                            autoComplete="tel"
+                          />
+                          {phone && !formErrors.phone && (
+                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                              </svg>
+                            </div>
+                          )}
+                        </div>
                       </div>
+                      {formErrors.phone && (
+                        <p id="phone-error" className="text-red-500 text-xs mt-2 text-left">{formErrors.phone}</p>
+                      )}
                     </div>
                     
                     <div>
@@ -314,12 +466,27 @@ export default function LetsBegin() {
                     <div className="text-center">
                       <button
                         type="submit"
-                        className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-medium rounded-full transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
+                        className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-medium rounded-full transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 relative"
+                        disabled={isSubmitting}
                       >
-                        <span>Send Message</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                        </svg>
+                        {isSubmitting ? (
+                          <>
+                            <span className="opacity-0">Send Message</span>
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                              </svg>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <span>Send Message</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                              <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                            </svg>
+                          </>
+                        )}
                       </button>
                     </div>
                   </form>
