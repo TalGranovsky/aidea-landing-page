@@ -718,7 +718,7 @@ export default function Page() {
                 <span className="block opacity-0">YOUR CREATIVE</span>
                 <span className="block opacity-0">AGENCY</span>
               </h1>
-              <p className="text-lg opacity-0 md:text-xl text-red-500 mb-8 max-w-xl mx-auto px-4">
+              <p className="text-lg opacity-0 md:text-xl text-red-300 mb-8 max-w-xl mx-auto px-4">
                 Bringing your AI ideas to life with cutting-edge technology
               </p>
               <Link 
