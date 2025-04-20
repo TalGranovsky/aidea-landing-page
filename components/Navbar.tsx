@@ -48,24 +48,8 @@ export default function Navbar({ onNavigate = () => {}, currentPath }: NavbarPro
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
-  // Menu button variants
-  const topLineVariants = {
-    closed: { rotate: 0, translateY: 0 },
-    open: { rotate: 45, translateY: 7, width: 24 }
-  };
-  
-  const middleLineVariants = {
-    closed: { opacity: 1, width: 24 },
-    open: { opacity: 0, width: 0 }
-  };
-  
-  const bottomLineVariants = {
-    closed: { rotate: 0, translateY: 0 },
-    open: { rotate: -45, translateY: -7, width: 24 }
-  };
-
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-black/80' : 'bg-black/50'} backdrop-filter backdrop-blur-lg border-b border-gray-800/50`}>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-black/90' : 'bg-black/50'} backdrop-filter backdrop-blur-lg border-b border-gray-800/50 shadow-lg`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -78,33 +62,42 @@ export default function Navbar({ onNavigate = () => {}, currentPath }: NavbarPro
             <ClientSideLinks onNavigate={onNavigate} currentPath={currentPath} />
           </nav>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button - Standard Hamburger to X */}
           <button 
             className="md:hidden relative z-50 w-10 h-10 flex flex-col justify-center items-center focus:outline-none"
             onClick={handleMobileMenuToggle}
             aria-expanded={mobileMenuOpen}
+            aria-label="Toggle menu"
           >
-            <div className="relative w-6 h-6 flex flex-col justify-center items-center">
+            <div className="w-6 h-5 flex flex-col justify-between relative">
+              {/* Top line */}
               <motion.span 
-                className="absolute block h-[2px] bg-white rounded-full"
-                style={{ width: '24px' }}
-                variants={topLineVariants}
-                animate={mobileMenuOpen ? 'open' : 'closed'}
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="w-full h-0.5 bg-white rounded-full origin-left"
+                animate={{
+                  rotate: mobileMenuOpen ? 45 : 0,
+                  y: mobileMenuOpen ? 8 : 0,
+                  width: '100%'
+                }}
+                transition={{ duration: 0.3 }}
               />
+              {/* Middle line */}
               <motion.span 
-                className="absolute block h-[2px] bg-white rounded-full"
-                style={{ width: '24px' }}
-                variants={middleLineVariants}
-                animate={mobileMenuOpen ? 'open' : 'closed'}
-                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                className="w-full h-0.5 bg-white rounded-full"
+                animate={{
+                  opacity: mobileMenuOpen ? 0 : 1,
+                  x: mobileMenuOpen ? 20 : 0
+                }}
+                transition={{ duration: 0.3 }}
               />
+              {/* Bottom line */}
               <motion.span 
-                className="absolute block h-[2px] bg-white rounded-full"
-                style={{ width: '24px' }}
-                variants={bottomLineVariants}
-                animate={mobileMenuOpen ? 'open' : 'closed'}
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="w-full h-0.5 bg-white rounded-full origin-left"
+                animate={{
+                  rotate: mobileMenuOpen ? -45 : 0,
+                  y: mobileMenuOpen ? -8 : 0,
+                  width: '100%'
+                }}
+                transition={{ duration: 0.3 }}
               />
             </div>
           </button>
@@ -116,10 +109,10 @@ export default function Navbar({ onNavigate = () => {}, currentPath }: NavbarPro
         {mobileMenuOpen && (
           <motion.div 
             className="fixed inset-0 z-40 w-[100vw] h-[100vh] bg-gradient-to-b from-black via-purple-900/90 to-black"
-            initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
             style={{ 
               position: 'fixed',
               top: 0,
@@ -136,11 +129,11 @@ export default function Navbar({ onNavigate = () => {}, currentPath }: NavbarPro
             <div className="flex flex-col justify-center items-center h-full w-full px-4 py-8 overflow-hidden">
               <motion.div 
                 className="w-full max-w-md space-y-8 text-center"
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ 
-                  duration: 0.6, 
-                  ease: [0.22, 1, 0.36, 1],
+                  duration: 0.4, 
+                  ease: "easeOut",
                   staggerChildren: 0.12,
                   delayChildren: 0.1
                 }}
