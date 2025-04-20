@@ -11,7 +11,8 @@ import PageTransition from '@/components/PageTransition';
 import EmailDomainSuggestions from '@/components/EmailDomainSuggestions';
 
 // Components
-import Navbar from '@/components/Navbar';
+import NavbarWrapper from '@/components/NavbarWrapper';
+import Footer from '@/components/Footer';
 
 const playfair = Playfair_Display({ 
   subsets: ['latin'],
@@ -288,15 +289,16 @@ export default function LetsBegin() {
       </Head>
 
       <div className={`min-h-screen bg-black text-white ${isTransitioning ? 'fade-out' : 'fade-in'}`}>
-        <Navbar onNavigate={handleNavigate} currentPath="/lets-begin" />
-        
         {isLoading ? (
           <div className="fixed inset-0 flex items-center justify-center bg-black z-50">
             <div className="w-16 h-16 border-t-4 border-purple-500 border-solid rounded-full animate-spin"></div>
           </div>
         ) : (
-          <main className="pt-24 pb-20">
-            <section className="container mx-auto px-4 py-16 md:py-24">
+          <main className="min-h-screen bg-black text-white">
+            {/* Navbar */}
+            <NavbarWrapper onNavigate={handleNavigate} currentPath="/lets-begin" />
+            
+            <section className="container mx-auto px-4 py-16 md:py-24 pt-24 pb-20">
               <div className="max-w-4xl mx-auto text-center mb-16">
                 <h1 className={`text-4xl sm:text-5xl md:text-6xl font-bold mb-6 ${playfair.className} text-white leading-tight`}>
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600">Let&#39;s Begin</span> Your Journey

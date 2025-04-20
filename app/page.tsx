@@ -7,7 +7,7 @@ import { Roboto, Playfair_Display } from 'next/font/google'
 import Image from 'next/image'
 import Link from 'next/link'
 import LoadingScreen from '@/components/LoadingScreen'
-import Navbar from '@/components/Navbar';
+import NavbarWrapper from '@/components/NavbarWrapper';
 import Footer from '@/components/Footer';
 import PageTransition from '@/components/PageTransition';
 import Script from 'next/script'
@@ -655,7 +655,7 @@ export default function Page() {
         <PageTransition isTransitioning={isTransitioning} />
         
         {/* Navbar */}
-        <Navbar onNavigate={handleNavigation} currentPath="/" />
+        <NavbarWrapper onNavigate={handleNavigation} currentPath="/" />
         
         {/* Hero Section */}
         <section className="py-12 md:py-20 px-4 sm:px-6 relative min-h-[90vh] md:min-h-[80vh] flex items-center justify-center overflow-hidden">

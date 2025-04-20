@@ -101,7 +101,7 @@ export default function EmailDomainSuggestions({
         inputElement.removeEventListener('keydown', handleKeyDown as any);
       };
     }
-  }, [suggestions, selectedIndex, inputRef]);
+  }, [suggestions, selectedIndex, inputRef, handleKeyDown]);
 
   // Close suggestions when clicking outside
   useEffect(() => {

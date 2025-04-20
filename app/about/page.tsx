@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Playfair_Display } from 'next/font/google';
 import { motion } from 'framer-motion';
-import Navbar from '@/components/Navbar';
+import NavbarWrapper from '@/components/NavbarWrapper';
 import Footer from '@/components/Footer';
 import PageTransition from '@/components/PageTransition';
 
@@ -137,7 +137,7 @@ export default function About() {
       {/* Main Content */}
       <main className="min-h-screen bg-black text-white">
         {/* Header */}
-        <Navbar onNavigate={handleNavigation} currentPath="/about" />
+        <NavbarWrapper onNavigate={handleNavigation} currentPath="/about" />
 
         {/* Page Content */}
         <div className="pt-24 pb-16">
