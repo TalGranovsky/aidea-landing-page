@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 interface ClientSideLinksProps {
   onNavigate?: (href: string) => void;
@@ -19,45 +20,80 @@ export default function ClientSideLinks({ onNavigate = () => {}, currentPath, is
       : 'text-muted-foreground hover:text-white transition-colors duration-200';
   };
 
+  // Animation variants for mobile menu items
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+  };
+
   if (isMobile) {
     return (
       <>
-        <Link 
-          href="/" 
-          onClick={() => handleNavigation('/')} 
-          className={`block px-3 py-2 rounded-md hover:bg-gray-800 hover:text-white ${getLinkClass('/')} text-sm ${currentPath === '/' ? 'bg-purple-900/30 border-l-2 border-purple-500' : ''}`}
+        <motion.div
+          className="flex flex-col items-center space-y-8"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            visible: {
+              transition: {
+                staggerChildren: 0.1
+              }
+            }
+          }}
         >
-          Home
-        </Link>
-        <Link 
-          href="/about" 
-          onClick={() => handleNavigation('/about')} 
-          className={`block px-3 py-2 rounded-md hover:bg-gray-800 hover:text-white ${getLinkClass('/about')} text-sm ${currentPath === '/about' ? 'bg-purple-900/30 border-l-2 border-purple-500' : ''}`}
-        >
-          About
-        </Link>
-        <Link 
-          href="/services" 
-          onClick={() => handleNavigation('/services')} 
-          className={`block px-3 py-2 rounded-md hover:bg-gray-800 hover:text-white ${getLinkClass('/services')} text-sm ${currentPath === '/services' ? 'bg-purple-900/30 border-l-2 border-purple-500' : ''}`}
-        >
-          Services
-        </Link>
-        <Link 
-          href="/projects" 
-          onClick={() => handleNavigation('/projects')} 
-          className={`block px-3 py-2 rounded-md hover:bg-gray-800 hover:text-white ${getLinkClass('/projects')} text-sm ${currentPath === '/projects' ? 'bg-purple-900/30 border-l-2 border-purple-500' : ''}`}
-        >
-          Projects
-        </Link>
-        {/* Update button styles for mobile */}
-        <Link 
-          href="/lets-begin" 
-          onClick={() => handleNavigation('/lets-begin')} 
-          className="block mt-2 text-center px-3 py-2 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:scale-105 hover:shadow-lg hover:shadow-purple-500/40 transform transition-all duration-300 ease-out text-sm"
-        >
-          Let's Begin
-        </Link>
+          <motion.div variants={itemVariants}>
+            <Link 
+              href="/" 
+              onClick={() => handleNavigation('/')} 
+              className={`block text-3xl font-medium py-3 ${currentPath === '/' ? 'text-white' : 'text-gray-300 hover:text-white'} transition-colors duration-300`}
+            >
+              Home
+            </Link>
+          </motion.div>
+          
+          <motion.div variants={itemVariants}>
+            <Link 
+              href="/about" 
+              onClick={() => handleNavigation('/about')} 
+              className={`block text-3xl font-medium py-3 ${currentPath === '/about' ? 'text-white' : 'text-gray-300 hover:text-white'} transition-colors duration-300`}
+            >
+              About
+            </Link>
+          </motion.div>
+          
+          <motion.div variants={itemVariants}>
+            <Link 
+              href="/services" 
+              onClick={() => handleNavigation('/services')} 
+              className={`block text-3xl font-medium py-3 ${currentPath === '/services' ? 'text-white' : 'text-gray-300 hover:text-white'} transition-colors duration-300`}
+            >
+              Services
+            </Link>
+          </motion.div>
+          
+          <motion.div variants={itemVariants}>
+            <Link 
+              href="/projects" 
+              onClick={() => handleNavigation('/projects')} 
+              className={`block text-3xl font-medium py-3 ${currentPath === '/projects' ? 'text-white' : 'text-gray-300 hover:text-white'} transition-colors duration-300`}
+            >
+              Projects
+            </Link>
+          </motion.div>
+          
+          <motion.div 
+            variants={itemVariants}
+            className="pt-6"
+          >
+            <Link 
+              href="/lets-begin" 
+              onClick={() => handleNavigation('/lets-begin')} 
+              className="px-10 py-4 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:scale-105 hover:shadow-lg hover:shadow-purple-500/40 transform transition-all duration-300 ease-out text-xl font-medium"
+            >
+              Let's Begin
+            </Link>
+          </motion.div>
+        </motion.div>
       </>
     );
   }
