@@ -97,8 +97,8 @@ export default function Services() {
       {/* Main Content */}
       <main className="min-h-screen bg-black text-white">
         {/* Header */}
-        <Suspense fallback={<div>Loading...</div>}>
-          <Navbar onNavigate={handleNavigation} currentPath="/services" />
+        <Suspense fallback={<div>Loading navigation...</div>}>
+          <Navbar currentPath="/services" />
         </Suspense>
 
         {/* Page Content */}

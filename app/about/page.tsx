@@ -7,14 +7,11 @@ import { Playfair_Display } from 'next/font/google';
 import { motion } from 'framer-motion';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import PageTransition from '@/components/PageTransition';
 
 const playfair = Playfair_Display({ subsets: ['latin'] });
 
 export default function About() {
   const [isLoading, setIsLoading] = useState(true);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [transitionTarget, setTransitionTarget] = useState('');
 
   useEffect(() => {
     // Ensure scroll position is at the top when this page loads
@@ -34,16 +31,6 @@ export default function About() {
     
     return () => clearTimeout(timer);
   }, []);
-
-  // Navigation transition
-  const handleNavigation = (href: string) => {
-    setTransitionTarget(href);
-    setIsTransitioning(true);
-    
-    setTimeout(() => {
-      window.location.href = href;
-    }, 800); // Increased from 500ms to 800ms to ensure transition completes before navigation
-  };
 
   return (
     <>
@@ -131,14 +118,11 @@ export default function About() {
         }
       `}</style>
       
-      {/* Page Transition Animation */}
-      <PageTransition isTransitioning={isTransitioning} />
-      
       {/* Main Content */}
       <main className="min-h-screen bg-black text-white">
         {/* Header */}
-        <Suspense fallback={<div>Loading...</div>}>
-          <Navbar onNavigate={handleNavigation} currentPath="/about" />
+        <Suspense fallback={<div>Loading navigation...</div>}>
+          <Navbar currentPath="/about" />
         </Suspense>
 
         {/* Page Content */}
@@ -322,10 +306,6 @@ export default function About() {
               <Link 
                 href="/lets-begin" 
                 className="inline-block bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-8 rounded-full transition-colors duration-300"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavigation('/lets-begin');
-                }}
               >
                 Let&#39;s Begin
               </Link>
@@ -334,7 +314,7 @@ export default function About() {
         </div>
         
         {/* Footer */}
-        <Footer onNavigate={handleNavigation} currentPath="/about" />
+        <Footer currentPath="/about" />
       </main>
     </>
   );

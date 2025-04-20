@@ -3,15 +3,15 @@
 import Link from 'next/link';
 
 interface FooterProps {
-  onNavigate: (href: string) => void;
+  onNavigate?: (href: string) => void;
   currentPath: string;
 }
 
-export default function Footer({ onNavigate, currentPath }: FooterProps) {
-  // Handle navigation
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    onNavigate(href);
+export default function Footer({ currentPath }: FooterProps) {
+  const getLinkClass = (path: string) => {
+    return currentPath === path 
+      ? 'text-primary font-medium' 
+      : 'text-muted-foreground hover:text-primary transition-colors duration-200';
   };
 
   return (
@@ -22,7 +22,6 @@ export default function Footer({ onNavigate, currentPath }: FooterProps) {
             <Link 
               href="/" 
               className="text-2xl font-bold text-white"
-              onClick={(e) => handleNavClick(e, '/')}
             >
               AIDEA
             </Link>
@@ -30,36 +29,31 @@ export default function Footer({ onNavigate, currentPath }: FooterProps) {
           <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4">
             <Link 
               href="/" 
-              className={`text-xs md:text-sm text-neutral-400 hover:text-white ${currentPath === '/' ? 'text-purple-400' : ''}`}
-              onClick={(e) => handleNavClick(e, '/')}
+              className={`text-xs md:text-sm ${getLinkClass('/')}`}
             >
               Home
             </Link>
             <Link 
               href="/services" 
-              className={`text-xs md:text-sm text-neutral-400 hover:text-white ${currentPath === '/services' ? 'text-purple-400' : ''}`}
-              onClick={(e) => handleNavClick(e, '/services')}
+              className={`text-xs md:text-sm ${getLinkClass('/services')}`}
             >
               Services
             </Link>
             <Link 
               href="/about" 
-              className={`text-xs md:text-sm text-neutral-400 hover:text-white ${currentPath === '/about' ? 'text-purple-400' : ''}`}
-              onClick={(e) => handleNavClick(e, '/about')}
+              className={`text-xs md:text-sm ${getLinkClass('/about')}`}
             >
               About
             </Link>
             <Link 
               href="/projects" 
-              className={`text-xs md:text-sm text-neutral-400 hover:text-white ${currentPath === '/projects' ? 'text-purple-400' : ''}`}
-              onClick={(e) => handleNavClick(e, '/projects')}
+              className={`text-xs md:text-sm ${getLinkClass('/projects')}`}
             >
               Projects
             </Link>
             <Link 
               href="/lets-begin" 
-              className={`text-xs md:text-sm text-neutral-400 hover:text-white ${currentPath === '/lets-begin' ? 'text-purple-400' : ''}`}
-              onClick={(e) => handleNavClick(e, '/lets-begin')}
+              className={`text-xs md:text-sm ${getLinkClass('/lets-begin')}`}
             >
               Let&apos;s Begin
             </Link>

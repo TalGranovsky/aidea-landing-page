@@ -220,8 +220,8 @@ export default function Projects() {
       {/* Main Content */}
       <main className="min-h-screen bg-black text-white">
         {/* Header */}
-        <Suspense fallback={<div>Loading...</div>}>
-          <Navbar onNavigate={handleNavigation} currentPath="/projects" />
+        <Suspense fallback={<div>Loading navigation...</div>}>
+          <Navbar currentPath="/projects" />
         </Suspense>
 
         {/* Page Content */}

@@ -268,9 +268,6 @@ export default function Page() {
   const [countrySearchTerm, setCountrySearchTerm] = useState('')
   const countryDropdownRef = useRef<HTMLDivElement>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [transitionTarget, setTransitionTarget] = useState('');
-  const contactSectionRef = useRef<HTMLElement>(null);
   
   // Track if this is the initial site load
   const [showLoadingScreen, setShowLoadingScreen] = useState(false);
@@ -372,23 +369,8 @@ export default function Page() {
   const y1 = useTransform(scrollYProgress, [0, 1], [0, 100])
   const y2 = useTransform(scrollYProgress, [0, 1], [0, -100])
   
-  // Navigation transition
-  const handleNavigation = (href: string) => {
-    setTransitionTarget(href);
-    setIsTransitioning(true);
-    
-    // After animation completes, navigate to the page
-    setTimeout(() => {
-      window.location.href = href;
-    }, 800);
-  };
-
   // Smooth scroll function with transition animation
   const scrollToSection = (elementRef: React.RefObject<HTMLElement> | null, href: string = '') => {
-    // Start transition animation
-    setTransitionTarget(href);
-    setIsTransitioning(true);
-    
     // After animation completes, scroll to section
     setTimeout(() => {
       if (elementRef && elementRef.current) {
@@ -414,14 +396,9 @@ export default function Page() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
       
-      // End transition animation
-      setTimeout(() => {
-        setIsTransitioning(false);
-      }, 500);
+      // Close mobile menu if open
+      setMobileMenuOpen(false);
     }, 500);
-    
-    // Close mobile menu if open
-    setMobileMenuOpen(false);
   };
 
   // Ensure scroll position is at the top when this page loads
@@ -650,12 +627,9 @@ export default function Page() {
       
       {/* Main content with slide-up animation when loading completes */}
       <div className={`min-h-screen bg-black text-white ${roboto.className} ${!isLoading ? 'animate-slide-up-enter' : 'opacity-0'}`}>
-        {/* Page Transition Animation */}
-        <PageTransition isTransitioning={isTransitioning} />
-        
         {/* Navbar */}
-        <Suspense fallback={<div>Loading...</div>}>
-          <Navbar onNavigate={handleNavigation} currentPath="/" />
+        <Suspense fallback={<div>Loading navigation...</div>}>
+          <Navbar currentPath="/" />
         </Suspense>
         
         {/* Hero Section */}
@@ -688,18 +662,13 @@ export default function Page() {
               <p className="text-lg md:text-xl text-neutral-200 drop-shadow-lg mb-8 max-w-xl mx-auto px-4">
                 Bringing your AI ideas to life with cutting-edge technology
               </p>
-              <button 
-                onClick={() => {
-                  setTransitionTarget('/lets-begin');
-                  setIsTransitioning(true);
-                  setTimeout(() => {
-                    window.location.href = '/lets-begin';
-                  }, 500);
-                }}
-                className="inline-flex items-center bg-gradient-to-r from-purple-600 to-blue-600 px-5 py-3 md:px-6 md:py-3 rounded-full text-white font-medium transition-all hover:opacity-90 hover:scale-[1.03] text-sm md:text-base"
-              >
-                Let&#39;s Begin »
-              </button>
+              <Link href="/lets-begin" legacyBehavior passHref>
+                <button 
+                  className="inline-flex items-center bg-gradient-to-r from-purple-600 to-blue-600 px-5 py-3 md:px-6 md:py-3 rounded-full text-white font-medium transition-all hover:opacity-90 hover:scale-[1.03] text-sm md:text-base"
+                >
+                  Let&#39;s Begin »
+                </button>
+              </Link>
             </div>
           </div>
         </section>
@@ -1066,7 +1035,7 @@ export default function Page() {
         </section>
 
         {/* Footer */}
-        <Footer onNavigate={handleNavigation} currentPath="/" />
+        <Footer currentPath="/" />
       </div>
     </>
   )

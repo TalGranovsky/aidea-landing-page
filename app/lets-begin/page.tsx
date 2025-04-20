@@ -296,8 +296,8 @@ export default function LetsBegin() {
         ) : (
           <main className="min-h-screen bg-black text-white">
             {/* Navbar */}
-            <Suspense fallback={<div>Loading...</div>}>
-              <Navbar onNavigate={handleNavigate} currentPath="/lets-begin" />
+            <Suspense fallback={<div>Loading navigation...</div>}>
+              <Navbar currentPath="/lets-begin" />
             </Suspense>
             
             <section className="container mx-auto px-4 py-16 md:py-24 pt-24 pb-20">

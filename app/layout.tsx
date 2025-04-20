@@ -4,6 +4,8 @@ import "./globals.css";
 import ScrollToTop from '@/components/ScrollToTop';
 import CustomCursor from '@/components/CustomCursor';
 import GlobalStyles from '@/components/GlobalStyles';
+import { Suspense } from 'react';
+import PageTransitionWrapper from '@/components/PageTransitionWrapper';
 
 const roboto = Roboto({ 
   subsets: ['latin'],
@@ -80,10 +82,14 @@ export default function RootLayout({
         <meta name="theme-color" content="#ffffff" />
       </head>
       <body className={`${roboto.className} bg-black bg-dotted-grid`}>
-        <ScrollToTop />
+        <Suspense fallback={null}>
+          <ScrollToTop />
+        </Suspense>
         <CustomCursor />
         <GlobalStyles />
-        {children}
+        <PageTransitionWrapper>
+          {children}
+        </PageTransitionWrapper>
       </body>
     </html>
   );
