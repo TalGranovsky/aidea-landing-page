@@ -165,13 +165,13 @@ export default function About() {
               >
                 <h2 className={`text-3xl md:text-4xl font-bold mb-6 ${playfair.className}`}>Our Story</h2>
                 <p className="text-neutral-300 mb-4">
-                  Founded in 2023, AIDEA emerged from a vision to bridge the gap between cutting-edge AI technology and creative expression. Our team of AI specialists, designers, and artists came together with a shared passion for pushing the boundaries of what's possible.
+                  Founded in 2023, AIDEA emerged from a vision to bridge the gap between cutting-edge AI technology and creative expression. Our team of AI specialists, designers, and artists came together with a shared passion for pushing the boundaries of what&#39;s possible.
                 </p>
                 <p className="text-neutral-300 mb-4">
                   What began as an experimental studio quickly evolved into a comprehensive creative agency, as we discovered the immense potential of AI to transform every aspect of the creative process.
                 </p>
                 <p className="text-neutral-300">
-                  Today, we're proud to be at the forefront of the AI creative revolution, partnering with forward-thinking brands and individuals who share our excitement for the future of design and content creation.
+                  Today, we&#39;re proud to be at the forefront of the AI creative revolution, partnering with forward-thinking brands and individuals who share our excitement for the future of design and content creation.
                 </p>
               </motion.div>
               <motion.div
@@ -241,7 +241,7 @@ export default function About() {
                     <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift z-5"></div>
                     <div className="absolute bottom-4 left-4 z-20">
                       <h3 className="text-xl font-bold">Alex Morgan</h3>
-                      <p className="text-neutral-400 text-sm">Founder & CEO</p>
+                      <p className="text-neutral-400 text-sm">Founder &amp; CEO</p>
                     </div>
                     {/* Placeholder for team member image */}
                     <div className="absolute inset-0 bg-neutral-700 z-0 group-hover:scale-105 transition-transform duration-500"></div>
@@ -325,7 +325,7 @@ export default function About() {
                   handleNavigation('/lets-begin');
                 }}
               >
-                Let's Begin
+                Let&#39;s Begin
               </Link>
             </div>
           </div>

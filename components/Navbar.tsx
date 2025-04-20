@@ -132,7 +132,7 @@ export default function Navbar({ onNavigate, currentPath }: NavbarProps) {
               className={`text-white hover:text-purple-400 transition-colors border border-purple-500 rounded-full px-4 py-1 ${currentPath === '/lets-begin' ? 'bg-purple-500 text-white font-medium' : ''} font-roboto`}
               onClick={(e) => handleNavClick(e, '/lets-begin')}
             >
-              Let's Begin
+              Let&#39;s Begin
             </Link>
           </nav>
           
@@ -254,7 +254,7 @@ export default function Navbar({ onNavigate, currentPath }: NavbarProps) {
                   className={`text-2xl font-medium text-white hover:text-white transition-colors inline-block border border-purple-500 rounded-full px-8 py-3 ${currentPath === '/lets-begin' ? 'bg-purple-600' : 'bg-purple-500/30 hover:bg-purple-500/50'}`}
                   onClick={(e) => handleNavClick(e, '/lets-begin')}
                 >
-                  Let's Begin
+                  Let&#39;s Begin
                 </Link>
               </motion.div>
             </motion.nav>

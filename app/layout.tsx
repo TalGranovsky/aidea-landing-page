@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import ScrollToTop from '@/components/ScrollToTop';
+import CustomCursor from '@/components/CustomCursor';
+import GlobalStyles from '@/components/GlobalStyles';
 
 const roboto = Roboto({ 
   subsets: ['latin'],
@@ -76,75 +78,11 @@ export default function RootLayout({
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            // Custom cursor handling script
-            document.addEventListener('DOMContentLoaded', () => {
-              // Apply custom cursor to the document
-              const customCursorCSS = 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\' viewBox=\'0 0 40 40\'><path d=\'M6,6 L30,20 L15,34 L6,6\' fill=\'%23333333\' stroke=\'white\' stroke-width=\'3\' stroke-linejoin=\'round\' /></svg>") 6 6, auto';
-              
-              // Force cursor through mousemove if needed
-              document.addEventListener('mousemove', (e) => {
-                const elementUnderCursor = document.elementFromPoint(e.clientX, e.clientY);
-                if (elementUnderCursor && elementUnderCursor.tagName === 'IFRAME') {
-                  const overlay = document.createElement('div');
-                  overlay.className = 'cursor-inheritor';
-                  overlay.style.position = 'absolute';
-                  overlay.style.top = '0';
-                  overlay.style.left = '0';
-                  overlay.style.right = '0';
-                  overlay.style.bottom = '0';
-                  overlay.style.pointerEvents = 'none';
-                  overlay.style.cursor = customCursorCSS;
-                  
-                  // Add this overlay to document body if not already there
-                  if (!document.querySelector('.cursor-inheritor')) {
-                    document.body.appendChild(overlay);
-                  }
-                }
-              });
-            });
-          `
-        }} />
-        <style dangerouslySetInnerHTML={{
-          __html: `
-            :root {
-              --color-primary: #6d28d9;
-              --color-primary-dark: #4c1d95;
-              --color-secondary: #1e293b;
-              --color-accent: #8b5cf6;
-              --color-text: #f8fafc;
-              --color-background: #000000;
-            }
-            
-            body {
-              background-color: var(--color-background);
-              color: var(--color-text);
-            }
-            
-            .text-shadow-purple {
-              text-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
-            }
-            
-            .bg-dotted-grid {
-              background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-              background-size: 30px 30px;
-            }
-            
-            .hero-glow {
-              position: absolute;
-              top: 0;
-              left: 0;
-              right: 0;
-              bottom: 0;
-              background: radial-gradient(circle at center, rgba(139, 92, 246, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
-              pointer-events: none;
-            }
-          `
-        }} />
       </head>
       <body className={`${roboto.className} bg-black bg-dotted-grid`}>
         <ScrollToTop />
+        <CustomCursor />
+        <GlobalStyles />
         {children}
       </body>
     </html>

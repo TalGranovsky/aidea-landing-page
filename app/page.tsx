@@ -697,7 +697,7 @@ export default function Page() {
                 }}
                 className="inline-flex items-center bg-gradient-to-r from-purple-600 to-blue-600 px-5 py-3 md:px-6 md:py-3 rounded-full text-white font-medium transition-all hover:opacity-90 hover:scale-[1.03] text-sm md:text-base"
               >
-                Let's Begin »
+                Let&#39;s Begin »
               </button>
             </div>
           </div>
@@ -851,7 +851,7 @@ export default function Page() {
         {/* Contact Section */}
         <section id="contact" className="py-12 md:py-20 px-4 sm:px-6 relative">
           <div className="max-w-md mx-auto text-center">
-            <h2 className={`text-2xl md:text-4xl font-medium mb-4 md:mb-6 ${roboto.className}`}>Let's Have a Chat</h2>
+            <h2 className={`text-2xl md:text-4xl font-medium mb-4 md:mb-6 ${roboto.className}`}>Let&#39;s Have a Chat</h2>
             <div className="max-w-md mx-auto">
               <form className="space-y-3 md:space-y-4" onSubmit={handleFormSubmit} aria-label="Contact form">
                 <div>

@@ -122,7 +122,7 @@ export default function LetsBegin() {
     const domainPart = parts[1];
     
     // Check local part (before @) has at least one character and valid format
-    if (!localPart || !/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+$/.test(localPart)) {
+    if (!localPart || !/^[a-zA-Z0-9.!#$%&apos;*+/=?^_`{|}~-]+$/.test(localPart)) {
       setFormErrors(prev => ({ ...prev, email: 'Please enter a valid email address' }));
       return false;
     }
@@ -283,7 +283,7 @@ export default function LetsBegin() {
   return (
     <>
       <Head>
-        <title>Let's Begin - AIDEA</title>
+        <title>Let&#39;s Begin - AIDEA</title>
         <meta name="description" content="Start your journey with AIDEA - Your AI-powered creative agency" />
       </Head>
 
@@ -299,7 +299,7 @@ export default function LetsBegin() {
             <section className="container mx-auto px-4 py-16 md:py-24">
               <div className="max-w-4xl mx-auto text-center mb-16">
                 <h1 className={`text-4xl sm:text-5xl md:text-6xl font-bold mb-6 ${playfair.className} text-white leading-tight`}>
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600">Let's Begin</span> Your Journey
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600">Let&#39;s Begin</span> Your Journey
                 </h1>
                 <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
                   Ready to transform your ideas into reality? Fill out the form below and our team will get back to you within 24 hours.
@@ -315,7 +315,7 @@ export default function LetsBegin() {
                       </svg>
                     </div>
                     <h3 className="text-2xl font-bold text-white mb-2">Thank You!</h3>
-                    <p className="text-gray-300">Your message has been sent successfully. We'll be in touch soon!</p>
+                    <p className="text-gray-300">Your message has been sent successfully. We&#39;ll be in touch soon!</p>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">

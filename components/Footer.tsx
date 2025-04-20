@@ -61,7 +61,7 @@ export default function Footer({ onNavigate, currentPath }: FooterProps) {
               className={`text-xs md:text-sm text-neutral-400 hover:text-white ${currentPath === '/lets-begin' ? 'text-purple-400' : ''}`}
               onClick={(e) => handleNavClick(e, '/lets-begin')}
             >
-              Let's Begin
+              Let&apos;s Begin
             </Link>
           </div>
           <div className="mt-6 md:mt-0 flex items-center gap-4">
