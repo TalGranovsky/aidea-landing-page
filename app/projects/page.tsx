@@ -25,15 +25,9 @@ export default function Projects() {
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
     }
-  }, []);
-
-  useEffect(() => {
-    // Simulate loading time
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
     
-    return () => clearTimeout(timer);
+    // Set loading to false immediately - no need for artificial delay
+    setIsLoading(false);
   }, []);
 
   // Navigation transition
@@ -41,12 +35,13 @@ export default function Projects() {
     setTransitionTarget(href);
     setIsTransitioning(true);
     
+    // Reduce transition time for faster navigation
     setTimeout(() => {
       window.location.href = href;
-    }, 800); // Increased from 500ms to 800ms to ensure transition completes before navigation
+    }, 500);
   };
 
-  // Project data
+  // Project data with optimized image loading
   const projects = [
     {
       id: 1,
@@ -293,16 +288,25 @@ export default function Projects() {
                   key={project.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1 * index }}
+                  transition={{ duration: 0.3, delay: 0.05 * index }}
                   className="project-card border border-neutral-800 hover:border-purple-500/70 rounded-xl overflow-hidden metallic-shine group"
                 >
                   <div className="relative h-64 overflow-hidden">
-                    {/* Project image placeholder */}
-                    <div className="project-image absolute inset-0 bg-gradient-to-br from-purple-900/30 to-blue-900/30 group-hover:scale-110 transition-transform duration-700"></div>
+                    {/* Project image with next/image for optimization */}
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover transform group-hover:scale-110 transition-transform duration-700"
+                      priority={index < 3} // Only prioritize loading the first 3 images
+                      loading={index < 3 ? "eager" : "lazy"}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 to-blue-900/30"></div>
                     <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                     <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
                     
-                    <div className="project-overlay relative z-10">
+                    <div className="project-overlay absolute inset-0 p-4 flex flex-col justify-end z-10">
                       <h3 className="text-xl font-bold mb-2">{project.title}</h3>
                       <div className="flex flex-wrap gap-2 mb-3">
                         {project.tags.map((tag, i) => (

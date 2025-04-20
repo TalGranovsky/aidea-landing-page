@@ -24,10 +24,10 @@ const PageTransitionWrapper: React.FC<PageTransitionWrapperProps> = ({ children 
     };
 
     const handleRouteChangeComplete = () => {
-      // Add a small delay before hiding the skeleton for a smoother experience
+      // Reduce the delay before hiding the skeleton for faster page transitions
       setTimeout(() => {
         setIsRouteChanging(false);
-      }, 1500);
+      }, 800);
     };
 
     // We need to manually track navigation in Next.js App Router
@@ -56,7 +56,7 @@ const PageTransitionWrapper: React.FC<PageTransitionWrapperProps> = ({ children 
       setIsRouteChanging(true);
       setTimeout(() => {
         setIsRouteChanging(false);
-      }, 2000);
+      }, 1000);
     }
 
     // Cleanup
@@ -90,10 +90,10 @@ const PageTransitionWrapper: React.FC<PageTransitionWrapperProps> = ({ children 
         setIsRouteChanging(true);
         setLoadingKey(prev => prev + 1);
         
-        // Navigate after a slight delay to ensure skeleton is visible
+        // Navigate sooner for faster perceived performance
         setTimeout(() => {
           router.push(anchor.href);
-        }, 100);
+        }, 50);
       }
     };
 
@@ -118,7 +118,7 @@ const PageTransitionWrapper: React.FC<PageTransitionWrapperProps> = ({ children 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.3 }}
         >
           {children}
         </motion.div>
