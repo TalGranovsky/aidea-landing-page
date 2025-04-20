@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Playfair_Display } from 'next/font/google';
 import { motion } from 'framer-motion';
-import NavbarWrapper from '@/components/NavbarWrapper';
+import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import PageTransition from '@/components/PageTransition';
 
@@ -97,7 +97,7 @@ export default function Services() {
       {/* Main Content */}
       <main className="min-h-screen bg-black text-white">
         {/* Header */}
-        <NavbarWrapper onNavigate={handleNavigation} currentPath="/services" />
+        <Navbar onNavigate={handleNavigation} currentPath="/services" />
 
         {/* Page Content */}
         <div className="pt-24 pb-16">

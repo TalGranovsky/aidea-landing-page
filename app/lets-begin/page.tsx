@@ -11,7 +11,7 @@ import PageTransition from '@/components/PageTransition';
 import EmailDomainSuggestions from '@/components/EmailDomainSuggestions';
 
 // Components
-import NavbarWrapper from '@/components/NavbarWrapper';
+import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 const playfair = Playfair_Display({ 
@@ -296,7 +296,7 @@ export default function LetsBegin() {
         ) : (
           <main className="min-h-screen bg-black text-white">
             {/* Navbar */}
-            <NavbarWrapper onNavigate={handleNavigate} currentPath="/lets-begin" />
+            <Navbar onNavigate={handleNavigate} currentPath="/lets-begin" />
             
             <section className="container mx-auto px-4 py-16 md:py-24 pt-24 pb-20">
               <div className="max-w-4xl mx-auto text-center mb-16">

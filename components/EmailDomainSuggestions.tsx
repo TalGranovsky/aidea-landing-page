@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, KeyboardEvent } from 'react';
+import { useState, useEffect, useRef, KeyboardEvent, useCallback } from 'react';
 
 interface EmailDomainSuggestionsProps {
   email: string;
@@ -67,8 +67,8 @@ export default function EmailDomainSuggestions({
     setSelectedIndex(-1);
   }, [email]);
 
-  // Handle keyboard navigation
-  const handleKeyDown = (e: KeyboardEvent) => {
+  // Handle keyboard navigation with useCallback
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (!suggestions.length) return;
     
     // Arrow down
@@ -90,7 +90,7 @@ export default function EmailDomainSuggestions({
     else if (e.key === 'Escape') {
       setSuggestions([]);
     }
-  };
+  }, [suggestions, selectedIndex, onSelectDomain]);
 
   // Add event listener for keyboard navigation
   useEffect(() => {
@@ -101,7 +101,7 @@ export default function EmailDomainSuggestions({
         inputElement.removeEventListener('keydown', handleKeyDown as any);
       };
     }
-  }, [suggestions, selectedIndex, inputRef, handleKeyDown]);
+  }, [inputRef, handleKeyDown]);
 
   // Close suggestions when clicking outside
   useEffect(() => {
