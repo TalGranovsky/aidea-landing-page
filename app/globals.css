@@ -301,7 +301,7 @@ iframe {
     rgba(139, 92, 246, 0.1)  /* purple-500 with low opacity */
   );
   background-size: 200% 100%;
-  animation: skeletonPulse 1.5s ease-in-out infinite;
+  animation: skeletonPulse 3s ease-in-out infinite;
   position: relative;
   overflow: hidden;
 }

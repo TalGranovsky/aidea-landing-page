@@ -27,7 +27,7 @@ const PageTransitionWrapper: React.FC<PageTransitionWrapperProps> = ({ children 
       // Add a small delay before hiding the skeleton for a smoother experience
       setTimeout(() => {
         setIsRouteChanging(false);
-      }, 300);
+      }, 800);
     };
 
     // We need to manually track navigation in Next.js App Router
@@ -56,7 +56,7 @@ const PageTransitionWrapper: React.FC<PageTransitionWrapperProps> = ({ children 
       setIsRouteChanging(true);
       setTimeout(() => {
         setIsRouteChanging(false);
-      }, 500);
+      }, 1200);
     }
 
     // Cleanup
@@ -83,8 +83,17 @@ const PageTransitionWrapper: React.FC<PageTransitionWrapperProps> = ({ children 
           return; // Don't show skeleton for lets-begin page
         }
         
+        // Prevent default behavior to allow our custom transition
+        e.preventDefault();
+        
+        // Show skeleton loader
         setIsRouteChanging(true);
         setLoadingKey(prev => prev + 1);
+        
+        // Navigate after a slight delay to ensure skeleton is visible
+        setTimeout(() => {
+          router.push(anchor.href);
+        }, 100);
       }
     };
 
@@ -92,7 +101,7 @@ const PageTransitionWrapper: React.FC<PageTransitionWrapperProps> = ({ children 
     return () => {
       document.removeEventListener('click', handleLinkClick);
     };
-  }, []);
+  }, [router]);
 
   return (
     <>
@@ -109,7 +118,7 @@ const PageTransitionWrapper: React.FC<PageTransitionWrapperProps> = ({ children 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.5 }}
         >
           {children}
         </motion.div>
