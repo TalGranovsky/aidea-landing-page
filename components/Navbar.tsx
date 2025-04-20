@@ -51,17 +51,17 @@ export default function Navbar({ onNavigate = () => {}, currentPath }: NavbarPro
   // Menu button variants
   const topLineVariants = {
     closed: { rotate: 0, translateY: 0 },
-    open: { rotate: 45, translateY: 6 }
+    open: { rotate: 45, translateY: 7, width: 24 }
   };
   
   const middleLineVariants = {
-    closed: { opacity: 1 },
-    open: { opacity: 0 }
+    closed: { opacity: 1, width: 24 },
+    open: { opacity: 0, width: 0 }
   };
   
   const bottomLineVariants = {
     closed: { rotate: 0, translateY: 0 },
-    open: { rotate: -45, translateY: -6 }
+    open: { rotate: -45, translateY: -7, width: 24 }
   };
 
   return (
@@ -80,28 +80,33 @@ export default function Navbar({ onNavigate = () => {}, currentPath }: NavbarPro
 
           {/* Mobile Menu Button */}
           <button 
-            className="md:hidden relative z-50 w-8 h-8 flex flex-col justify-center items-center focus:outline-none"
+            className="md:hidden relative z-50 w-10 h-10 flex flex-col justify-center items-center focus:outline-none"
             onClick={handleMobileMenuToggle}
             aria-expanded={mobileMenuOpen}
           >
-            <motion.span 
-              className="block w-6 h-0.5 bg-white mb-1.5"
-              variants={topLineVariants}
-              animate={mobileMenuOpen ? 'open' : 'closed'}
-              transition={{ duration: 0.3 }}
-            />
-            <motion.span 
-              className="block w-6 h-0.5 bg-white mb-1.5"
-              variants={middleLineVariants}
-              animate={mobileMenuOpen ? 'open' : 'closed'}
-              transition={{ duration: 0.3 }}
-            />
-            <motion.span 
-              className="block w-6 h-0.5 bg-white"
-              variants={bottomLineVariants}
-              animate={mobileMenuOpen ? 'open' : 'closed'}
-              transition={{ duration: 0.3 }}
-            />
+            <div className="relative w-6 h-6 flex flex-col justify-center items-center">
+              <motion.span 
+                className="absolute block h-[2px] bg-white rounded-full"
+                style={{ width: '24px' }}
+                variants={topLineVariants}
+                animate={mobileMenuOpen ? 'open' : 'closed'}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              />
+              <motion.span 
+                className="absolute block h-[2px] bg-white rounded-full"
+                style={{ width: '24px' }}
+                variants={middleLineVariants}
+                animate={mobileMenuOpen ? 'open' : 'closed'}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              />
+              <motion.span 
+                className="absolute block h-[2px] bg-white rounded-full"
+                style={{ width: '24px' }}
+                variants={bottomLineVariants}
+                animate={mobileMenuOpen ? 'open' : 'closed'}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              />
+            </div>
           </button>
         </div>
       </div>
