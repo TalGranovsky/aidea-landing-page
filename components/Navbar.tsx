@@ -72,30 +72,27 @@ export default function Navbar({ onNavigate = () => {}, currentPath }: NavbarPro
             <div className="w-6 h-5 flex flex-col justify-between relative">
               {/* Top line */}
               <motion.span 
-                className="w-full h-0.5 bg-white rounded-full origin-left"
+                className="w-full h-0.5 bg-white rounded-full absolute top-0"
                 animate={{
                   rotate: mobileMenuOpen ? 45 : 0,
-                  y: mobileMenuOpen ? 8 : 0,
-                  width: '100%'
+                  y: mobileMenuOpen ? 9 : 0,
                 }}
                 transition={{ duration: 0.3 }}
               />
               {/* Middle line */}
               <motion.span 
-                className="w-full h-0.5 bg-white rounded-full"
+                className="w-full h-0.5 bg-white rounded-full absolute top-1/2 -mt-px"
                 animate={{
                   opacity: mobileMenuOpen ? 0 : 1,
-                  x: mobileMenuOpen ? 20 : 0
                 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.2 }}
               />
               {/* Bottom line */}
               <motion.span 
-                className="w-full h-0.5 bg-white rounded-full origin-left"
+                className="w-full h-0.5 bg-white rounded-full absolute bottom-0"
                 animate={{
                   rotate: mobileMenuOpen ? -45 : 0,
-                  y: mobileMenuOpen ? -8 : 0,
-                  width: '100%'
+                  y: mobileMenuOpen ? -9 : 0,
                 }}
                 transition={{ duration: 0.3 }}
               />

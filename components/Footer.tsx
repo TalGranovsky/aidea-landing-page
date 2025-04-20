@@ -10,8 +10,8 @@ interface FooterProps {
 export default function Footer({ currentPath }: FooterProps) {
   const getLinkClass = (path: string) => {
     return currentPath === path 
-      ? 'text-primary font-medium' 
-      : 'text-muted-foreground hover:text-primary transition-colors duration-200';
+      ? 'text-white font-medium' 
+      : 'text-muted-foreground hover:text-white transition-colors duration-200';
   };
 
   return (
