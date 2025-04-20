@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Playfair_Display } from 'next/font/google';
@@ -137,7 +137,9 @@ export default function About() {
       {/* Main Content */}
       <main className="min-h-screen bg-black text-white">
         {/* Header */}
-        <Navbar onNavigate={handleNavigation} currentPath="/about" />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Navbar onNavigate={handleNavigation} currentPath="/about" />
+        </Suspense>
 
         {/* Page Content */}
         <div className="pt-24 pb-16">

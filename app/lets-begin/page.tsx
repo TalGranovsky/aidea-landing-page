@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import Head from 'next/head';
 import { Playfair_Display } from 'next/font/google';
 import { useRouter } from 'next/navigation';
@@ -296,7 +296,9 @@ export default function LetsBegin() {
         ) : (
           <main className="min-h-screen bg-black text-white">
             {/* Navbar */}
-            <Navbar onNavigate={handleNavigate} currentPath="/lets-begin" />
+            <Suspense fallback={<div>Loading...</div>}>
+              <Navbar onNavigate={handleNavigate} currentPath="/lets-begin" />
+            </Suspense>
             
             <section className="container mx-auto px-4 py-16 md:py-24 pt-24 pb-20">
               <div className="max-w-4xl mx-auto text-center mb-16">

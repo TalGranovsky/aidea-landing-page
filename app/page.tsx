@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, Suspense } from 'react'
 import Head from 'next/head'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { Roboto, Playfair_Display } from 'next/font/google'
@@ -654,7 +654,9 @@ export default function Page() {
         <PageTransition isTransitioning={isTransitioning} />
         
         {/* Navbar */}
-        <Navbar onNavigate={handleNavigation} currentPath="/" />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Navbar onNavigate={handleNavigation} currentPath="/" />
+        </Suspense>
         
         {/* Hero Section */}
         <section className="py-12 md:py-20 px-4 sm:px-6 relative min-h-[90vh] md:min-h-[80vh] flex items-center justify-center overflow-hidden">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { Playfair_Display } from 'next/font/google';
 import { motion } from 'framer-motion';
@@ -97,7 +97,9 @@ export default function Services() {
       {/* Main Content */}
       <main className="min-h-screen bg-black text-white">
         {/* Header */}
-        <Navbar onNavigate={handleNavigation} currentPath="/services" />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Navbar onNavigate={handleNavigation} currentPath="/services" />
+        </Suspense>
 
         {/* Page Content */}
         <div className="pt-24 pb-16">
