@@ -127,7 +127,8 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
         
         .glowy-text {
           color: white;
-          animation: textGlow 3s infinite ease-in-out;
+          animation: textGlow 2s ease-in-out infinite;
+          letter-spacing: 0.05em;
         }
         
         .metalic-bar {
@@ -135,8 +136,8 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
           overflow: hidden;
         }
         
-        .metalic-bar::before {
-          content: "";
+        .metalic-bar::after {
+          content: '';
           position: absolute;
           top: 0;
           left: 0;
@@ -144,11 +145,11 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
           height: 100%;
           background: linear-gradient(90deg, 
             transparent, 
-            rgba(255, 255, 255, 0.15), 
+            rgba(255, 255, 255, 0.2), 
             transparent
           );
-          animation: metalicShine 2s infinite linear;
-          will-change: transform;
+          transform: translateX(-100%);
+          animation: metalicShine 2s linear infinite;
         }
         
         @keyframes spin {
@@ -156,15 +157,77 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
           100% { transform: rotate(360deg); }
         }
         
-        .circular-loader {
-          width: 60px;
-          height: 60px;
-          border: 3px solid rgba(138, 43, 226, 0.1);
-          border-top: 3px solid rgba(138, 43, 226, 0.9);
+        .glowy-text {
+          color: white;
+          animation: textGlow 2s ease-in-out infinite;
+          letter-spacing: 0.05em;
+        }
+        
+        .metalic-bar {
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .metalic-bar:after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 200%;
+          height: 100%;
+          background: linear-gradient(90deg, 
+            transparent, 
+            rgba(255, 255, 255, 0.2), 
+            transparent
+          );
+          transform: translateX(-100%);
+          animation: metalicShine 2s linear infinite;
+        }
+        
+        @keyframes pulse {
+          0% { opacity: 0.7; }
+          50% { opacity: 0.9; }
+          100% { opacity: 0.7; }
+        }
+        
+        @keyframes curtain-up {
+          0% { transform: translateY(0); }
+          100% { transform: translateY(-100%); }
+        }
+        
+        .animate-curtain-up {
+          animation: curtain-up 1.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+        }
+        
+        @keyframes slide-up-exit {
+          0% { transform: translateY(0); opacity: 1; }
+          100% { transform: translateY(-100%); opacity: 0; }
+        }
+        
+        .slide-up-exit {
+          animation: slide-up-exit 0.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+        }
+        
+        .purple-haze {
+          position: absolute;
+          width: 50%;
+          height: 50%;
           border-radius: 50%;
-          animation: spin 1s linear infinite;
-          margin: 0 auto 2rem auto;
-          box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+          background: radial-gradient(circle, rgba(138, 43, 226, 0.4) 0%, rgba(138, 43, 226, 0.1) 50%, rgba(0, 0, 0, 0) 70%);
+          filter: blur(40px);
+          will-change: transform, opacity;
+        }
+        
+        .purple-haze-1 {
+          top: 20%;
+          left: 20%;
+          animation: purpleHaze 8s infinite ease-in-out;
+        }
+        
+        .purple-haze-2 {
+          bottom: 20%;
+          right: 20%;
+          animation: purpleHaze2 10s infinite ease-in-out;
         }
       `;
       
@@ -311,9 +374,6 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
         <p className="text-white text-xl mb-8 font-medium tracking-wide" style={{ fontFamily: "'Roboto', sans-serif" }}>
           YOUR CREATIVE AGENCY
         </p>
-        
-        {/* Circular Loading Animation */}
-        <div className="circular-loader mb-8"></div>
         
         {/* Loading bar container */}
         <div className="w-full h-3 bg-gray-800/30 backdrop-blur-sm rounded-full overflow-hidden mb-4 border border-purple-500/20 metalic-bar">
