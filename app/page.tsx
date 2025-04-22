@@ -620,6 +620,26 @@ export default function Page() {
         .hover-scale:hover {
           transform: scale(1.02);
         }
+        
+        @keyframes pulse {
+          0% { opacity: 0.7; transform: translateY(0); }
+          50% { opacity: 1; transform: translateY(5px); }
+          100% { opacity: 0.7; transform: translateY(0); }
+        }
+        
+        .scroll-arrow {
+          animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        .scroll-arrow-2 {
+          animation: pulse 1.5s ease-in-out infinite;
+          animation-delay: 0.3s;
+        }
+        
+        .scroll-arrow-3 {
+          animation: pulse 1.5s ease-in-out infinite;
+          animation-delay: 0.6s;
+        }
       `}</style>
       
       {/* Only show loading screen on initial site load */}
@@ -669,6 +689,26 @@ export default function Page() {
                   Let&#39;s Begin »
                 </button>
               </Link>
+              
+              {/* New tagline */}
+              <div className="mt-12 md:mt-16">
+                <p className="text-lg md:text-xl text-white font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400 mb-6">
+                  Ready To Improve Your Brand with Limitless AI Solutions?
+                </p>
+                
+                {/* Animated down arrows */}
+                <div className="flex flex-col items-center mt-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 text-purple-500 scroll-arrow">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 text-purple-400 scroll-arrow-2 -mt-2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 text-purple-300 scroll-arrow-3 -mt-2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+                  </svg>
+                </div>
+              </div>
             </div>
           </div>
         </section>
