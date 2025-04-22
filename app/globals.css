@@ -230,49 +230,48 @@ iframe {
   }
 }
 
-/* Add metallic woosh animation */
-@keyframes metallic-woosh {
-  0% {
-    transform: translateX(-100%) skewX(-15deg);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.5;
-  }
-  50% {
-    opacity: 0.7;
-  }
-  100% {
-    transform: translateX(200%) skewX(-15deg);
-    opacity: 0;
-  }
+/* Scribble Path Animation */
+.scribble-path-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+  overflow: hidden;
 }
 
-.metallic-shine::before {
-  content: '';
+.scribble-path {
   position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 300%;
+  background-image: url('/scribble-path.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.7;
+  z-index: 5;
+  transform: translateY(0);
+  will-change: transform;
+}
+
+.scroll-progress-container {
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.05) 20%,
-    rgba(255, 255, 255, 0.2) 40%,
-    rgba(255, 255, 255, 0.3) 50%,
-    rgba(255, 255, 255, 0.2) 60%,
-    rgba(255, 255, 255, 0.05) 80%,
-    transparent 100%
-  );
-  z-index: 2;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateX(-100%) skewX(-15deg);
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 100;
 }
 
-.metallic-shine:hover::before {
-  animation: metallic-woosh 1.2s ease-in-out;
+.scroll-progress-bar {
+  height: 100%;
+  background: linear-gradient(to right, #a855f7, #8b5cf6);
+  width: 0%;
+  transition: width 0.1s ease;
 }
 
 /* Add smooth scale transition */
@@ -308,22 +307,7 @@ iframe {
 }
 
 /* Purple Arrow Animations */
-.arrow-animation {
-  position: absolute;
-  pointer-events: none;
-  z-index: 1;
-  width: 100px;
-  height: 200px;
-  background-image: url('/arrow-down.svg');
-  background-repeat: no-repeat;
-  background-size: contain;
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.arrow-animation.right {
-  transform: translateY(20px) scaleX(-1);
-}
+/* Removed */
 
 .scroll-reveal {
   opacity: 0;
@@ -336,10 +320,7 @@ iframe {
   transform: translateY(0);
 }
 
-.scroll-reveal.revealed .arrow-animation {
-  animation: fade-in-up 0.8s ease-out forwards;
-  animation-delay: 0.2s;
-}
+/* Removed */
 
 @keyframes fade-in-up {
   0% {

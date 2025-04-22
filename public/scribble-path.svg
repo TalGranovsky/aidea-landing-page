@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 3000" width="1200" height="3000">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a855f7" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+  </defs>
+  <path d="M100,100 
+           C200,150 300,50 400,200 
+           S500,250 600,150 
+           S800,300 900,200 
+           S1000,100 1100,300
+           L1000,500
+           C900,600 800,500 700,700
+           S500,800 400,600
+           S200,900 300,1000
+           C400,1100 500,1000 600,1200
+           S800,1300 900,1100
+           S1000,1000 1100,1200
+           C1000,1400 900,1500 800,1600
+           S600,1500 500,1700
+           S300,1800 400,1900
+           C500,2000 600,1900 700,2100
+           S900,2200 1000,2000
+           L900,2200
+           C800,2300 700,2400 600,2500
+           S400,2400 300,2600
+           S200,2800 300,2900
+           L350,2950
+           M300,2900 L250,2850" 
+        stroke="url(#gradient)" 
+        stroke-width="6" 
+        fill="none" 
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-dasharray="6000"
+        stroke-dashoffset="6000">
+    <animate attributeName="stroke-dashoffset" 
+             from="6000" 
+             to="0" 
+             dur="3s" 
+             begin="0s" 
+             fill="freeze"
+             repeatCount="1" />
+  </path>
+</svg>
