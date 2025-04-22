@@ -63,16 +63,6 @@ export default function ClientSideLinks({ onNavigate = () => {}, currentPath, is
           
           <motion.div variants={itemVariants}>
             <Link 
-              href="/services" 
-              onClick={() => handleNavigation('/services')} 
-              className={`block text-3xl font-medium py-3 ${currentPath === '/services' ? 'text-white' : 'text-gray-300 hover:text-white'} transition-colors duration-300`}
-            >
-              Services
-            </Link>
-          </motion.div>
-          
-          <motion.div variants={itemVariants}>
-            <Link 
               href="/projects" 
               onClick={() => handleNavigation('/projects')} 
               className={`block text-3xl font-medium py-3 ${currentPath === '/projects' ? 'text-white' : 'text-gray-300 hover:text-white'} transition-colors duration-300`}
@@ -102,7 +92,6 @@ export default function ClientSideLinks({ onNavigate = () => {}, currentPath, is
     <>
       <Link href="/" onClick={() => handleNavigation('/')} className={`hover:text-white transition-colors duration-200 ${getLinkClass('/')} text-sm`}>Home</Link>
       <Link href="/about" onClick={() => handleNavigation('/about')} className={`hover:text-white transition-colors duration-200 ${getLinkClass('/about')} text-sm`}>About</Link>
-      <Link href="/services" onClick={() => handleNavigation('/services')} className={`hover:text-white transition-colors duration-200 ${getLinkClass('/services')} text-sm`}>Services</Link>
       <Link href="/projects" onClick={() => handleNavigation('/projects')} className={`hover:text-white transition-colors duration-200 ${getLinkClass('/projects')} text-sm`}>Projects</Link>
       {/* Update button styles for desktop */}
       <Link 

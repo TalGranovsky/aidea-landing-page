@@ -625,16 +625,19 @@ export default function Page() {
         
         .scroll-arrow {
           animation: pulse 1.5s ease-in-out infinite;
+          cursor: pointer;
         }
         
         .scroll-arrow-2 {
           animation: pulse 1.5s ease-in-out infinite;
           animation-delay: 0.3s;
+          cursor: pointer;
         }
         
         .scroll-arrow-3 {
           animation: pulse 1.5s ease-in-out infinite;
           animation-delay: 0.6s;
+          cursor: pointer;
         }
         
         @keyframes glow-pulse {
@@ -829,20 +832,28 @@ export default function Page() {
               </Link>
               
               {/* New tagline */}
-              <div className="mt-12 md:mt-16">
+              <div className="mt-12 md:mt-16 mb-8">
                 <p className="text-lg md:text-xl text-white font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400 mb-6">
                   Ready To Improve Your Brand with Limitless AI Solutions?
                 </p>
                 
-                {/* Animated down arrows */}
-                <div className="flex flex-col items-center mt-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 text-purple-500 scroll-arrow">
+                {/* Animated down arrows - larger, lower, and clickable */}
+                <div 
+                  className="flex flex-col items-center mt-8 cursor-pointer" 
+                  onClick={() => {
+                    const projectsSection = document.getElementById('projects');
+                    if (projectsSection) {
+                      projectsSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 text-purple-500 scroll-arrow">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
                   </svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 text-purple-400 scroll-arrow-2 -mt-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 text-purple-400 scroll-arrow-2 -mt-3">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
                   </svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 text-purple-300 scroll-arrow-3 -mt-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 text-purple-300 scroll-arrow-3 -mt-3">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
                   </svg>
                 </div>
@@ -903,101 +914,90 @@ export default function Page() {
           </div>
         </section>
 
-        {/* Our Services Section */}
-        <section id="services" className="py-12 md:py-20 px-4 sm:px-6 bg-black relative">
-          <div className="max-w-[1200px] mx-auto relative z-10">
-            <h2 className={`text-3xl md:text-5xl lg:text-6xl font-bold mb-12 md:mb-16 ${roboto.className} text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600 purple-glow`}>
-              Explore our Services
-            </h2>
-            
-            {/* Single service phrase with elegant animation */}
-            <div className="mb-16">
-              <div className="phrase-card rounded-xl p-6 md:p-8 bg-gradient-to-r from-purple-900/30 via-indigo-900/20 to-blue-900/30 elegant-reveal max-w-3xl mx-auto">
-                <p className="text-white font-bold text-xl md:text-2xl lg:text-3xl text-center">
-                  Get Ready to Elevate with Top-Tier AI Services.
-                </p>
-                <div className="w-32 h-1 bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 mt-4 rounded-full mx-auto"></div>
-              </div>
-            </div>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 md:gap-8">
-              {/* Top Left: Service Card 1 */}
-              <div className="service-card p-6 md:p-8 bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-900/30 sm:col-span-1 lg:col-span-3 flex flex-col items-center justify-center hover-scale metallic-shine relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
-                <div className="w-16 h-16 md:w-20 md:h-20 bg-purple-900/40 rounded-full mb-4 md:mb-6 flex items-center justify-center relative z-10">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
-                  </svg>
+        {/* Projects Section */}
+        <section id="projects" className="py-12 md:py-20 px-4 sm:px-6 bg-black relative">
+          <div className="max-w-md mx-auto text-center">
+            <h2 className={`text-2xl md:text-4xl font-medium mb-4 md:mb-6 ${roboto.className}`}>OUR PROJECTS</h2>
+            <div className="max-w-md mx-auto">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 md:gap-8">
+                {/* Top Left: Project Card 1 */}
+                <div className="project-card p-6 md:p-8 bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-900/30 sm:col-span-1 lg:col-span-3 flex flex-col items-center justify-center hover-scale metallic-shine relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
+                  <div className="w-16 h-16 md:w-20 md:h-20 bg-purple-900/40 rounded-full mb-4 md:mb-6 flex items-center justify-center relative z-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center">Project 1</h3>
+                  <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-purple-600/80 to-blue-600/80 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 md:w-7 md:h-7">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
+                    </svg>
+                  </div>
                 </div>
-                <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center">Image Generation</h3>
-                <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-purple-600/80 to-blue-600/80 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 md:w-7 md:h-7">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
-                  </svg>
+                
+                {/* Center: Featured Card */}
+                <div className="project-card p-6 md:p-10 col-span-1 sm:col-span-2 lg:col-span-6 lg:row-span-2 bg-gradient-to-br from-purple-900/20 to-blue-900/20 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-900/30 flex flex-col items-center justify-center hover-scale metallic-shine relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/30 via-transparent to-blue-600/30 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
+                  <h3 className="text-2xl md:text-3xl font-bold mb-6 md:mb-10 text-center">Featured Project</h3>
+                  <div className="w-16 h-16 md:w-24 md:h-24 bg-gradient-to-br from-purple-600/80 to-blue-600/80 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform shadow-lg shadow-purple-500/20 relative z-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-12 md:h-12">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
+                    </svg>
+                  </div>
                 </div>
-              </div>
-              
-              {/* Center: Featured Card */}
-              <div className="service-card p-6 md:p-10 col-span-1 sm:col-span-2 lg:col-span-6 lg:row-span-2 bg-gradient-to-br from-purple-900/20 to-blue-900/20 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-900/30 flex flex-col items-center justify-center hover-scale metallic-shine relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/30 via-transparent to-blue-600/30 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
-                <h3 className="text-2xl md:text-3xl font-bold mb-6 md:mb-10 text-center">Experience Our Work</h3>
-                <div className="w-16 h-16 md:w-24 md:h-24 bg-gradient-to-br from-purple-600/80 to-blue-600/80 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform shadow-lg shadow-purple-500/20 relative z-10">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-12 md:h-12">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
-                  </svg>
+                
+                {/* Top Right: Project Card 2 */}
+                <div className="project-card p-6 md:p-8 bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-900/30 sm:col-span-1 lg:col-span-3 flex flex-col items-center justify-center hover-scale metallic-shine relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
+                  <div className="w-16 h-16 md:w-20 md:h-20 bg-blue-900/40 rounded-full mb-4 md:mb-6 flex items-center justify-center relative z-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10">
+                      <path strokeLinecap="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center">Project 2</h3>
+                  <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-purple-600/80 to-blue-600/80 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 md:w-7 md:h-7">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
+                    </svg>
+                  </div>
                 </div>
-              </div>
-              
-              {/* Top Right: Service Card 2 */}
-              <div className="service-card p-6 md:p-8 bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-900/30 sm:col-span-1 lg:col-span-3 flex flex-col items-center justify-center hover-scale metallic-shine relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
-                <div className="w-16 h-16 md:w-20 md:h-20 bg-blue-900/40 rounded-full mb-4 md:mb-6 flex items-center justify-center relative z-10">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10">
-                    <path strokeLinecap="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
-                  </svg>
+                
+                {/* Bottom Left: Project Card 4 */}
+                <div className="project-card p-6 md:p-8 bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-900/30 sm:col-span-1 lg:col-span-3 flex flex-col items-center justify-center hover-scale metallic-shine relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
+                  <div className="w-16 h-16 md:w-20 md:h-20 bg-pink-900/40 rounded-full mb-4 md:mb-6 flex items-center justify-center relative z-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center">Project 4</h3>
+                  <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-purple-600/80 to-blue-600/80 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 md:w-7 md:h-7">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
+                    </svg>
+                  </div>
                 </div>
-                <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center">Video Generation</h3>
-                <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-purple-600/80 to-blue-600/80 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 md:w-7 md:h-7">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
-                  </svg>
-                </div>
-              </div>
-              
-              {/* Bottom Left: Service Card 4 */}
-              <div className="service-card p-6 md:p-8 bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-900/30 sm:col-span-1 lg:col-span-3 flex flex-col items-center justify-center hover-scale metallic-shine relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
-                <div className="w-16 h-16 md:w-20 md:h-20 bg-pink-900/40 rounded-full mb-4 md:mb-6 flex items-center justify-center relative z-10">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center">Music Production</h3>
-                <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-purple-600/80 to-blue-600/80 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 md:w-7 md:h-7">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
-                  </svg>
-                </div>
-              </div>
-              
-              {/* Bottom Right: Service Card 5 */}
-              <div className="service-card p-6 md:p-8 bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-900/30 sm:col-span-1 lg:col-span-3 flex flex-col items-center justify-center hover-scale metallic-shine relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
-                <div className="w-16 h-16 md:w-20 md:h-20 bg-green-900/40 rounded-full mb-4 md:mb-6 flex items-center justify-center relative z-10">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
-                  </svg>
-                </div>
-                <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center">3D Models</h3>
-                <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-purple-600/80 to-blue-600/80 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 md:w-7 md:h-7">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
-                  </svg>
+                
+                {/* Bottom Right: Project Card 5 */}
+                <div className="project-card p-6 md:p-8 bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-900/30 sm:col-span-1 lg:col-span-3 flex flex-col items-center justify-center hover-scale metallic-shine relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
+                  <div className="w-16 h-16 md:w-20 md:h-20 bg-green-900/40 rounded-full mb-4 md:mb-6 flex items-center justify-center relative z-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center">Project 5</h3>
+                  <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-purple-600/80 to-blue-600/80 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 md:w-7 md:h-7">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
