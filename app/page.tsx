@@ -796,12 +796,12 @@ export default function Page() {
           animation-delay: 0.8s;
         }
         
-        .scribble-1 {
+        .arrow-animation {
           position: absolute;
-          width: 200px;
+          width: 100px;
           height: 200px;
-          background-image: url('/scribble-1.svg');
-          background-size: cover;
+          background-image: url('/arrow-down.svg');
+          background-size: contain;
           background-position: center;
           background-repeat: no-repeat;
           z-index: -1;
@@ -809,45 +809,18 @@ export default function Page() {
           transform: translateY(20px);
         }
         
-        .scribble-2 {
-          position: absolute;
-          width: 200px;
-          height: 200px;
-          background-image: url('/scribble-2.svg');
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
-          z-index: -1;
-          opacity: 0;
-          transform: translateY(20px);
+        .arrow-animation.right {
+          transform: translateY(20px) scaleX(-1);
         }
         
-        .scribble-arrow {
-          position: absolute;
-          width: 200px;
-          height: 200px;
-          background-image: url('/scribble-arrow.svg');
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
-          z-index: -1;
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        
-        .scroll-reveal.revealed .scribble-1 {
+        .scroll-reveal.revealed .arrow-animation {
           animation: reveal-text 0.8s ease-out forwards;
           animation-delay: 0.2s;
         }
         
-        .scroll-reveal.revealed .scribble-2 {
+        .scroll-reveal.revealed .arrow-animation.right {
           animation: reveal-text 0.8s ease-out forwards;
           animation-delay: 0.5s;
-        }
-        
-        .scroll-reveal.revealed .scribble-arrow {
-          animation: reveal-text 0.8s ease-out forwards;
-          animation-delay: 0.8s;
         }
         
         @keyframes glow-pulse {
@@ -893,13 +866,16 @@ export default function Page() {
           
           <div className="hero-glow z-[1]" />
           <div className="scroll-reveal">
-            <div className="scribble-1" style={{ left: '15%', top: '25%' }}></div>
+            <div className="arrow-animation" style={{ left: '15%', top: '25%' }}></div>
           </div>
           <div className="scroll-reveal">
-            <div className="scribble-2" style={{ right: '20%', bottom: '35%' }}></div>
+            <div className="arrow-animation right" style={{ right: '15%', top: '25%' }}></div>
           </div>
           <div className="scroll-reveal">
-            <div className="scribble-arrow" style={{ right: '10%', top: '30%' }}></div>
+            <div className="arrow-animation" style={{ left: '40%', top: '40%' }}></div>
+          </div>
+          <div className="scroll-reveal">
+            <div className="arrow-animation right" style={{ right: '40%', top: '40%' }}></div>
           </div>
           <div className="max-w-[1200px] w-full mx-auto text-center relative z-10">
             <div className="flex flex-col items-center justify-center pt-16 sm:pt-12 md:pt-8 lg:pt-0">
@@ -1001,10 +977,10 @@ export default function Page() {
         {/* Projects Section */}
         <section id="projects" className="py-12 md:py-20 px-4 sm:px-6 bg-black relative">
           <div className="scroll-reveal">
-            <div className="scribble-1" style={{ left: '5%', top: '-30px' }}></div>
+            <div className="arrow-animation" style={{ left: '10%', top: '-30px' }}></div>
           </div>
           <div className="scroll-reveal">
-            <div className="scribble-2" style={{ right: '10%', top: '0px' }}></div>
+            <div className="arrow-animation right" style={{ right: '10%', top: '-30px' }}></div>
           </div>
           <div className="max-w-[1400px] mx-auto relative z-10">
             <h2 className={`text-3xl md:text-5xl lg:text-6xl font-bold mb-12 md:mb-16 ${roboto.className} text-center`}>
@@ -1100,13 +1076,10 @@ export default function Page() {
         {/* Advantages Section */}
         <section className="py-16 md:py-24 px-4 sm:px-6 bg-gradient-to-b from-black to-[#0c0118] relative">
           <div className="scroll-reveal">
-            <div className="scribble-2" style={{ left: '10%', top: '50px' }}></div>
+            <div className="arrow-animation" style={{ left: '10%', top: '50px' }}></div>
           </div>
           <div className="scroll-reveal">
-            <div className="scribble-1" style={{ right: '15%', bottom: '100px' }}></div>
-          </div>
-          <div className="scroll-reveal">
-            <div className="scribble-arrow" style={{ left: '5%', top: '20%', height: '400px' }}></div>
+            <div className="arrow-animation right" style={{ right: '10%', top: '50px' }}></div>
           </div>
           <div className="max-w-[1400px] mx-auto relative z-10">
             <h2 className={`text-3xl md:text-5xl lg:text-6xl font-bold mb-12 md:mb-16 ${roboto.className} text-center`}>
