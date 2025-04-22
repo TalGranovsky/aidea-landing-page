@@ -310,7 +310,28 @@ export default function Page() {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
-  
+
+  // Scroll animation for scribbles
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollElements = document.querySelectorAll('.scroll-reveal');
+      scrollElements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const elementVisible = 150;
+        if (elementTop < window.innerHeight - elementVisible) {
+          element.classList.add('revealed');
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check on initial load
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   // Filter countries based on search term
   const filteredCountries = COUNTRY_CODES.filter(country => {
     const searchLower = countrySearchTerm.toLowerCase()
@@ -640,16 +661,6 @@ export default function Page() {
           cursor: pointer;
         }
         
-        @keyframes glow-pulse {
-          0% { text-shadow: 0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3); }
-          50% { text-shadow: 0 0 15px rgba(139, 92, 246, 0.8), 0 0 30px rgba(139, 92, 246, 0.5); }
-          100% { text-shadow: 0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3); }
-        }
-        
-        .purple-glow {
-          animation: glow-pulse 3s ease-in-out infinite;
-        }
-        
         @keyframes reveal-text {
           0% { opacity: 0; transform: translateY(20px); }
           100% { opacity: 1; transform: translateY(0); }
@@ -784,6 +795,70 @@ export default function Page() {
           animation: blur-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           animation-delay: 0.8s;
         }
+        
+        .scribble-1 {
+          position: absolute;
+          width: 200px;
+          height: 200px;
+          background-image: url('/scribble-1.svg');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          z-index: -1;
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        
+        .scribble-2 {
+          position: absolute;
+          width: 200px;
+          height: 200px;
+          background-image: url('/scribble-2.svg');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          z-index: -1;
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        
+        .scribble-arrow {
+          position: absolute;
+          width: 200px;
+          height: 200px;
+          background-image: url('/scribble-arrow.svg');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          z-index: -1;
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        
+        .scroll-reveal.revealed .scribble-1 {
+          animation: reveal-text 0.8s ease-out forwards;
+          animation-delay: 0.2s;
+        }
+        
+        .scroll-reveal.revealed .scribble-2 {
+          animation: reveal-text 0.8s ease-out forwards;
+          animation-delay: 0.5s;
+        }
+        
+        .scroll-reveal.revealed .scribble-arrow {
+          animation: reveal-text 0.8s ease-out forwards;
+          animation-delay: 0.8s;
+        }
+        
+        @keyframes glow-pulse {
+          0% { text-shadow: 0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3); }
+          50% { text-shadow: 0 0 15px rgba(139, 92, 246, 0.8), 0 0 30px rgba(139, 92, 246, 0.5); }
+          100% { text-shadow: 0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3); }
+        }
+        
+        .purple-glow {
+          animation: glow-pulse 3s ease-in-out infinite;
+        }
       `}</style>
       
       {/* Only show loading screen on initial site load */}
@@ -817,6 +892,15 @@ export default function Page() {
           </div>
           
           <div className="hero-glow z-[1]" />
+          <div className="scroll-reveal">
+            <div className="scribble-1" style={{ left: '15%', top: '25%' }}></div>
+          </div>
+          <div className="scroll-reveal">
+            <div className="scribble-2" style={{ right: '20%', bottom: '35%' }}></div>
+          </div>
+          <div className="scroll-reveal">
+            <div className="scribble-arrow" style={{ right: '10%', top: '30%' }}></div>
+          </div>
           <div className="max-w-[1200px] w-full mx-auto text-center relative z-10">
             <div className="flex flex-col items-center justify-center pt-16 sm:pt-12 md:pt-8 lg:pt-0">
               <h1 className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 ${roboto.className} text-white leading-tight max-w-3xl mx-auto text-shadow-purple`}>
@@ -916,6 +1000,12 @@ export default function Page() {
 
         {/* Projects Section */}
         <section id="projects" className="py-12 md:py-20 px-4 sm:px-6 bg-black relative">
+          <div className="scroll-reveal">
+            <div className="scribble-1" style={{ left: '5%', top: '-30px' }}></div>
+          </div>
+          <div className="scroll-reveal">
+            <div className="scribble-2" style={{ right: '10%', top: '0px' }}></div>
+          </div>
           <div className="max-w-[1400px] mx-auto relative z-10">
             <h2 className={`text-3xl md:text-5xl lg:text-6xl font-bold mb-12 md:mb-16 ${roboto.className} text-center`}>
               <span className="text-white">Explore our</span>{" "}
@@ -975,7 +1065,7 @@ export default function Page() {
                   <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
                   <div className="w-20 h-20 md:w-24 md:h-24 bg-pink-900/40 rounded-full mb-6 md:mb-8 flex items-center justify-center relative z-10">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 md:w-12 md:h-12">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z" />
                     </svg>
                   </div>
                   <h3 className="text-xl md:text-2xl font-bold mb-6 md:mb-8 text-center">Project 4</h3>
@@ -1009,6 +1099,15 @@ export default function Page() {
 
         {/* Advantages Section */}
         <section className="py-16 md:py-24 px-4 sm:px-6 bg-gradient-to-b from-black to-[#0c0118] relative">
+          <div className="scroll-reveal">
+            <div className="scribble-2" style={{ left: '10%', top: '50px' }}></div>
+          </div>
+          <div className="scroll-reveal">
+            <div className="scribble-1" style={{ right: '15%', bottom: '100px' }}></div>
+          </div>
+          <div className="scroll-reveal">
+            <div className="scribble-arrow" style={{ left: '5%', top: '20%', height: '400px' }}></div>
+          </div>
           <div className="max-w-[1400px] mx-auto relative z-10">
             <h2 className={`text-3xl md:text-5xl lg:text-6xl font-bold mb-12 md:mb-16 ${roboto.className} text-center`}>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600 purple-glow">Advantages</span>{" "}
@@ -1031,7 +1130,7 @@ export default function Page() {
               <div className="bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 p-8 hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-900/20 group">
                 <div className="w-16 h-16 bg-gradient-to-br from-purple-600/80 to-blue-600/80 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-white">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 013.296-1.043 3.745 3.745 0 011.043-3.296A3.745 3.745 0 0121 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 013.296-1.043 3.746 3.746 0 011.043-3.296A3.745 3.745 0 0121 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
                   </svg>
                 </div>
                 <h3 className="text-xl md:text-2xl font-bold mb-4 text-white">Unmatched Quality</h3>

@@ -49,9 +49,9 @@ export default function Navbar({ onNavigate = () => {}, currentPath }: NavbarPro
   };
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-black/90' : 'bg-black/50'} backdrop-filter backdrop-blur-lg border-b border-gray-800/50 shadow-lg`}>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <header className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-black/80 backdrop-blur-md shadow-lg' : 'bg-transparent'}`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20 md:h-24 lg:h-[80px]">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center text-white font-bold text-xl tracking-wider">
             <Link href="/" className="hover:text-blue-400 transition-colors duration-200">AIDEA</Link>
