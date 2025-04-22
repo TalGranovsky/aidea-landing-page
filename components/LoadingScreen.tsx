@@ -151,36 +151,46 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
     }
   }, []);
   
-  // Handle loading progress simulation
+  // Simulate loading progress
   useEffect(() => {
     if (!initialRenderComplete.current) return;
+    
+    // Force minimum loading time to prevent jumps
+    const minLoadingTime = 2500; // 2.5 seconds minimum loading time
+    const startTime = Date.now();
     
     const simulateLoading = (timestamp: number) => {
       const currentTime = Date.now();
       const deltaTime = currentTime - lastUpdateTime.current;
+      const elapsedTime = currentTime - startTime;
       
-      // Only update if enough time has passed (throttle updates for better performance)
-      if (deltaTime > 40) { // Reduced from 50ms to 40ms for slightly faster updates
+      // Only update every 50ms for smoother progress
+      if (deltaTime > 50) {
         lastUpdateTime.current = currentTime;
         
-        // Optimize increments for faster loading
-        let increment: number;
+        // Calculate progress based on elapsed time, but ensure it doesn't reach 100% too quickly
+        let increment;
         
+        // First phase: slow start (0-30%)
         if (progress < 30) {
-          // Start faster (early loading)
-          increment = Math.random() * 2.5 + 1.5; // Increased speed
-        } else if (progress < 60) {
-          // Medium speed (middle loading)
-          increment = Math.random() * 2 + 0.8; // Increased speed
-        } else if (progress < 80) {
-          // Slow down (later loading)
-          increment = Math.random() * 1 + 0.3; // Increased speed
-        } else if (progress < 95) {
-          // Very slow (final loading)
-          increment = Math.random() * 0.5 + 0.2; // Increased speed
-        } else {
-          // Final push to 100%
-          increment = Math.random() * 0.3 + 0.1; // Increased speed
+          increment = Math.random() * 0.3 + 0.1; // 0.1-0.4% increment
+        } 
+        // Second phase: moderate speed (30-70%)
+        else if (progress < 70) {
+          increment = Math.random() * 0.5 + 0.2; // 0.2-0.7% increment
+        } 
+        // Final phase: slow down (70-99%)
+        else if (progress < 99) {
+          increment = Math.random() * 0.2 + 0.05; // 0.05-0.25% increment
+        } 
+        // Ensure we reach exactly 100% at the end
+        else {
+          increment = 0;
+          
+          // Only reach 100% if minimum time has elapsed
+          if (elapsedTime >= minLoadingTime) {
+            increment = Math.random() * 0.3 + 0.1; // Final push to 100%
+          }
         }
         
         setProgress(prevProgress => {
@@ -188,31 +198,37 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
           
           // When we reach 100%, show the curtain and trigger the completion callback
           if (newProgress >= 100 && prevProgress < 100) {
-            // Apply slide-up animation to the entire loading screen
-            const loadingScreen = document.querySelector('.loading-screen');
-            if (loadingScreen) {
-              loadingScreen.classList.add('slide-up-exit');
-            }
-            
-            // After animation completes, call onLoadingComplete
-            setTimeout(() => {
-              // Restore scrolling
-              if (typeof document !== 'undefined') {
-                document.documentElement.style.overflow = 'visible';
-                document.body.style.overflow = 'visible';
-                document.body.style.overflowY = 'auto';
+            // Only proceed if minimum loading time has elapsed
+            if (elapsedTime >= minLoadingTime) {
+              // Apply slide-up animation to the entire loading screen
+              const loadingScreen = document.querySelector('.loading-screen');
+              if (loadingScreen) {
+                loadingScreen.classList.add('slide-up-exit');
               }
               
-              onLoadingComplete();
-            }, 800); // Match with animation duration
-            return 100;
+              // After animation completes, call onLoadingComplete
+              setTimeout(() => {
+                // Restore scrolling
+                if (typeof document !== 'undefined') {
+                  document.documentElement.style.overflow = 'visible';
+                  document.body.style.overflow = 'visible';
+                  document.body.style.overflowY = 'auto';
+                }
+                
+                onLoadingComplete();
+              }, 800); // Match with animation duration
+              return 100;
+            } else {
+              // If minimum time hasn't elapsed, cap at 99%
+              return 99;
+            }
           }
           return newProgress;
         });
       }
       
-      // Continue animation loop if not at 100%
-      if (progress < 100) {
+      // Continue animation loop if not at 100% or if minimum time hasn't elapsed
+      if (progress < 100 || elapsedTime < minLoadingTime) {
         animationFrameRef.current = requestAnimationFrame(simulateLoading);
       }
     };

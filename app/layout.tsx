@@ -78,6 +78,17 @@ export default function RootLayout({
             background-color: #000000 !important;
             color: #ffffff;
           }
+          
+          /* Prevent flash of unstyled content */
+          .js-loading {
+            opacity: 0;
+          }
+          
+          /* Will be set to visible by JavaScript */
+          .js-loaded {
+            opacity: 1;
+            transition: opacity 0.3s ease;
+          }
         `}</style>
         <script dangerouslySetInnerHTML={{
           __html: `

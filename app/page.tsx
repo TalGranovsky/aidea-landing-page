@@ -278,6 +278,9 @@ export default function Page() {
     document.documentElement.style.backgroundColor = '#000000';
     document.body.style.backgroundColor = '#000000';
     
+    // Prevent FOUC (Flash of Unstyled Content)
+    document.documentElement.classList.add('js-loading');
+    
     // Only run on client side
     if (typeof window !== 'undefined') {
       // Check if this is the first load of the site
@@ -290,14 +293,22 @@ export default function Page() {
         sessionStorage.setItem('hasVisitedSite', 'true');
       } else {
         // Not first visit, skip loading screen
-        setIsLoading(false);
-        setShowLoadingScreen(false);
+        setTimeout(() => {
+          setIsLoading(false);
+          setShowLoadingScreen(false);
+          document.documentElement.classList.remove('js-loading');
+        }, 100); // Small delay to ensure smooth transition
       }
     }
+    
+    return () => {
+      document.documentElement.classList.remove('js-loading');
+    };
   }, []);
 
   // Handle loading completion
   const handleLoadingComplete = () => {
+    document.documentElement.classList.remove('js-loading');
     setIsLoading(false);
     setShowLoadingScreen(false);
   };
