@@ -20,13 +20,15 @@ export default function Navbar({ onNavigate = () => {}, currentPath }: NavbarPro
         setScrolled(isScrolled);
       }
     };
-
-    document.addEventListener('scroll', handleScroll, { passive: true });
-    // Check scroll position immediately on mount
+    
+    // Force initial check
     handleScroll();
     
+    // Add event listener
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
     return () => {
-      document.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, [scrolled]);
 
@@ -57,7 +59,7 @@ export default function Navbar({ onNavigate = () => {}, currentPath }: NavbarPro
   };
 
   return (
-    <header className="fixed w-full z-50 transition-all duration-300 bg-black/90 backdrop-blur-md shadow-lg">
+    <header className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-black/90 backdrop-blur-md shadow-lg' : 'bg-black/70 backdrop-blur-sm'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 md:h-24 lg:h-[80px]">
           {/* Logo */}

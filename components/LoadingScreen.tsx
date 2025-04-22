@@ -153,14 +153,8 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
   
   // Handle loading progress simulation
   useEffect(() => {
-    // Force black background immediately
-    if (typeof document !== 'undefined') {
-      document.documentElement.style.backgroundColor = '#000000';
-      document.body.style.backgroundColor = '#000000';
-    }
-    
     if (!initialRenderComplete.current) return;
-
+    
     const simulateLoading = (timestamp: number) => {
       const currentTime = Date.now();
       const deltaTime = currentTime - lastUpdateTime.current;
