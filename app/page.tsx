@@ -1007,6 +1007,51 @@ export default function Page() {
           </div>
         </section>
 
+        {/* Advantages Section */}
+        <section className="py-16 md:py-24 px-4 sm:px-6 bg-gradient-to-b from-black to-[#0c0118] relative">
+          <div className="max-w-[1400px] mx-auto relative z-10">
+            <h2 className={`text-3xl md:text-5xl lg:text-6xl font-bold mb-12 md:mb-16 ${roboto.className} text-center`}>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600 purple-glow">Advantages</span>{" "}
+              <span className="text-white">of our Services</span>
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+              {/* Advantage 1 */}
+              <div className="bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 p-8 hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-900/20 group">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-600/80 to-blue-600/80 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-white">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl md:text-2xl font-bold mb-4 text-white">Lightning Fast</h3>
+                <p className="text-gray-300">Our AI-powered services deliver results in seconds, not hours. Experience the fastest turnaround times in the industry.</p>
+              </div>
+              
+              {/* Advantage 2 */}
+              <div className="bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 p-8 hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-900/20 group">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-600/80 to-blue-600/80 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-white">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 013.296-1.043 3.745 3.745 0 011.043-3.296A3.745 3.745 0 0121 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl md:text-2xl font-bold mb-4 text-white">Unmatched Quality</h3>
+                <p className="text-gray-300">We combine cutting-edge AI with expert human oversight to ensure every project meets the highest standards of quality.</p>
+              </div>
+              
+              {/* Advantage 3 */}
+              <div className="bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 p-8 hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-900/20 group">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-600/80 to-blue-600/80 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-white">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" />
+                  </svg>
+                </div>
+                <h3 className="text-xl md:text-2xl font-bold mb-4 text-white">Endless Scalability</h3>
+                <p className="text-gray-300">Whether you need one project or one thousand, our platform scales effortlessly to meet your business demands.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Contact Section */}
         <section id="contact" className="py-12 md:py-20 px-4 sm:px-6 relative">
           <div className="max-w-md mx-auto text-center">
