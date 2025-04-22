@@ -711,6 +711,10 @@ export default function Page() {
             filter: blur(10px);
             transform: translateY(10px);
           }
+          30% {
+            opacity: 0.5;
+            filter: blur(4px);
+          }
           100% { 
             opacity: 1; 
             filter: blur(0);
@@ -738,8 +742,26 @@ export default function Page() {
           transition: opacity 0.3s ease;
         }
         
-        .phrase-card:hover::before {
-          opacity: 1;
+        .elegant-reveal {
+          opacity: 0;
+          animation: elegant-reveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        
+        @keyframes elegant-reveal {
+          0% { 
+            opacity: 0; 
+            transform: translateY(20px);
+            filter: blur(8px);
+          }
+          30% {
+            opacity: 0.5;
+            filter: blur(4px);
+          }
+          100% { 
+            opacity: 1; 
+            transform: translateY(0);
+            filter: blur(0);
+          }
         }
         
         .blur-in-1 {
@@ -888,33 +910,13 @@ export default function Page() {
               Explore our Services
             </h2>
             
-            {/* Service phrases in a responsive grid layout */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 mb-16">
-              {/* First phrase - spans 5 columns on desktop */}
-              <div className="md:col-span-5 phrase-card rounded-xl p-5 bg-gradient-to-br from-purple-900/30 to-indigo-900/30 blur-in-1">
-                <p className="text-white font-bold text-lg md:text-xl lg:text-2xl">
-                  Our services are on another level.
-                </p>
-                <div className="w-16 h-1 bg-gradient-to-r from-purple-500 to-indigo-500 mt-3 rounded-full"></div>
-              </div>
-              
-              {/* Spacer column */}
-              <div className="hidden md:block md:col-span-2"></div>
-              
-              {/* Second phrase - spans 5 columns on desktop */}
-              <div className="md:col-span-5 phrase-card rounded-xl p-5 bg-gradient-to-br from-indigo-900/30 to-blue-900/30 blur-in-2">
-                <p className="text-white font-bold text-lg md:text-xl lg:text-2xl">
-                  Our projects will change you and your business forever.
-                </p>
-                <div className="w-16 h-1 bg-gradient-to-r from-indigo-500 to-blue-500 mt-3 rounded-full"></div>
-              </div>
-              
-              {/* Third phrase - spans full width and centered */}
-              <div className="md:col-span-12 md:col-start-1 phrase-card rounded-xl p-5 md:p-6 bg-gradient-to-r from-violet-900/30 to-purple-900/30 blur-in-3 md:w-3/4 mx-auto">
-                <p className="text-white font-bold text-lg md:text-xl lg:text-2xl text-center">
+            {/* Single service phrase with elegant animation */}
+            <div className="mb-16">
+              <div className="phrase-card rounded-xl p-6 md:p-8 bg-gradient-to-r from-purple-900/30 via-indigo-900/20 to-blue-900/30 elegant-reveal max-w-3xl mx-auto">
+                <p className="text-white font-bold text-xl md:text-2xl lg:text-3xl text-center">
                   Get Ready to Elevate with Top-Tier AI Services.
                 </p>
-                <div className="w-24 h-1 bg-gradient-to-r from-violet-500 to-purple-500 mt-3 rounded-full mx-auto"></div>
+                <div className="w-32 h-1 bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 mt-4 rounded-full mx-auto"></div>
               </div>
             </div>
             
@@ -940,7 +942,7 @@ export default function Page() {
               <div className="service-card p-6 md:p-10 col-span-1 sm:col-span-2 lg:col-span-6 lg:row-span-2 bg-gradient-to-br from-purple-900/20 to-blue-900/20 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-900/30 flex flex-col items-center justify-center hover-scale metallic-shine relative overflow-hidden group">
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                 <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/30 via-transparent to-blue-600/30 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
-                <h3 className="text-2xl md:text-3xl font-bold mb-6 md:mb-10 text-center relative z-10">Experience Our Work</h3>
+                <h3 className="text-2xl md:text-3xl font-bold mb-6 md:mb-10 text-center">Experience Our Work</h3>
                 <div className="w-16 h-16 md:w-24 md:h-24 bg-gradient-to-br from-purple-600/80 to-blue-600/80 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform shadow-lg shadow-purple-500/20 relative z-10">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-12 md:h-12">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
