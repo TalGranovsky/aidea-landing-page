@@ -696,7 +696,7 @@ export default function Page() {
                 
                 {/* Animated down arrows - larger, lower, and clickable */}
                 <div 
-                  className="flex flex-col items-center mt-8 cursor-pointer" 
+                  className="flex flex-col items-center mt-12 md:mt-16 cursor-pointer" 
                   onClick={() => {
                     const projectsSection = document.getElementById('projects');
                     if (projectsSection) {
@@ -704,15 +704,17 @@ export default function Page() {
                     }
                   }}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 text-purple-500 scroll-arrow">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
-                  </svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 text-purple-400 scroll-arrow-2 -mt-3">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
-                  </svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 text-purple-300 scroll-arrow-3 -mt-3">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
-                  </svg>
+                  <div className="flex flex-col items-center space-y-6 md:space-y-8">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 text-purple-500 scroll-arrow">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 text-purple-500 scroll-arrow-2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 text-purple-500 scroll-arrow-3">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
@@ -855,7 +857,7 @@ export default function Page() {
                   <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
                   <div className="w-20 h-20 md:w-24 md:h-24 bg-green-900/40 rounded-full mb-6 md:mb-8 flex items-center justify-center relative z-10">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 md:w-12 md:h-12">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+                      <path strokeLinecap="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
                     </svg>
                   </div>
                   <h3 className="text-xl md:text-2xl font-bold mb-6 md:mb-8 text-center">Project 5</h3>
@@ -1261,6 +1263,39 @@ export default function Page() {
           animation-delay: 1.1s;
         }
         
+        @keyframes glow-pulse {
+          0% { text-shadow: 0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3); }
+          50% { text-shadow: 0 0 15px rgba(139, 92, 246, 0.8), 0 0 30px rgba(139, 92, 246, 0.5); }
+          100% { text-shadow: 0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3); }
+        }
+        
+        .purple-glow {
+          animation: glow-pulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes fade-in-scale {
+          0% { opacity: 0; transform: scale(0.8); }
+          100% { opacity: 1; transform: scale(1); }
+        }
+        
+        .slide-in-left {
+          opacity: 0;
+          animation: slide-in-left 0.8s ease-out forwards;
+          animation-delay: 0.3s;
+        }
+        
+        .slide-in-right {
+          opacity: 0;
+          animation: slide-in-right 0.8s ease-out forwards;
+          animation-delay: 0.7s;
+        }
+        
+        .fade-in-scale {
+          opacity: 0;
+          animation: fade-in-scale 1s ease-out forwards;
+          animation-delay: 1.1s;
+        }
+        
         @keyframes blur-in {
           0% { 
             opacity: 0; 
@@ -1336,16 +1371,6 @@ export default function Page() {
           opacity: 0;
           animation: blur-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           animation-delay: 0.8s;
-        }
-        
-        @keyframes glow-pulse {
-          0% { text-shadow: 0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3); }
-          50% { text-shadow: 0 0 15px rgba(139, 92, 246, 0.8), 0 0 30px rgba(139, 92, 246, 0.5); }
-          100% { text-shadow: 0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3); }
-        }
-        
-        .purple-glow {
-          animation: glow-pulse 3s ease-in-out infinite;
         }
       `}</style>
     </>

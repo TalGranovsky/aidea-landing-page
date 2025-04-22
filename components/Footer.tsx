@@ -34,12 +34,6 @@ export default function Footer({ currentPath }: FooterProps) {
               Home
             </Link>
             <Link 
-              href="/services" 
-              className={`text-xs md:text-sm ${getLinkClass('/services')}`}
-            >
-              Services
-            </Link>
-            <Link 
               href="/about" 
               className={`text-xs md:text-sm ${getLinkClass('/about')}`}
             >
