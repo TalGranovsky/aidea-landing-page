@@ -671,6 +671,39 @@ export default function Page() {
           animation: reveal-text 0.8s ease-out forwards;
           animation-delay: 1s;
         }
+        
+        @keyframes slide-in-left {
+          0% { opacity: 0; transform: translateX(-50px); }
+          100% { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes slide-in-right {
+          0% { opacity: 0; transform: translateX(50px); }
+          100% { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes fade-in-scale {
+          0% { opacity: 0; transform: scale(0.8); }
+          100% { opacity: 1; transform: scale(1); }
+        }
+        
+        .slide-in-left {
+          opacity: 0;
+          animation: slide-in-left 0.8s ease-out forwards;
+          animation-delay: 0.3s;
+        }
+        
+        .slide-in-right {
+          opacity: 0;
+          animation: slide-in-right 0.8s ease-out forwards;
+          animation-delay: 0.7s;
+        }
+        
+        .fade-in-scale {
+          opacity: 0;
+          animation: fade-in-scale 1s ease-out forwards;
+          animation-delay: 1.1s;
+        }
       `}</style>
       
       {/* Only show loading screen on initial site load */}
@@ -706,7 +739,7 @@ export default function Page() {
           <div className="hero-glow z-[1]" />
           <div className="max-w-[1200px] w-full mx-auto text-center relative z-10">
             <div className="flex flex-col items-center justify-center pt-16 sm:pt-12 md:pt-8 lg:pt-0">
-              <h1 className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 ${roboto.className} text-white leading-tight max-w-3xl mx-auto text-shadow-purple`}>
+              <h1 className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 ${roboto.className} text-white leading-tight max-w-3xl mx-auto text-shadow-purple`}>
                 <span className="block">YOUR CREATIVE</span>
                 <span className="block">AGENCY</span>
               </h1>
@@ -800,16 +833,27 @@ export default function Page() {
               Explore our Services
             </h2>
             
-            <div className="max-w-3xl mx-auto mb-12 md:mb-16 text-center">
-              <p className="text-white font-bold text-lg md:text-2xl mb-3 reveal-text reveal-text-1">
-                Our services are on another level.
-              </p>
-              <p className="text-white font-bold text-lg md:text-2xl mb-3 reveal-text reveal-text-2">
-                Our projects will change you and your business forever.
-              </p>
-              <p className="text-white font-bold text-lg md:text-2xl mb-6 reveal-text reveal-text-3">
-                Get Ready to Elevate with Top-Tier AI Services.
-              </p>
+            <div className="max-w-4xl mx-auto mb-12 md:mb-16 relative h-[180px] md:h-[200px]">
+              {/* Left positioned phrase */}
+              <div className="absolute left-0 md:left-4 top-0 text-left slide-in-left">
+                <p className="text-white font-bold text-lg md:text-2xl mb-3 inline-block bg-gradient-to-r from-purple-500 to-purple-700 px-4 py-2 rounded-lg shadow-lg">
+                  Our services are on another level.
+                </p>
+              </div>
+              
+              {/* Right positioned phrase */}
+              <div className="absolute right-0 md:right-4 top-[60px] md:top-[70px] text-right slide-in-right">
+                <p className="text-white font-bold text-lg md:text-2xl mb-3 inline-block bg-gradient-to-r from-blue-500 to-purple-500 px-4 py-2 rounded-lg shadow-lg">
+                  Our projects will change you and your business forever.
+                </p>
+              </div>
+              
+              {/* Center positioned phrase */}
+              <div className="absolute left-1/2 transform -translate-x-1/2 bottom-0 text-center fade-in-scale">
+                <p className="text-white font-bold text-lg md:text-2xl mb-3 inline-block bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-3 rounded-full shadow-xl">
+                  Get Ready to Elevate with Top-Tier AI Services.
+                </p>
+              </div>
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 md:gap-8">
