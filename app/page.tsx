@@ -446,6 +446,37 @@ export default function Page() {
     }
   }, []);
 
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Scroll animation for elements
+    const handleScroll = () => {
+      // Reveal elements on scroll
+      const scrollElements = document.querySelectorAll('.scroll-reveal');
+      scrollElements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const elementVisible = 150;
+        if (elementTop < window.innerHeight - elementVisible) {
+          element.classList.add('revealed');
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check on initial load
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const scrollToProjects = () => {
+    const projectsSection = document.getElementById('projects');
+    if (projectsSection) {
+      projectsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   // Form state
   const [formData, setFormData] = useState({
     name: '',
@@ -592,52 +623,6 @@ export default function Page() {
       }, 5000)
     }, 1500)
   }
-
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
-
-  useEffect(() => {
-    // Scroll animation for scribble path
-    const handleScroll = () => {
-      // Calculate scroll progress percentage
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrolled = window.scrollY;
-      const progress = (scrolled / totalHeight) * 100;
-      setScrollProgress(progress);
-      
-      // Animate scribble path based on scroll position
-      const scribblePath = document.querySelector('.scribble-path') as HTMLElement;
-      if (scribblePath) {
-        // Move the path up as user scrolls down
-        const translateY = -(scrolled / totalHeight) * 200;
-        scribblePath.style.transform = `translateY(${translateY}%)`;
-      }
-      
-      // Reveal elements on scroll
-      const scrollElements = document.querySelectorAll('.scroll-reveal');
-      scrollElements.forEach(element => {
-        const elementTop = element.getBoundingClientRect().top;
-        const elementVisible = 150;
-        if (elementTop < window.innerHeight - elementVisible) {
-          element.classList.add('revealed');
-        }
-      });
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Check on initial load
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  const scrollToProjects = () => {
-    const projectsSection = document.getElementById('projects');
-    if (projectsSection) {
-      projectsSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <>
@@ -1155,16 +1140,6 @@ export default function Page() {
 
         {/* Footer */}
         <Footer currentPath="/" />
-      </div>
-      
-      {/* Scroll Progress Bar */}
-      <div className="scroll-progress-container">
-        <div className="scroll-progress-bar" style={{ width: `${scrollProgress}%` }}></div>
-      </div>
-      
-      {/* Scribble Path Container */}
-      <div className="scribble-path-container">
-        <div className="scribble-path"></div>
       </div>
       
       <style jsx global>{`
