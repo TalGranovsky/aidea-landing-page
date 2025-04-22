@@ -679,9 +679,6 @@ export default function Page() {
                 <span className="block">YOUR CREATIVE</span>
                 <span className="block">AGENCY</span>
               </h1>
-              <p className="text-lg md:text-xl text-neutral-200 drop-shadow-lg mb-8 max-w-xl mx-auto px-4">
-                Bringing your AI ideas to life with cutting-edge technology
-              </p>
               <Link href="/lets-begin" legacyBehavior passHref>
                 <button 
                   className="inline-flex items-center bg-gradient-to-r from-purple-600 to-blue-600 px-5 py-3 md:px-6 md:py-3 rounded-full text-white font-medium transition-all hover:opacity-90 hover:scale-[1.03] text-sm md:text-base"
