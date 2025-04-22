@@ -15,12 +15,20 @@ export default function Navbar({ onNavigate = () => {}, currentPath }: NavbarPro
   // Handle scroll effect for navbar
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
+      const isScrolled = window.scrollY > 10;
+      if (isScrolled !== scrolled) {
+        setScrolled(isScrolled);
+      }
     };
+
+    document.addEventListener('scroll', handleScroll, { passive: true });
+    // Check scroll position immediately on mount
+    handleScroll();
     
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    return () => {
+      document.removeEventListener('scroll', handleScroll);
+    };
+  }, [scrolled]);
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
@@ -49,7 +57,7 @@ export default function Navbar({ onNavigate = () => {}, currentPath }: NavbarPro
   };
 
   return (
-    <header className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-black/80 backdrop-blur-md shadow-lg' : 'bg-transparent'}`}>
+    <header className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-black/90 backdrop-blur-md shadow-lg' : 'bg-black/50 backdrop-blur-sm'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 md:h-24 lg:h-[80px]">
           {/* Logo */}

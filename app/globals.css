@@ -5,6 +5,9 @@
 /* Custom cursor styles */
 :root {
   cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'><path d='M6,6 L30,20 L15,34 L6,6' fill='%23333333' stroke='white' stroke-width='3' stroke-linejoin='round' /></svg>") 6 6, auto !important;
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
 }
 
 html,
@@ -76,6 +79,47 @@ summary,
 [tabindex]:not([tabindex="-1"]),
 input[type="file"]::-webkit-file-upload-button {
   cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'><path d='M6,6 L30,20 L15,34 L6,6' fill='%23333333' stroke='white' stroke-width='3' stroke-linejoin='round' /></svg>") 6 6, pointer !important;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: opacity 0.3s ease;
+}
+
+/* Prevent FOUC (Flash of Unstyled Content) */
+.js-loading {
+  opacity: 0;
+}
+
+/* Smooth page transitions */
+.page-transition-enter {
+  opacity: 0;
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.page-transition-exit {
+  opacity: 1;
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 /* Create a special cursor fix for iframe content */
@@ -223,10 +267,11 @@ iframe {
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: rgb(var(--border));
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: rgb(var(--background));
+    color: rgb(var(--foreground));
   }
 }
 

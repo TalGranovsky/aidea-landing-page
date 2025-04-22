@@ -270,7 +270,7 @@ export default function Page() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   
   // Track if this is the initial site load
-  const [showLoadingScreen, setShowLoadingScreen] = useState(false);
+  const [showLoadingScreen, setShowLoadingScreen] = useState(true);
   
   // Use effect to handle initial loading
   useEffect(() => {
@@ -341,109 +341,24 @@ export default function Page() {
 
   // Set body styles immediately on mount
   useEffect(() => {
-    // Set body background to black immediately to prevent flash
-    if (typeof document !== 'undefined') {
-      document.body.style.backgroundColor = '#000000'
-      document.body.style.margin = '0'
-      document.body.style.padding = '0'
-      document.body.style.overflow = 'visible' // Force visible overflow
-      document.documentElement.style.overflow = 'visible' // Also set on html element
-    }
-
-    // Intersection Observer setup - only after loading
-    if (!isLoading && isFirstRender.current) {
-      isFirstRender.current = false
-      
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate')
-          }
-        })
-      }, { threshold: 0.1 })
-
-      const elements = document.querySelectorAll('.card, .pill')
-      elements.forEach((el) => observer.observe(el))
-
-      // Load Tally widget script after page is fully loaded
-      const script = document.createElement('script')
-      script.src = 'https://tally.so/widgets/embed.js'
-      script.async = true
-      document.body.appendChild(script)
-      
-      // Cleanup
-      return () => {
-        elements.forEach((el) => observer.unobserve(el))
-        document.body.removeChild(script)
-      }
-    }
-  }, [isLoading])
-
-  // Use refs for parallax sections
-  const heroRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"]
-  })
-  
-  // Transform values for parallax
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, 100])
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, -100])
-  
-  // Smooth scroll function with transition animation
-  const scrollToSection = (elementRef: React.RefObject<HTMLElement> | null, href: string = '') => {
-    // After animation completes, scroll to section
-    setTimeout(() => {
-      if (elementRef && elementRef.current) {
-        elementRef.current.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-        });
-      } else if (href && href.startsWith('/#')) {
-        // For anchor links like /#contact
-        const elementId = href.substring(2); // Remove /# to get the ID
-        const element = document.getElementById(elementId);
-        if (element) {
-          element.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start',
-          });
-        }
-      } else if (href && href.startsWith('/')) {
-        // For links to other pages
-        window.location.href = href;
-      } else if (href) {
-        // For links that don't have a ref (like Home)
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-      
-      // Close mobile menu if open
-      setMobileMenuOpen(false);
-    }, 500);
-  };
-
-  // Ensure scroll position is at the top when this page loads
-  useEffect(() => {
-    // Force scroll to top on page load
-    window.scrollTo(0, 0);
+    // Prevent flash of unstyled content
+    document.documentElement.classList.add('js-loading');
     
-    // Disable browser's automatic scroll restoration
-    if ('scrollRestoration' in history) {
-      history.scrollRestoration = 'manual';
-    }
+    // Simulate minimum loading time to prevent flickering
+    const minLoadTime = setTimeout(() => {
+      setIsLoading(false);
+      document.documentElement.classList.remove('js-loading');
+      
+      // Fade out loading screen after a short delay
+      setTimeout(() => {
+        setShowLoadingScreen(false);
+      }, 300);
+    }, 800);
     
-    // Ensure scrolling is enabled
-    document.body.style.overflow = 'auto';
-    document.documentElement.style.overflow = 'auto';
-    document.body.style.overflowX = 'hidden';
-    document.documentElement.style.overflowX = 'hidden';
-    
-    // Cleanup function
     return () => {
-      // Reset overflow when component unmounts
-      document.body.style.overflow = 'auto';
-      document.documentElement.style.overflow = 'auto';
-    }
+      clearTimeout(minLoadTime);
+      document.documentElement.classList.remove('js-loading');
+    };
   }, []);
 
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -677,7 +592,7 @@ export default function Page() {
           <div className="max-w-[1200px] w-full mx-auto text-center relative z-10">
             <div className="flex flex-col items-center justify-center pt-16 sm:pt-12 md:pt-8 lg:pt-0">
               <h1 className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 ${roboto.className} text-white leading-tight max-w-3xl mx-auto text-shadow-purple`}>
-                <span className="block">YOUR CREATIVE</span>
+                <span className="block">YOUR CREATIVE</span>{" "}
                 <span className="block">AGENCY</span>
               </h1>
               <Link href="/lets-begin" legacyBehavior passHref>
@@ -1139,6 +1054,17 @@ export default function Page() {
       </div>
       
       <style jsx global>{`
+        /* Prevent FOUC (Flash of Unstyled Content) */
+        .js-loading {
+          opacity: 0;
+        }
+        
+        /* Smooth page transitions */
+        body {
+          opacity: 1;
+          transition: opacity 0.3s ease;
+        }
+        
         @keyframes slide-up-enter {
           0% { transform: translateY(20px); opacity: 0; }
           100% { transform: translateY(0); opacity: 1; }
