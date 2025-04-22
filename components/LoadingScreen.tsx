@@ -19,6 +19,10 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
   // Critical CSS styles directly injected
   useEffect(() => {
     if (typeof document !== 'undefined') {
+      // Force black background immediately
+      document.documentElement.style.backgroundColor = '#000000';
+      document.body.style.backgroundColor = '#000000';
+      
       // Set initial render complete
       initialRenderComplete.current = true;
       
@@ -37,6 +41,7 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
           background-color: #000 !important;
           margin: 0 !important;
           padding: 0 !important;
+          color: #fff !important;
         }
         .loading-screen {
           position: fixed !important;
@@ -124,111 +129,6 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
           right: 20%;
           animation: purpleHaze2 10s infinite ease-in-out;
         }
-        
-        .glowy-text {
-          color: white;
-          animation: textGlow 2s ease-in-out infinite;
-          letter-spacing: 0.05em;
-        }
-        
-        .metalic-bar {
-          position: relative;
-          overflow: hidden;
-        }
-        
-        .metalic-bar::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 200%;
-          height: 100%;
-          background: linear-gradient(90deg, 
-            transparent, 
-            rgba(255, 255, 255, 0.2), 
-            transparent
-          );
-          transform: translateX(-100%);
-          animation: metalicShine 2s linear infinite;
-        }
-        
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-        
-        .glowy-text {
-          color: white;
-          animation: textGlow 2s ease-in-out infinite;
-          letter-spacing: 0.05em;
-        }
-        
-        .metalic-bar {
-          position: relative;
-          overflow: hidden;
-        }
-        
-        .metalic-bar:after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 200%;
-          height: 100%;
-          background: linear-gradient(90deg, 
-            transparent, 
-            rgba(255, 255, 255, 0.2), 
-            transparent
-          );
-          transform: translateX(-100%);
-          animation: metalicShine 2s linear infinite;
-        }
-        
-        @keyframes pulse {
-          0% { opacity: 0.7; }
-          50% { opacity: 0.9; }
-          100% { opacity: 0.7; }
-        }
-        
-        @keyframes curtain-up {
-          0% { transform: translateY(0); }
-          100% { transform: translateY(-100%); }
-        }
-        
-        .animate-curtain-up {
-          animation: curtain-up 1.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
-        }
-        
-        @keyframes slide-up-exit {
-          0% { transform: translateY(0); opacity: 1; }
-          100% { transform: translateY(-100%); opacity: 0; }
-        }
-        
-        .slide-up-exit {
-          animation: slide-up-exit 0.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
-        }
-        
-        .purple-haze {
-          position: absolute;
-          width: 50%;
-          height: 50%;
-          border-radius: 50%;
-          background: radial-gradient(circle, rgba(138, 43, 226, 0.4) 0%, rgba(138, 43, 226, 0.1) 50%, rgba(0, 0, 0, 0) 70%);
-          filter: blur(40px);
-          will-change: transform, opacity;
-        }
-        
-        .purple-haze-1 {
-          top: 20%;
-          left: 20%;
-          animation: purpleHaze 8s infinite ease-in-out;
-        }
-        
-        .purple-haze-2 {
-          bottom: 20%;
-          right: 20%;
-          animation: purpleHaze2 10s infinite ease-in-out;
-        }
       `;
       
       // Insert the style element at the beginning of the head
@@ -253,6 +153,12 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
   
   // Handle loading progress simulation
   useEffect(() => {
+    // Force black background immediately
+    if (typeof document !== 'undefined') {
+      document.documentElement.style.backgroundColor = '#000000';
+      document.body.style.backgroundColor = '#000000';
+    }
+    
     if (!initialRenderComplete.current) return;
 
     const simulateLoading = (timestamp: number) => {
@@ -340,7 +246,8 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
         willChange: 'transform', 
         contain: 'layout style paint',
         visibility: 'visible',
-        opacity: 1
+        opacity: 1,
+        backgroundColor: '#000000'
       }}
     >
       {/* Purple haze effects */}
