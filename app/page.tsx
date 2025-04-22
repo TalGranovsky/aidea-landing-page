@@ -917,8 +917,9 @@ export default function Page() {
         {/* Projects Section */}
         <section id="projects" className="py-12 md:py-20 px-4 sm:px-6 bg-black relative">
           <div className="max-w-[1400px] mx-auto relative z-10">
-            <h2 className={`text-3xl md:text-5xl lg:text-6xl font-bold mb-12 md:mb-16 ${roboto.className} text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600 purple-glow`}>
-              Explore our Services
+            <h2 className={`text-3xl md:text-5xl lg:text-6xl font-bold mb-12 md:mb-16 ${roboto.className} text-center`}>
+              <span className="text-white">Explore our</span>{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600 purple-glow">Services</span>
             </h2>
             <div className="max-w-[1400px] mx-auto">
               <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 md:gap-8">
