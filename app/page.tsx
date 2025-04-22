@@ -609,10 +609,6 @@ export default function Page() {
           transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         
-        .metallic-shine:hover {
-          transform: scale(1.02);
-        }
-        
         .hover-scale {
           transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -639,6 +635,41 @@ export default function Page() {
         .scroll-arrow-3 {
           animation: pulse 1.5s ease-in-out infinite;
           animation-delay: 0.6s;
+        }
+        
+        @keyframes glow-pulse {
+          0% { text-shadow: 0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3); }
+          50% { text-shadow: 0 0 15px rgba(139, 92, 246, 0.8), 0 0 30px rgba(139, 92, 246, 0.5); }
+          100% { text-shadow: 0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3); }
+        }
+        
+        .purple-glow {
+          animation: glow-pulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes reveal-text {
+          0% { opacity: 0; transform: translateY(20px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        .reveal-text {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        
+        .reveal-text-1 {
+          animation: reveal-text 0.8s ease-out forwards;
+          animation-delay: 0.2s;
+        }
+        
+        .reveal-text-2 {
+          animation: reveal-text 0.8s ease-out forwards;
+          animation-delay: 0.6s;
+        }
+        
+        .reveal-text-3 {
+          animation: reveal-text 0.8s ease-out forwards;
+          animation-delay: 1s;
         }
       `}</style>
       
@@ -765,10 +796,21 @@ export default function Page() {
         {/* Our Services Section */}
         <section id="services" className="py-12 md:py-20 px-4 sm:px-6 bg-black relative">
           <div className="max-w-[1200px] mx-auto relative z-10">
-            <h2 className={`text-2xl md:text-4xl font-medium mb-4 md:mb-6 ${roboto.className} text-center`}>Explore our Services</h2>
-            <p className="text-neutral-400 text-center max-w-2xl mx-auto mb-8 md:mb-12 text-sm md:text-base">
-              We bring your AI ideas to life with cutting-edge technology and creative expertise, delivering solutions that transform businesses and enhance user experiences.
-            </p>
+            <h2 className={`text-3xl md:text-5xl lg:text-6xl font-bold mb-6 md:mb-8 ${roboto.className} text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600 purple-glow`}>
+              Explore our Services
+            </h2>
+            
+            <div className="max-w-3xl mx-auto mb-12 md:mb-16 text-center">
+              <p className="text-white font-bold text-lg md:text-2xl mb-3 reveal-text reveal-text-1">
+                Our services are on another level.
+              </p>
+              <p className="text-white font-bold text-lg md:text-2xl mb-3 reveal-text reveal-text-2">
+                Our projects will change you and your business forever.
+              </p>
+              <p className="text-white font-bold text-lg md:text-2xl mb-6 reveal-text reveal-text-3">
+                Get Ready to Elevate with Top-Tier AI Services.
+              </p>
+            </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 md:gap-8">
               {/* Top Left: Service Card 1 */}
