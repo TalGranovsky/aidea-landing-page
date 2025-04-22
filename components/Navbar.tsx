@@ -57,7 +57,7 @@ export default function Navbar({ onNavigate = () => {}, currentPath }: NavbarPro
   };
 
   return (
-    <header className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-black/90 backdrop-blur-md shadow-lg' : 'bg-black/50 backdrop-blur-sm'}`}>
+    <header className="fixed w-full z-50 transition-all duration-300 bg-black/90 backdrop-blur-md shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 md:h-24 lg:h-[80px]">
           {/* Logo */}

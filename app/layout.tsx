@@ -73,6 +73,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <style>{`
+          html, body {
+            background-color: #000000 !important;
+            color: #ffffff;
+          }
+        `}</style>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            // Set background color immediately
+            document.documentElement.style.backgroundColor = '#000000';
+            document.body.style.backgroundColor = '#000000';
+          `
+        }} />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />

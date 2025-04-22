@@ -261,42 +261,54 @@ const useScript = (src: string) => {
 }
 
 export default function Page() {
-  const [isLoading, setIsLoading] = useState(true)
-  const isFirstRender = useRef(true)
+  const [isLoading, setIsLoading] = useState(true);
+  const [showLoadingScreen, setShowLoadingScreen] = useState(true);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const isFirstRender = useRef(true);
+  
+  // Handle initial page load
+  useEffect(() => {
+    // Force background to black immediately
+    document.documentElement.style.backgroundColor = '#000000';
+    document.body.style.backgroundColor = '#000000';
+    
+    // Simulate minimum loading time to prevent flickering
+    const minLoadTime = setTimeout(() => {
+      setIsLoading(false);
+      
+      // Fade out loading screen after a short delay
+      setTimeout(() => {
+        setShowLoadingScreen(false);
+      }, 500);
+    }, 1500);
+    
+    return () => {
+      clearTimeout(minLoadTime);
+    };
+  }, []);
+  
   const [selectedCountry, setSelectedCountry] = useState(COUNTRY_CODES.find(c => c.code === '+972') || COUNTRY_CODES[0])
   const [showCountryDropdown, setShowCountryDropdown] = useState(false)
   const [countrySearchTerm, setCountrySearchTerm] = useState('')
   const countryDropdownRef = useRef<HTMLDivElement>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   
-  // Track if this is the initial site load
-  const [showLoadingScreen, setShowLoadingScreen] = useState(true);
-  
   // Use effect to handle initial loading
   useEffect(() => {
-    // Only run on client side
-    if (typeof window !== 'undefined') {
-      // Check if this is the first load of the site
-      const isFirstLoad = !sessionStorage.getItem('hasVisitedSite');
-      
-      if (isFirstLoad) {
-        // First visit, show loading screen
-        setShowLoadingScreen(true);
-        // Mark as visited for future navigation
-        sessionStorage.setItem('hasVisitedSite', 'true');
-      } else {
-        // Not first visit, skip loading screen
-        setIsLoading(false);
-      }
-    }
-  }, []);
-
-  // Handle loading completion
+    setShowLoadingScreen(true)
+    
+    // Simulate loading time
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 1500)
+    
+    return () => clearTimeout(timer)
+  }, [])
+  
   const handleLoadingComplete = () => {
-    setIsLoading(false);
-    setShowLoadingScreen(false);
-  };
-
+    setShowLoadingScreen(false)
+  }
+  
   // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -361,7 +373,7 @@ export default function Page() {
     };
   }, []);
 
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const projectScrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Scroll animation for elements
@@ -547,7 +559,12 @@ export default function Page() {
       </Head>
       
       {/* Only show loading screen on initial site load */}
-      {showLoadingScreen && <LoadingScreen onLoadingComplete={handleLoadingComplete} />}
+      {showLoadingScreen && (
+        <div className="fixed inset-0 bg-black z-50 flex flex-col items-center justify-center">
+          <div className="animate-pulse text-2xl font-bold text-white mb-4">AIDEA</div>
+          <div className="w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full animate-spin"></div>
+        </div>
+      )}
       
       {/* Main content with slide-up animation when loading completes */}
       <div className={`min-h-screen bg-black text-white ${roboto.className} ${!isLoading ? 'animate-slide-up-enter' : 'opacity-0'}`}>
