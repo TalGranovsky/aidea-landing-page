@@ -704,6 +704,61 @@ export default function Page() {
           animation: fade-in-scale 1s ease-out forwards;
           animation-delay: 1.1s;
         }
+        
+        @keyframes blur-in {
+          0% { 
+            opacity: 0; 
+            filter: blur(10px);
+            transform: translateY(10px);
+          }
+          100% { 
+            opacity: 1; 
+            filter: blur(0);
+            transform: translateY(0);
+          }
+        }
+        
+        .phrase-card {
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+          overflow: hidden;
+          position: relative;
+        }
+        
+        .phrase-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(to right, rgba(139, 92, 246, 0.1), rgba(79, 70, 229, 0.1));
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+        
+        .phrase-card:hover::before {
+          opacity: 1;
+        }
+        
+        .blur-in-1 {
+          opacity: 0;
+          animation: blur-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          animation-delay: 0.2s;
+        }
+        
+        .blur-in-2 {
+          opacity: 0;
+          animation: blur-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          animation-delay: 0.5s;
+        }
+        
+        .blur-in-3 {
+          opacity: 0;
+          animation: blur-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          animation-delay: 0.8s;
+        }
       `}</style>
       
       {/* Only show loading screen on initial site load */}
@@ -829,30 +884,37 @@ export default function Page() {
         {/* Our Services Section */}
         <section id="services" className="py-12 md:py-20 px-4 sm:px-6 bg-black relative">
           <div className="max-w-[1200px] mx-auto relative z-10">
-            <h2 className={`text-3xl md:text-5xl lg:text-6xl font-bold mb-6 md:mb-8 ${roboto.className} text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600 purple-glow`}>
+            <h2 className={`text-3xl md:text-5xl lg:text-6xl font-bold mb-12 md:mb-16 ${roboto.className} text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600 purple-glow`}>
               Explore our Services
             </h2>
             
-            <div className="max-w-4xl mx-auto mb-12 md:mb-16 relative h-[180px] md:h-[200px]">
-              {/* Left positioned phrase */}
-              <div className="absolute left-0 md:left-4 top-0 text-left slide-in-left">
-                <p className="text-white font-bold text-lg md:text-2xl mb-3 inline-block bg-gradient-to-r from-purple-500 to-purple-700 px-4 py-2 rounded-lg shadow-lg">
+            {/* Service phrases in a responsive grid layout */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 mb-16">
+              {/* First phrase - spans 5 columns on desktop */}
+              <div className="md:col-span-5 phrase-card rounded-xl p-5 bg-gradient-to-br from-purple-900/30 to-indigo-900/30 blur-in-1">
+                <p className="text-white font-bold text-lg md:text-xl lg:text-2xl">
                   Our services are on another level.
                 </p>
+                <div className="w-16 h-1 bg-gradient-to-r from-purple-500 to-indigo-500 mt-3 rounded-full"></div>
               </div>
               
-              {/* Right positioned phrase */}
-              <div className="absolute right-0 md:right-4 top-[60px] md:top-[70px] text-right slide-in-right">
-                <p className="text-white font-bold text-lg md:text-2xl mb-3 inline-block bg-gradient-to-r from-blue-500 to-purple-500 px-4 py-2 rounded-lg shadow-lg">
+              {/* Spacer column */}
+              <div className="hidden md:block md:col-span-2"></div>
+              
+              {/* Second phrase - spans 5 columns on desktop */}
+              <div className="md:col-span-5 phrase-card rounded-xl p-5 bg-gradient-to-br from-indigo-900/30 to-blue-900/30 blur-in-2">
+                <p className="text-white font-bold text-lg md:text-xl lg:text-2xl">
                   Our projects will change you and your business forever.
                 </p>
+                <div className="w-16 h-1 bg-gradient-to-r from-indigo-500 to-blue-500 mt-3 rounded-full"></div>
               </div>
               
-              {/* Center positioned phrase */}
-              <div className="absolute left-1/2 transform -translate-x-1/2 bottom-0 text-center fade-in-scale">
-                <p className="text-white font-bold text-lg md:text-2xl mb-3 inline-block bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-3 rounded-full shadow-xl">
+              {/* Third phrase - spans full width and centered */}
+              <div className="md:col-span-12 md:col-start-1 phrase-card rounded-xl p-5 md:p-6 bg-gradient-to-r from-violet-900/30 to-purple-900/30 blur-in-3 md:w-3/4 mx-auto">
+                <p className="text-white font-bold text-lg md:text-xl lg:text-2xl text-center">
                   Get Ready to Elevate with Top-Tier AI Services.
                 </p>
+                <div className="w-24 h-1 bg-gradient-to-r from-violet-500 to-purple-500 mt-3 rounded-full mx-auto"></div>
               </div>
             </div>
             
