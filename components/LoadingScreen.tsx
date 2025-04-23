@@ -11,46 +11,154 @@ interface LoadingScreenProps {
 export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
   // State to track loading progress (starting at 0% for accurate feedback)
   const [progress, setProgress] = useState(0);
-  const [showCurtain, setShowCurtain] = useState(false);
   const animationFrameRef = useRef<number | null>(null);
-  const initialRenderComplete = useRef(false);
-  const lastUpdateTime = useRef<number>(Date.now());
+  const startTimeRef = useRef<number>(0);
+  const lastUpdateTimeRef = useRef<number>(0);
   
-  // Critical CSS styles directly injected
+  // Simulate loading progress
   useEffect(() => {
-    if (typeof document !== 'undefined') {
-      // Force black background immediately
-      if (document.documentElement) {
-        document.documentElement.style.backgroundColor = '#000000';
-      }
-      if (document.body) {
-        document.body.style.backgroundColor = '#000000';
+    // Safety check for SSR
+    if (typeof window === 'undefined') return;
+    
+    // Force minimum loading time to prevent jumps
+    const minLoadingTime = 2500; // 2.5 seconds minimum loading time
+    startTimeRef.current = Date.now();
+    lastUpdateTimeRef.current = Date.now();
+    
+    const simulateLoading = (timestamp: number) => {
+      const currentTime = Date.now();
+      const deltaTime = currentTime - lastUpdateTimeRef.current;
+      const elapsedTime = currentTime - startTimeRef.current;
+      
+      // Only update every 50ms for smoother progress
+      if (deltaTime > 50) {
+        lastUpdateTimeRef.current = currentTime;
+        
+        // Calculate progress based on elapsed time, but ensure it doesn't reach 100% too quickly
+        let increment;
+        
+        // First phase: slow start (0-30%)
+        if (progress < 30) {
+          increment = Math.random() * 0.3 + 0.1; // 0.1-0.4% increment
+        } 
+        // Second phase: moderate speed (30-70%)
+        else if (progress < 70) {
+          increment = Math.random() * 0.5 + 0.2; // 0.2-0.7% increment
+        } 
+        // Final phase: slow down (70-99%)
+        else if (progress < 99) {
+          increment = Math.random() * 0.2 + 0.05; // 0.05-0.25% increment
+        } 
+        // Ensure we reach exactly 100% at the end
+        else {
+          increment = 0;
+          
+          // Only reach 100% if minimum time has elapsed
+          if (elapsedTime >= minLoadingTime) {
+            increment = Math.random() * 0.3 + 0.1; // Final push to 100%
+          }
+        }
+        
+        setProgress(prevProgress => {
+          const newProgress = Math.min(prevProgress + increment, 100);
+          
+          // When we reach 100%, trigger the completion callback after a delay
+          if (newProgress >= 100 && prevProgress < 100) {
+            // Only proceed if minimum loading time has elapsed
+            if (elapsedTime >= minLoadingTime) {
+              // After animation completes, call onLoadingComplete
+              setTimeout(() => {
+                onLoadingComplete();
+              }, 800); // Match with animation duration
+              return 100;
+            } else {
+              // If minimum time hasn't elapsed, cap at 99%
+              return 99;
+            }
+          }
+          return newProgress;
+        });
       }
       
-      // Set initial render complete
-      initialRenderComplete.current = true;
-      
-      // Prevent scrolling during loading
-      if (document.documentElement) {
-        document.documentElement.style.overflow = 'hidden';
+      // Continue animation loop if not at 100% or if minimum time hasn't elapsed
+      if (progress < 100 || elapsedTime < minLoadingTime) {
+        animationFrameRef.current = requestAnimationFrame(simulateLoading);
       }
-      if (document.body) {
-        document.body.style.overflow = 'hidden';
+    };
+    
+    // Start the animation loop
+    animationFrameRef.current = requestAnimationFrame(simulateLoading);
+    
+    // Cleanup function
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
       }
+    };
+  }, [progress, onLoadingComplete]);
+  
+  // Don't render anything on the server
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  return (
+    <div 
+      className={`loading-screen fixed inset-0 flex flex-col items-center justify-center bg-black z-[9999] ${progress >= 100 ? 'slide-up-exit' : ''}`}
+      style={{ 
+        willChange: 'transform', 
+        contain: 'layout style paint',
+        visibility: 'visible',
+        opacity: 1,
+        backgroundColor: '#000000'
+      }}
+    >
+      {/* Purple haze effects */}
+      <div className="purple-haze purple-haze-1"></div>
+      <div className="purple-haze purple-haze-2"></div>
       
-      // Create and inject a critical style element with highest priority
-      const criticalStyle = document.createElement('style');
-      criticalStyle.setAttribute('id', 'critical-loading-styles');
-      criticalStyle.setAttribute('data-priority', 'highest');
-      criticalStyle.innerHTML = `
+      {/* Content container */}
+      <div className="relative z-10 w-full max-w-md px-4 flex flex-col items-center">
+        {/* Logo */}
+        <h1 
+          className="glowy-text text-8xl font-bold mb-6 tracking-wider"
+          style={{
+            fontFamily: "'Roboto', sans-serif"
+          }}
+        >
+          AIDEA
+        </h1>
+        
+        {/* Tagline */}
+        <p className="text-white text-xl mb-8 font-medium tracking-wide" style={{ fontFamily: "'Roboto', sans-serif" }}>
+          YOUR CREATIVE AGENCY
+        </p>
+        
+        {/* Loading bar container */}
+        <div className="w-full h-3 bg-gray-800/30 backdrop-blur-sm rounded-full overflow-hidden mb-4 border border-purple-500/20 metalic-bar">
+          {/* Progress bar with gradient */}
+          <div 
+            className="h-full rounded-full"
+            style={{
+              width: `${Math.floor(progress)}%`,
+              background: 'linear-gradient(90deg, #6d28d9, #9333ea, #6d28d9)',
+              boxShadow: '0 0 15px rgba(123, 0, 215, 0.7)',
+              transition: 'width 250ms ease-out', // Faster transition
+              willChange: 'width',
+            }}
+          />
+        </div>
+        
+        {/* Loading info */}
+        <div className="w-full flex justify-between text-sm text-white" style={{ fontFamily: "'Roboto', sans-serif" }}>
+          <span>LOADING</span>
+          <span>{Math.floor(progress)}%</span>
+        </div>
+      </div>
+
+      <style jsx>{`
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
         
-        html, body {
-          background-color: #000 !important;
-          margin: 0 !important;
-          padding: 0 !important;
-          color: #fff !important;
-        }
         .loading-screen {
           position: fixed !important;
           top: 0 !important;
@@ -118,219 +226,54 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
         
         .purple-haze {
           position: absolute;
-          width: 50%;
-          height: 50%;
-          border-radius: 50%;
-          background: radial-gradient(circle, rgba(138, 43, 226, 0.4) 0%, rgba(138, 43, 226, 0.1) 50%, rgba(0, 0, 0, 0) 70%);
-          filter: blur(40px);
-          will-change: transform, opacity;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          z-index: 1;
+          pointer-events: none;
         }
         
         .purple-haze-1 {
-          top: 20%;
-          left: 20%;
-          animation: purpleHaze 8s infinite ease-in-out;
+          background: radial-gradient(circle at 30% 30%, rgba(123, 0, 255, 0.3) 0%, rgba(123, 0, 255, 0.1) 30%, transparent 70%);
+          animation: purpleHaze 15s ease-in-out infinite;
         }
         
         .purple-haze-2 {
-          bottom: 20%;
-          right: 20%;
-          animation: purpleHaze2 10s infinite ease-in-out;
-        }
-      `;
-      
-      // Insert the style element at the beginning of the head
-      if (document.head && document.head.firstChild) {
-        document.head.insertBefore(criticalStyle, document.head.firstChild);
-      } else if (document.head) {
-        document.head.appendChild(criticalStyle);
-      }
-      
-      return () => {
-        // When component unmounts, restore scrolling
-        if (document && document.documentElement) {
-          document.documentElement.style.overflow = 'visible';
-        }
-        if (document && document.body) {
-          document.body.style.overflow = 'visible';
-          document.body.style.overflowY = 'auto';
+          background: radial-gradient(circle at 70% 70%, rgba(138, 43, 226, 0.3) 0%, rgba(138, 43, 226, 0.1) 30%, transparent 70%);
+          animation: purpleHaze2 15s ease-in-out infinite;
         }
         
-        // Remove the critical style element
-        const criticalStyleElement = document.getElementById('critical-loading-styles');
-        if (criticalStyleElement) {
-          criticalStyleElement.remove();
-        }
-      };
-    }
-  }, []);
-  
-  // Simulate loading progress
-  useEffect(() => {
-    if (!initialRenderComplete.current || typeof window === 'undefined') return;
-    
-    // Force minimum loading time to prevent jumps
-    const minLoadingTime = 2500; // 2.5 seconds minimum loading time
-    const startTime = Date.now();
-    
-    const simulateLoading = (timestamp: number) => {
-      const currentTime = Date.now();
-      const deltaTime = currentTime - lastUpdateTime.current;
-      const elapsedTime = currentTime - startTime;
-      
-      // Only update every 50ms for smoother progress
-      if (deltaTime > 50) {
-        lastUpdateTime.current = currentTime;
-        
-        // Calculate progress based on elapsed time, but ensure it doesn't reach 100% too quickly
-        let increment;
-        
-        // First phase: slow start (0-30%)
-        if (progress < 30) {
-          increment = Math.random() * 0.3 + 0.1; // 0.1-0.4% increment
-        } 
-        // Second phase: moderate speed (30-70%)
-        else if (progress < 70) {
-          increment = Math.random() * 0.5 + 0.2; // 0.2-0.7% increment
-        } 
-        // Final phase: slow down (70-99%)
-        else if (progress < 99) {
-          increment = Math.random() * 0.2 + 0.05; // 0.05-0.25% increment
-        } 
-        // Ensure we reach exactly 100% at the end
-        else {
-          increment = 0;
-          
-          // Only reach 100% if minimum time has elapsed
-          if (elapsedTime >= minLoadingTime) {
-            increment = Math.random() * 0.3 + 0.1; // Final push to 100%
-          }
+        .glowy-text {
+          color: white;
+          text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(138, 43, 226, 0.5), 0 0 30px rgba(138, 43, 226, 0.3);
+          animation: textGlow 3s ease-in-out infinite;
         }
         
-        setProgress(prevProgress => {
-          const newProgress = Math.min(prevProgress + increment, 100);
-          
-          // When we reach 100%, show the curtain and trigger the completion callback
-          if (newProgress >= 100 && prevProgress < 100) {
-            // Only proceed if minimum loading time has elapsed
-            if (elapsedTime >= minLoadingTime) {
-              // Apply slide-up animation to the entire loading screen
-              if (typeof document !== 'undefined') {
-                const loadingScreen = document.querySelector('.loading-screen');
-                if (loadingScreen) {
-                  loadingScreen.classList.add('slide-up-exit');
-                }
-                
-                // After animation completes, call onLoadingComplete
-                setTimeout(() => {
-                  // Restore scrolling
-                  if (document && document.documentElement) {
-                    document.documentElement.style.overflow = 'visible';
-                  }
-                  if (document && document.body) {
-                    document.body.style.overflow = 'visible';
-                    document.body.style.overflowY = 'auto';
-                  }
-                  
-                  onLoadingComplete();
-                }, 800); // Match with animation duration
-              }
-              return 100;
-            } else {
-              // If minimum time hasn't elapsed, cap at 99%
-              return 99;
-            }
-          }
-          return newProgress;
-        });
-      }
-      
-      // Continue animation loop if not at 100% or if minimum time hasn't elapsed
-      if (progress < 100 || elapsedTime < minLoadingTime) {
-        animationFrameRef.current = requestAnimationFrame(simulateLoading);
-      }
-    };
-    
-    // Start the animation loop
-    animationFrameRef.current = requestAnimationFrame(simulateLoading);
-    
-    // Cleanup function
-    return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-    };
-  }, [progress, onLoadingComplete, initialRenderComplete]);
-  
-  // Don't render anything on the server
-  if (typeof window === 'undefined') {
-    return null;
-  }
-
-  return (
-    <div 
-      className="loading-screen fixed inset-0 flex flex-col items-center justify-center bg-black z-[9999]" 
-      style={{ 
-        willChange: 'transform', 
-        contain: 'layout style paint',
-        visibility: 'visible',
-        opacity: 1,
-        backgroundColor: '#000000'
-      }}
-    >
-      {/* Purple haze effects */}
-      <div className="purple-haze purple-haze-1"></div>
-      <div className="purple-haze purple-haze-2"></div>
-      
-      {/* Curtain overlay - slides from bottom to top */}
-      {showCurtain && (
-        <div 
-          className="absolute inset-0 bg-black z-50 animate-curtain-up"
-          style={{ 
-            willChange: 'transform',
-            transformOrigin: 'bottom'
-          }}
-        />
-      )}
-      
-      {/* Content container */}
-      <div className="relative z-10 w-full max-w-md px-4 flex flex-col items-center">
-        {/* Logo */}
-        <h1 
-          className="glowy-text text-8xl font-bold mb-6 tracking-wider"
-          style={{
-            fontFamily: "'Roboto', sans-serif"
-          }}
-        >
-          AIDEA
-        </h1>
+        .metalic-bar {
+          position: relative;
+          overflow: hidden;
+        }
         
-        {/* Tagline */}
-        <p className="text-white text-xl mb-8 font-medium tracking-wide" style={{ fontFamily: "'Roboto', sans-serif" }}>
-          YOUR CREATIVE AGENCY
-        </p>
-        
-        {/* Loading bar container */}
-        <div className="w-full h-3 bg-gray-800/30 backdrop-blur-sm rounded-full overflow-hidden mb-4 border border-purple-500/20 metalic-bar">
-          {/* Progress bar with gradient */}
-          <div 
-            className="h-full rounded-full"
-            style={{
-              width: `${Math.floor(progress)}%`,
-              background: 'linear-gradient(90deg, #6d28d9, #9333ea, #6d28d9)',
-              boxShadow: '0 0 15px rgba(123, 0, 215, 0.7)',
-              transition: 'width 250ms ease-out', // Faster transition
-              willChange: 'width',
-            }}
-          />
-        </div>
-        
-        {/* Loading info */}
-        <div className="w-full flex justify-between text-sm text-white" style={{ fontFamily: "'Roboto', sans-serif" }}>
-          <span>LOADING</span>
-          <span>{Math.floor(progress)}%</span>
-        </div>
-      </div>
+        .metalic-bar::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(90deg, 
+            transparent, 
+            rgba(255, 255, 255, 0.2), 
+            transparent
+          );
+          width: 150%;
+          transform: translateX(-100%);
+          animation: metalicShine 3s ease-in-out infinite;
+        }
+      `}</style>
     </div>
   );
 }

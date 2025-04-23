@@ -271,51 +271,42 @@ export default function Page() {
   
   // Track if this is the initial site load
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
   
-  // Use effect to handle initial loading
+  // Use effect to handle initial loading - with safer implementation
   useEffect(() => {
     // Only run on client side
-    if (typeof window !== 'undefined') {
-      // Force background to black immediately
-      if (document && document.documentElement) {
-        document.documentElement.style.backgroundColor = '#000000';
-        document.body.style.backgroundColor = '#000000';
-        
-        // Prevent FOUC (Flash of Unstyled Content)
-        document.documentElement.classList.add('js-loading');
-      }
-      
-      // Check if this is the first load of the site
-      const isFirstLoad = !sessionStorage.getItem('hasVisitedSite');
-      
-      if (isFirstLoad) {
-        // First visit, show loading screen
-        setShowLoadingScreen(true);
-        // Mark as visited for future navigation
-        sessionStorage.setItem('hasVisitedSite', 'true');
-      } else {
-        // Not first visit, skip loading screen
-        setTimeout(() => {
-          setIsLoading(false);
-          setShowLoadingScreen(false);
-          if (document && document.documentElement) {
-            document.documentElement.classList.remove('js-loading');
-          }
-        }, 100); // Small delay to ensure smooth transition
-      }
+    if (typeof window === 'undefined') return;
+    
+    // Check if this is the first load of the site
+    const hasVisited = sessionStorage.getItem('hasVisitedSite');
+    setIsFirstLoad(!hasVisited);
+    
+    if (!hasVisited) {
+      // First visit, show loading screen
+      setShowLoadingScreen(true);
+      // Mark as visited for future navigation
+      sessionStorage.setItem('hasVisitedSite', 'true');
+    } else {
+      // Not first visit, skip loading screen
+      setIsLoading(false);
+      setShowLoadingScreen(false);
     }
     
+    // Add a class to the body element instead of manipulating style directly
+    const bodyClasses = document.body.classList;
+    bodyClasses.add('loading-active');
+    
     return () => {
-      if (typeof window !== 'undefined' && document && document.documentElement) {
-        document.documentElement.classList.remove('js-loading');
-      }
+      bodyClasses.remove('loading-active');
     };
   }, []);
 
   // Handle loading completion
   const handleLoadingComplete = () => {
-    if (typeof window !== 'undefined' && document && document.documentElement) {
-      document.documentElement.classList.remove('js-loading');
+    if (typeof window !== 'undefined') {
+      const bodyClasses = document.body.classList;
+      bodyClasses.remove('loading-active');
     }
     setIsLoading(false);
     setShowLoadingScreen(false);
@@ -541,44 +532,197 @@ export default function Page() {
     }, 1500)
   }
 
-  // Set body styles immediately on mount - Restoring this with proper null checks
-  useEffect(() => {
-    // Only run on client side
-    if (typeof window !== 'undefined' && document && document.documentElement) {
-      // Prevent flash of unstyled content
-      document.documentElement.classList.add('js-loading');
-      
-      // Simulate minimum loading time to prevent flickering
-      const minLoadTime = setTimeout(() => {
-        setIsLoading(false);
-        if (document && document.documentElement) {
-          document.documentElement.classList.remove('js-loading');
-        }
-        
-        // Fade out loading screen after a short delay
-        setTimeout(() => {
-          setShowLoadingScreen(false);
-        }, 300);
-      }, 800);
-      
-      return () => {
-        clearTimeout(minLoadTime);
-        if (document && document.documentElement) {
-          document.documentElement.classList.remove('js-loading');
-        }
-      };
-    }
-  }, []);
-
   return (
     <>
       <Head>
         <title>AIDEA - Bringing your AI ideas to life</title>
         <meta name="description" content="AIDEA is a creative agency specializing in AI-powered solutions for businesses of all sizes." />
+        <style jsx global>{`
+          /* Prevent FOUC (Flash of Unstyled Content) */
+          .js-loading {
+            opacity: 0;
+          }
+          
+          /* Smooth page transitions */
+          body {
+            opacity: 1;
+            transition: opacity 0.3s ease;
+          }
+          
+          @keyframes slide-up-enter {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+          }
+          
+          .animate-slide-up-enter {
+            animation: slide-up-enter 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          }
+          
+          .animate-gradient-shift {
+            animation: gradient-shift 10s ease-in-out infinite;
+          }
+          
+          @keyframes gradient-shift {
+            0% {
+              background-position: 0% 50%;
+            }
+            50% {
+              background-position: 100% 50%;
+            }
+            100% {
+              background-position: 0% 50%;
+            }
+          }
+          
+          .metallic-shine {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          }
+          
+          .hover-scale {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          }
+          
+          .hover-scale:hover {
+            transform: scale(1.02);
+          }
+          
+          @keyframes pulse {
+            0% { opacity: 0.7; transform: translateY(0); }
+            50% { opacity: 1; transform: translateY(5px); }
+            100% { opacity: 0.7; transform: translateY(0); }
+          }
+          
+          .scroll-arrow {
+            animation: pulse 1.5s ease-in-out infinite;
+            cursor: pointer;
+          }
+          
+          .scroll-arrow-2 {
+            animation: pulse 1.5s ease-in-out infinite;
+            animation-delay: 0.3s;
+            cursor: pointer;
+          }
+          
+          .scroll-arrow-3 {
+            animation: pulse 1.5s ease-in-out infinite;
+            animation-delay: 0.6s;
+            cursor: pointer;
+          }
+          
+          @keyframes reveal-text {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+          }
+          
+          .reveal-text {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          
+          .reveal-text-1 {
+            animation: reveal-text 0.8s ease-out forwards;
+            animation-delay: 0.2s;
+          }
+          
+          .reveal-text-2 {
+            animation: reveal-text 0.8s ease-out forwards;
+            animation-delay: 0.6s;
+          }
+          
+          .reveal-text-3 {
+            animation: reveal-text 0.8s ease-out forwards;
+            animation-delay: 1s;
+          }
+          
+          @keyframes blur-in {
+            0% { 
+              opacity: 0; 
+              filter: blur(10px);
+              transform: translateY(10px);
+            }
+            30% {
+              opacity: 0.5;
+              filter: blur(4px);
+            }
+            100% { 
+              opacity: 1; 
+              filter: blur(0);
+              transform: translateY(0);
+            }
+          }
+          
+          .phrase-card {
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            position: relative;
+          }
+          
+          .phrase-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to right, rgba(139, 92, 246, 0.1), rgba(79, 70, 229, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+          }
+          
+          .elegant-reveal {
+            opacity: 0;
+            animation: elegant-reveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+          }
+          
+          @keyframes elegant-reveal {
+            0% { 
+              opacity: 0; 
+              transform: translateY(20px);
+              filter: blur(8px);
+            }
+            30% {
+              opacity: 0.5;
+              filter: blur(4px);
+            }
+            100% { 
+              opacity: 1; 
+              transform: translateY(0);
+              filter: blur(0);
+            }
+          }
+          
+          .blur-in-1 {
+            opacity: 0;
+            animation: blur-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: 0.2s;
+          }
+          
+          .blur-in-2 {
+            opacity: 0;
+            animation: blur-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: 0.5s;
+          }
+          
+          .blur-in-3 {
+            opacity: 0;
+            animation: blur-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: 0.8s;
+          }
+          
+          body.loading-active {
+            overflow: hidden;
+            background-color: #000000;
+          }
+          html {
+            background-color: #000000;
+          }
+        `}</style>
       </Head>
       
       {/* Only show loading screen on initial site load */}
-      {showLoadingScreen && <LoadingScreen onLoadingComplete={handleLoadingComplete} />}
+      {showLoadingScreen && isFirstLoad && <LoadingScreen onLoadingComplete={handleLoadingComplete} />}
       
       {/* Main content with slide-up animation when loading completes */}
       <div className={`min-h-screen bg-black text-white ${roboto.className} ${!isLoading ? 'animate-slide-up-enter' : 'opacity-0'}`}>
@@ -1083,247 +1227,6 @@ export default function Page() {
         {/* Footer */}
         <Footer currentPath="/" />
       </div>
-      
-      <style jsx global>{`
-        /* Prevent FOUC (Flash of Unstyled Content) */
-        .js-loading {
-          opacity: 0;
-        }
-        
-        /* Smooth page transitions */
-        body {
-          opacity: 1;
-          transition: opacity 0.3s ease;
-        }
-        
-        @keyframes slide-up-enter {
-          0% { transform: translateY(20px); opacity: 0; }
-          100% { transform: translateY(0); opacity: 1; }
-        }
-        
-        .animate-slide-up-enter {
-          animation: slide-up-enter 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        
-        .animate-gradient-shift {
-          animation: gradient-shift 10s ease-in-out infinite;
-        }
-        
-        @keyframes gradient-shift {
-          0% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-          100% {
-            background-position: 0% 50%;
-          }
-        }
-        
-        .metallic-shine {
-          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .hover-scale {
-          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .hover-scale:hover {
-          transform: scale(1.02);
-        }
-        
-        @keyframes pulse {
-          0% { opacity: 0.7; transform: translateY(0); }
-          50% { opacity: 1; transform: translateY(5px); }
-          100% { opacity: 0.7; transform: translateY(0); }
-        }
-        
-        .scroll-arrow {
-          animation: pulse 1.5s ease-in-out infinite;
-          cursor: pointer;
-        }
-        
-        .scroll-arrow-2 {
-          animation: pulse 1.5s ease-in-out infinite;
-          animation-delay: 0.3s;
-          cursor: pointer;
-        }
-        
-        .scroll-arrow-3 {
-          animation: pulse 1.5s ease-in-out infinite;
-          animation-delay: 0.6s;
-          cursor: pointer;
-        }
-        
-        @keyframes reveal-text {
-          0% { opacity: 0; transform: translateY(20px); }
-          100% { opacity: 1; transform: translateY(0); }
-        }
-        
-        .reveal-text {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        
-        .reveal-text-1 {
-          animation: reveal-text 0.8s ease-out forwards;
-          animation-delay: 0.2s;
-        }
-        
-        .reveal-text-2 {
-          animation: reveal-text 0.8s ease-out forwards;
-          animation-delay: 0.6s;
-        }
-        
-        .reveal-text-3 {
-          animation: reveal-text 0.8s ease-out forwards;
-          animation-delay: 1s;
-        }
-        
-        @keyframes slide-in-left {
-          0% { opacity: 0; transform: translateX(-50px); }
-          100% { opacity: 1; transform: translateX(0); }
-        }
-        
-        @keyframes slide-in-right {
-          0% { opacity: 0; transform: translateX(50px); }
-          100% { opacity: 1; transform: translateX(0); }
-        }
-        
-        @keyframes fade-in-scale {
-          0% { opacity: 0; transform: scale(0.8); }
-          100% { opacity: 1; transform: scale(1); }
-        }
-        
-        .slide-in-left {
-          opacity: 0;
-          animation: slide-in-left 0.8s ease-out forwards;
-          animation-delay: 0.3s;
-        }
-        
-        .slide-in-right {
-          opacity: 0;
-          animation: slide-in-right 0.8s ease-out forwards;
-          animation-delay: 0.7s;
-        }
-        
-        .fade-in-scale {
-          opacity: 0;
-          animation: fade-in-scale 1s ease-out forwards;
-          animation-delay: 1.1s;
-        }
-        
-        @keyframes glow-pulse {
-          0% { text-shadow: 0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3); }
-          50% { text-shadow: 0 0 15px rgba(139, 92, 246, 0.8), 0 0 30px rgba(139, 92, 246, 0.5); }
-          100% { text-shadow: 0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3); }
-        }
-        
-        .purple-glow {
-          animation: glow-pulse 3s ease-in-out infinite;
-        }
-        
-        @keyframes fade-in-scale {
-          0% { opacity: 0; transform: scale(0.8); }
-          100% { opacity: 1; transform: scale(1); }
-        }
-        
-        .slide-in-left {
-          opacity: 0;
-          animation: slide-in-left 0.8s ease-out forwards;
-          animation-delay: 0.3s;
-        }
-        
-        .slide-in-right {
-          opacity: 0;
-          animation: slide-in-right 0.8s ease-out forwards;
-          animation-delay: 0.7s;
-        }
-        
-        .fade-in-scale {
-          opacity: 0;
-          animation: fade-in-scale 1s ease-out forwards;
-          animation-delay: 1.1s;
-        }
-        
-        @keyframes blur-in {
-          0% { 
-            opacity: 0; 
-            filter: blur(10px);
-            transform: translateY(10px);
-          }
-          30% {
-            opacity: 0.5;
-            filter: blur(4px);
-          }
-          100% { 
-            opacity: 1; 
-            filter: blur(0);
-            transform: translateY(0);
-          }
-        }
-        
-        .phrase-card {
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-          overflow: hidden;
-          position: relative;
-        }
-        
-        .phrase-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: linear-gradient(to right, rgba(139, 92, 246, 0.1), rgba(79, 70, 229, 0.1));
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-        
-        .elegant-reveal {
-          opacity: 0;
-          animation: elegant-reveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
-        
-        @keyframes elegant-reveal {
-          0% { 
-            opacity: 0; 
-            transform: translateY(20px);
-            filter: blur(8px);
-          }
-          30% {
-            opacity: 0.5;
-            filter: blur(4px);
-          }
-          100% { 
-            opacity: 1; 
-            transform: translateY(0);
-            filter: blur(0);
-          }
-        }
-        
-        .blur-in-1 {
-          opacity: 0;
-          animation: blur-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          animation-delay: 0.2s;
-        }
-        
-        .blur-in-2 {
-          opacity: 0;
-          animation: blur-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          animation-delay: 0.5s;
-        }
-        
-        .blur-in-3 {
-          opacity: 0;
-          animation: blur-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          animation-delay: 0.8s;
-        }
-      `}</style>
     </>
   )
 }
