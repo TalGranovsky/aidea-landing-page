@@ -355,28 +355,6 @@ export default function Page() {
            country.code.toLowerCase().includes(searchLower)
   })
 
-  // Set body styles immediately on mount
-  useEffect(() => {
-    // Prevent flash of unstyled content
-    document.documentElement.classList.add('js-loading');
-    
-    // Simulate minimum loading time to prevent flickering
-    const minLoadTime = setTimeout(() => {
-      setIsLoading(false);
-      document.documentElement.classList.remove('js-loading');
-      
-      // Fade out loading screen after a short delay
-      setTimeout(() => {
-        setShowLoadingScreen(false);
-      }, 300);
-    }, 800);
-    
-    return () => {
-      clearTimeout(minLoadTime);
-      document.documentElement.classList.remove('js-loading');
-    };
-  }, []);
-
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
