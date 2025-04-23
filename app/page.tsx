@@ -276,27 +276,27 @@ export default function Page() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   
   // Track if this is the initial site load
-  const [showLoadingScreen, setShowLoadingScreen] = useState(true);
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const [showLoadingScreen, setShowLoadingScreen] = useState(false); 
+  const [isFirstLoad, setIsFirstLoad] = useState(false); 
   
   // Use effect to handle initial loading - with safer implementation
   useEffect(() => {
     // Only run on client side
     if (typeof window === 'undefined') return;
     
-    // Check if this is the first load of the site
-    const hasVisited = sessionStorage.getItem('hasVisitedSite');
-    setIsFirstLoad(!hasVisited);
+    // Check if this is the first load of the site - only show loading on very first visit
+    const hasVisited = localStorage.getItem('hasVisitedSite'); 
+    const isFirstVisit = !hasVisited;
+    setIsFirstLoad(isFirstVisit);
     
-    if (!hasVisited) {
-      // First visit, show loading screen
+    if (isFirstVisit) {
+      // First visit ever, show loading screen
       setShowLoadingScreen(true);
-      // Mark as visited for future navigation
-      sessionStorage.setItem('hasVisitedSite', 'true');
+      // Mark as visited permanently
+      localStorage.setItem('hasVisitedSite', 'true');
     } else {
       // Not first visit, skip loading screen
       setIsLoading(false);
-      setShowLoadingScreen(false);
     }
     
     // Add a class to the body element instead of manipulating style directly
@@ -940,7 +940,7 @@ export default function Page() {
                   <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
                   <div className="w-20 h-20 md:w-24 md:h-24 bg-pink-900/40 rounded-full mb-6 md:mb-8 flex items-center justify-center relative z-10">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 md:w-12 md:h-12">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z" />
+                      <path strokeLinecap="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z" />
                     </svg>
                   </div>
                   <h3 className="text-xl md:text-2xl font-bold mb-6 md:mb-8 text-center">Project 4</h3>
