@@ -1,14 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Roboto } from "next/font/google";
-import "./globals.css";
-import ClientLayout from './layout-client';
-
-const roboto = Roboto({ 
-  subsets: ['latin'],
-  weight: ['100', '300', '400', '500', '700', '900'],
-  display: 'swap',
-  variable: '--font-roboto',
-});
 
 export const metadata: Metadata = {
   title: "AIDEA - Your Creative Agency",
@@ -63,15 +53,3 @@ export const viewport: Viewport = {
   userScalable: false,
   themeColor: "#000000",
 };
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <ClientLayout robotoClassName={roboto.className}>
-      {children}
-    </ClientLayout>
-  );
-}

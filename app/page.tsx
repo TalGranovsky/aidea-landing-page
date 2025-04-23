@@ -11,6 +11,7 @@ import Footer from '@/components/Footer';
 import PageTransition from '@/components/PageTransition';
 import Script from 'next/script'
 import dynamic from 'next/dynamic'
+import ProjectStyles from '@/components/ProjectStyles';
 
 // Dynamically import non-critical components
 const EmailDomainSuggestions = dynamic(() => import('@/components/EmailDomainSuggestions'), {
@@ -540,192 +541,18 @@ export default function Page() {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" as="style" />
         <link rel="preload" href="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js" as="script" crossOrigin="anonymous" />
-        <style jsx global>{`
-          /* Prevent FOUC (Flash of Unstyled Content) */
-          .js-loading {
-            opacity: 0;
-          }
-          
-          /* Smooth page transitions */
-          body {
-            opacity: 1;
-            transition: opacity 0.3s ease;
-          }
-          
-          @keyframes slide-up-enter {
-            0% { transform: translateY(20px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-          }
-          
-          .animate-slide-up-enter {
-            animation: slide-up-enter 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          }
-          
-          .animate-gradient-shift {
-            animation: gradient-shift 10s ease-in-out infinite;
-          }
-          
-          @keyframes gradient-shift {
-            0% {
-              background-position: 0% 50%;
-            }
-            50% {
-              background-position: 100% 50%;
-            }
-            100% {
-              background-position: 0% 50%;
-            }
-          }
-          
-          .metallic-shine {
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-          }
-          
-          .hover-scale {
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-          }
-          
-          .hover-scale:hover {
-            transform: scale(1.02);
-          }
-          
-          @keyframes pulse {
-            0% { opacity: 0.7; transform: translateY(0); }
-            50% { opacity: 1; transform: translateY(5px); }
-            100% { opacity: 0.7; transform: translateY(0); }
-          }
-          
-          .scroll-arrow {
-            animation: pulse 1.5s ease-in-out infinite;
-            cursor: pointer;
-          }
-          
-          .scroll-arrow-2 {
-            animation: pulse 1.5s ease-in-out infinite;
-            animation-delay: 0.3s;
-            cursor: pointer;
-          }
-          
-          .scroll-arrow-3 {
-            animation: pulse 1.5s ease-in-out infinite;
-            animation-delay: 0.6s;
-            cursor: pointer;
-          }
-          
-          @keyframes reveal-text {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-          }
-          
-          .reveal-text {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          
-          .reveal-text-1 {
-            animation: reveal-text 0.8s ease-out forwards;
-            animation-delay: 0.2s;
-          }
-          
-          .reveal-text-2 {
-            animation: reveal-text 0.8s ease-out forwards;
-            animation-delay: 0.6s;
-          }
-          
-          .reveal-text-3 {
-            animation: reveal-text 0.8s ease-out forwards;
-            animation-delay: 1s;
-          }
-          
-          @keyframes blur-in {
-            0% { 
-              opacity: 0; 
-              filter: blur(10px);
-              transform: translateY(10px);
-            }
-            30% {
-              opacity: 0.5;
-              filter: blur(4px);
-            }
-            100% { 
-              opacity: 1; 
-              filter: blur(0);
-              transform: translateY(0);
-            }
-          }
-          
-          .phrase-card {
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            position: relative;
-          }
-          
-          .phrase-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(to right, rgba(139, 92, 246, 0.1), rgba(79, 70, 229, 0.1));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-          }
-          
-          .elegant-reveal {
-            opacity: 0;
-            animation: elegant-reveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-          }
-          
-          @keyframes elegant-reveal {
-            0% { 
-              opacity: 0; 
-              transform: translateY(20px);
-              filter: blur(8px);
-            }
-            30% {
-              opacity: 0.5;
-              filter: blur(4px);
-            }
-            100% { 
-              opacity: 1; 
-              transform: translateY(0);
-              filter: blur(0);
-            }
-          }
-          
-          .blur-in-1 {
-            opacity: 0;
-            animation: blur-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            animation-delay: 0.2s;
-          }
-          
-          .blur-in-2 {
-            opacity: 0;
-            animation: blur-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            animation-delay: 0.5s;
-          }
-          
-          .blur-in-3 {
-            opacity: 0;
-            animation: blur-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            animation-delay: 0.8s;
-          }
-          
-          body.loading-active {
-            overflow: hidden;
-            background-color: #000000;
-          }
-          html {
-            background-color: #000000;
-          }
-        `}</style>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#000000" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      {/* Always show loading screen on page load */}
-      {showLoadingScreen && <LoadingScreen onLoadingComplete={handleLoadingComplete} />}
+      {/* Loading Screen */}
+      {isLoading && (
+        <LoadingScreen onLoadingComplete={handleLoadingComplete} />
+      )}
+      
+      {/* Project Styles */}
+      <ProjectStyles />
       
       {/* Main content with slide-up animation when loading completes */}
       <div className={`min-h-screen bg-black text-white ${roboto.className} ${!isLoading ? 'animate-slide-up-enter' : 'opacity-0'}`}>
@@ -760,18 +587,6 @@ export default function Page() {
           </div>
           
           <div className="hero-glow z-[1]" />
-          <div className="scroll-reveal">
-            <div className="arrow-animation" style={{ left: '15%', top: '25%' }}></div>
-          </div>
-          <div className="scroll-reveal">
-            <div className="arrow-animation right" style={{ right: '15%', top: '25%' }}></div>
-          </div>
-          <div className="scroll-reveal">
-            <div className="arrow-animation" style={{ left: '40%', top: '40%' }}></div>
-          </div>
-          <div className="scroll-reveal">
-            <div className="arrow-animation right" style={{ right: '40%', top: '40%' }}></div>
-          </div>
           <div className="max-w-[1200px] w-full mx-auto text-center relative z-10">
             <div className="flex flex-col items-center justify-center pt-16 sm:pt-12 md:pt-8 lg:pt-0">
               <h1 className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 ${roboto.className} text-white leading-tight max-w-3xl mx-auto text-shadow-purple`}>
@@ -865,98 +680,135 @@ export default function Page() {
           </div>
         </section>
 
-        {/* Projects Section */}
+        {/* Projects Section - Redesigned as Bento Box */}
         <section id="projects" className="py-12 md:py-20 px-4 sm:px-6 bg-black relative">
-          <div className="scroll-reveal">
-            <div className="arrow-animation" style={{ left: '10%', top: '-30px' }}></div>
-          </div>
-          <div className="scroll-reveal">
-            <div className="arrow-animation right" style={{ right: '10%', top: '-30px' }}></div>
-          </div>
           <div className="max-w-[1400px] mx-auto relative z-10">
             <h2 className={`text-3xl md:text-5xl lg:text-6xl font-bold mb-12 md:mb-16 ${roboto.className} text-center`}>
               <span className="text-white">Explore our</span>{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600 purple-glow">Services</span>
             </h2>
-            <div className="max-w-[1400px] mx-auto">
-              <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 md:gap-8">
-                {/* Top Left: Project Card 1 */}
-                <div className="project-card p-8 md:p-10 col-span-1 sm:col-span-4 bg-[#1a0B38]/40 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-900/30 flex flex-col items-center justify-center hover-scale metallic-shine relative overflow-hidden group min-h-[300px] md:min-h-[350px]">
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
-                  <div className="w-20 h-20 md:w-24 md:h-24 bg-purple-900/40 rounded-full mb-6 md:mb-8 flex items-center justify-center relative z-10">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 md:w-12 md:h-12">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-                    </svg>
+            
+            {/* Bento Box Grid Layout */}
+            <div className="grid grid-cols-12 gap-4 md:gap-6">
+              {/* Large Feature Box */}
+              <div className="col-span-12 md:col-span-8 row-span-2 rounded-2xl overflow-hidden group">
+                <div className="bento-box h-full relative bg-gradient-to-br from-[#1a0B38]/40 to-[#1a0B38]/60 backdrop-blur-md border border-white/10 hover:border-purple-500/50 transition-all duration-500 overflow-hidden">
+                  <div className="faceted-bg"></div>
+                  <div className="faceted-overlay"></div>
+                  <div className="absolute inset-0 flex flex-col justify-between p-6 md:p-8">
+                    <div className="flex items-start justify-between">
+                      <div className="w-16 h-16 bg-purple-900/40 rounded-full flex items-center justify-center relative z-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                        </svg>
+                      </div>
+                      <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-purple-500/20 arrow-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 text-white arrow-icon">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                        </svg>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-2xl md:text-3xl font-bold mb-2 text-white">AI-Powered Design</h3>
+                      <p className="text-gray-300 max-w-lg">Transform your creative vision with our cutting-edge AI design tools. From concept to completion, our technology delivers stunning results in record time.</p>
+                    </div>
                   </div>
-                  <h3 className="text-xl md:text-2xl font-bold mb-6 md:mb-8 text-center">Project 1</h3>
-                  <div className="absolute bottom-4 right-4 w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-purple-500/20 arrow-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 text-white arrow-icon">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
-                    </svg>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70"></div>
+                  <img src="/images/service1.jpg" alt="AI-Powered Design" className="w-full h-full object-cover object-center absolute inset-0 transition-transform duration-700 group-hover:scale-110" />
+                </div>
+              </div>
+              
+              {/* Medium Box 1 */}
+              <div className="col-span-12 md:col-span-4 rounded-2xl overflow-hidden group">
+                <div className="bento-box h-full min-h-[240px] relative bg-gradient-to-br from-[#1a0B38]/40 to-[#1a0B38]/60 backdrop-blur-md border border-white/10 hover:border-purple-500/50 transition-all duration-500 overflow-hidden">
+                  <div className="faceted-bg"></div>
+                  <div className="faceted-overlay"></div>
+                  <div className="absolute inset-0 flex flex-col justify-between p-6">
+                    <div className="flex items-start justify-between">
+                      <div className="w-12 h-12 md:w-14 md:h-14 bg-blue-900/40 rounded-full flex items-center justify-center relative z-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 md:w-7 md:h-7">
+                          <path strokeLinecap="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
+                        </svg>
+                      </div>
+                      <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-purple-500/20 arrow-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-white arrow-icon">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                        </svg>
+                      </div>
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-bold text-white">Video Production</h3>
                   </div>
                 </div>
-                
-                {/* Center: Featured Card */}
-                <div className="project-card p-8 md:p-12 col-span-1 sm:col-span-4 row-span-2 bg-gradient-to-br from-purple-900/30 to-blue-900/30 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-900/30 flex flex-col items-center justify-center hover-scale metallic-shine relative overflow-hidden group min-h-[400px] md:min-h-[500px]">
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/30 via-transparent to-blue-600/30 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
-                  <h3 className="text-2xl md:text-3xl font-bold mb-8 md:mb-12 text-center">Featured Project</h3>
-                  <div className="absolute bottom-4 right-4 w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-purple-500/20 arrow-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 text-white arrow-icon">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
-                    </svg>
+              </div>
+              
+              {/* Medium Box 2 */}
+              <div className="col-span-6 md:col-span-4 rounded-2xl overflow-hidden group">
+                <div className="bento-box h-full min-h-[240px] relative bg-gradient-to-br from-[#1a0B38]/40 to-[#1a0B38]/60 backdrop-blur-md border border-white/10 hover:border-purple-500/50 transition-all duration-500 overflow-hidden">
+                  <div className="faceted-bg"></div>
+                  <div className="faceted-overlay"></div>
+                  <div className="absolute inset-0 flex flex-col justify-between p-6">
+                    <div className="flex items-start justify-between">
+                      <div className="w-12 h-12 md:w-14 md:h-14 bg-pink-900/40 rounded-full flex items-center justify-center relative z-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 md:w-7 md:h-7">
+                          <path strokeLinecap="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z" />
+                        </svg>
+                      </div>
+                      <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-purple-500/20 arrow-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-white arrow-icon">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                        </svg>
+                      </div>
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-bold text-white">Audio Services</h3>
                   </div>
                 </div>
-                
-                {/* Top Right: Project Card 2 */}
-                <div className="project-card p-8 md:p-10 col-span-1 sm:col-span-4 bg-[#1a0B38]/40 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-900/30 flex flex-col items-center justify-center hover-scale metallic-shine relative overflow-hidden group min-h-[300px] md:min-h-[350px]">
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
-                  <div className="w-20 h-20 md:w-24 md:h-24 bg-blue-900/40 rounded-full mb-6 md:mb-8 flex items-center justify-center relative z-10">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 md:w-12 md:h-12">
-                      <path strokeLinecap="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-xl md:text-2xl font-bold mb-6 md:mb-8 text-center">Project 2</h3>
-                  <div className="absolute bottom-4 right-4 w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-purple-500/20 arrow-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 text-white arrow-icon">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
-                    </svg>
-                  </div>
-                </div>
-                
-                {/* Bottom Left: Project Card 4 */}
-                <div className="project-card p-8 md:p-10 col-span-1 sm:col-span-4 bg-[#1a0B38]/40 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-900/30 flex flex-col items-center justify-center hover-scale metallic-shine relative overflow-hidden group min-h-[300px] md:min-h-[350px]">
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
-                  <div className="w-20 h-20 md:w-24 md:h-24 bg-pink-900/40 rounded-full mb-6 md:mb-8 flex items-center justify-center relative z-10">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 md:w-12 md:h-12">
-                      <path strokeLinecap="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-xl md:text-2xl font-bold mb-6 md:mb-8 text-center">Project 4</h3>
-                  <div className="absolute bottom-4 right-4 w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-purple-500/20 arrow-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 text-white arrow-icon">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
-                    </svg>
+              </div>
+              
+              {/* Medium Box 3 */}
+              <div className="col-span-6 md:col-span-4 rounded-2xl overflow-hidden group">
+                <div className="bento-box h-full min-h-[240px] relative bg-gradient-to-br from-[#1a0B38]/40 to-[#1a0B38]/60 backdrop-blur-md border border-white/10 hover:border-purple-500/50 transition-all duration-500 overflow-hidden">
+                  <div className="faceted-bg"></div>
+                  <div className="faceted-overlay"></div>
+                  <div className="absolute inset-0 flex flex-col justify-between p-6">
+                    <div className="flex items-start justify-between">
+                      <div className="w-12 h-12 md:w-14 md:h-14 bg-green-900/40 rounded-full flex items-center justify-center relative z-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 md:w-7 md:h-7">
+                          <path strokeLinecap="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+                        </svg>
+                      </div>
+                      <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-purple-500/20 arrow-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-white arrow-icon">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                        </svg>
+                      </div>
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-bold text-white">3D Modeling</h3>
                   </div>
                 </div>
-                
-                {/* Bottom Right: Project Card 5 */}
-                <div className="project-card p-8 md:p-10 col-span-1 sm:col-span-4 bg-[#1a0B38]/40 backdrop-blur-md rounded-xl border border-white/10 hover:border-purple-500/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-900/30 flex flex-col items-center justify-center hover-scale metallic-shine relative overflow-hidden group min-h-[300px] md:min-h-[350px]">
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
-                  <div className="w-20 h-20 md:w-24 md:h-24 bg-green-900/40 rounded-full mb-6 md:mb-8 flex items-center justify-center relative z-10">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 md:w-12 md:h-12">
-                      <path strokeLinecap="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
-                    </svg>
-                  </div>
-                  <h3 className="text-xl md:text-2xl font-bold mb-6 md:mb-8 text-center">Project 5</h3>
-                  <div className="absolute bottom-4 right-4 w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-purple-500/20 arrow-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 text-white arrow-icon">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
-                    </svg>
+              </div>
+              
+              {/* Wide Box */}
+              <div className="col-span-12 md:col-span-8 rounded-2xl overflow-hidden group">
+                <div className="bento-box h-full min-h-[240px] relative bg-gradient-to-br from-[#1a0B38]/40 to-[#1a0B38]/60 backdrop-blur-md border border-white/10 hover:border-purple-500/50 transition-all duration-500 overflow-hidden">
+                  <div className="faceted-bg"></div>
+                  <div className="faceted-overlay"></div>
+                  <div className="absolute inset-0 flex flex-col justify-between p-6 md:p-8">
+                    <div className="flex items-start justify-between">
+                      <div className="w-12 h-12 md:w-16 md:h-16 bg-indigo-900/40 rounded-full flex items-center justify-center relative z-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 md:w-8 md:h-8">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09A4.5 4.5 0 0112 4.5c1.268 0 2.39.63 3.068 1.593a4.5 4.5 0 013.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423l-1.32-.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z" />
+                        </svg>
+                      </div>
+                      <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-purple-500/20 arrow-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 text-white arrow-icon">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                        </svg>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-xl md:text-2xl font-bold mb-2 text-white">Creative AI Solutions</h3>
+                      <p className="text-gray-300 max-w-lg">Unleash your creativity with our AI-powered tools designed for artists, designers, and creators.</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -966,12 +818,6 @@ export default function Page() {
 
         {/* Advantages Section */}
         <section className="py-16 md:py-24 px-4 sm:px-6 bg-gradient-to-b from-black to-[#0c0118] relative">
-          <div className="scroll-reveal">
-            <div className="arrow-animation" style={{ left: '10%', top: '50px' }}></div>
-          </div>
-          <div className="scroll-reveal">
-            <div className="arrow-animation right" style={{ right: '10%', top: '50px' }}></div>
-          </div>
           <div className="max-w-[1400px] mx-auto relative z-10">
             <h2 className={`text-3xl md:text-5xl lg:text-6xl font-bold mb-12 md:mb-16 ${roboto.className} text-center`}>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600 purple-glow">Advantages</span>{" "}
@@ -1005,7 +851,7 @@ export default function Page() {
               <div className="bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 p-8 hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-900/20 group">
                 <div className="w-16 h-16 bg-gradient-to-br from-purple-600/80 to-blue-600/80 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-white">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" />
+                    <path strokeLinecap="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" />
                   </svg>
                 </div>
                 <h3 className="text-xl md:text-2xl font-bold mb-4 text-white">Endless Scalability</h3>
