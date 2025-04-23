@@ -20,15 +20,23 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
   useEffect(() => {
     if (typeof document !== 'undefined') {
       // Force black background immediately
-      document.documentElement.style.backgroundColor = '#000000';
-      document.body.style.backgroundColor = '#000000';
+      if (document.documentElement) {
+        document.documentElement.style.backgroundColor = '#000000';
+      }
+      if (document.body) {
+        document.body.style.backgroundColor = '#000000';
+      }
       
       // Set initial render complete
       initialRenderComplete.current = true;
       
       // Prevent scrolling during loading
-      document.documentElement.style.overflow = 'hidden';
-      document.body.style.overflow = 'hidden';
+      if (document.documentElement) {
+        document.documentElement.style.overflow = 'hidden';
+      }
+      if (document.body) {
+        document.body.style.overflow = 'hidden';
+      }
       
       // Create and inject a critical style element with highest priority
       const criticalStyle = document.createElement('style');
@@ -132,15 +140,21 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
       `;
       
       // Insert the style element at the beginning of the head
-      if (document.head.firstChild) {
+      if (document.head && document.head.firstChild) {
         document.head.insertBefore(criticalStyle, document.head.firstChild);
+      } else if (document.head) {
+        document.head.appendChild(criticalStyle);
       }
       
       return () => {
         // When component unmounts, restore scrolling
-        document.documentElement.style.overflow = 'visible';
-        document.body.style.overflow = 'visible';
-        document.body.style.overflowY = 'auto';
+        if (document && document.documentElement) {
+          document.documentElement.style.overflow = 'visible';
+        }
+        if (document && document.body) {
+          document.body.style.overflow = 'visible';
+          document.body.style.overflowY = 'auto';
+        }
         
         // Remove the critical style element
         const criticalStyleElement = document.getElementById('critical-loading-styles');
@@ -153,7 +167,7 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
   
   // Simulate loading progress
   useEffect(() => {
-    if (!initialRenderComplete.current) return;
+    if (!initialRenderComplete.current || typeof window === 'undefined') return;
     
     // Force minimum loading time to prevent jumps
     const minLoadingTime = 2500; // 2.5 seconds minimum loading time
@@ -201,22 +215,26 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
             // Only proceed if minimum loading time has elapsed
             if (elapsedTime >= minLoadingTime) {
               // Apply slide-up animation to the entire loading screen
-              const loadingScreen = document.querySelector('.loading-screen');
-              if (loadingScreen) {
-                loadingScreen.classList.add('slide-up-exit');
-              }
-              
-              // After animation completes, call onLoadingComplete
-              setTimeout(() => {
-                // Restore scrolling
-                if (typeof document !== 'undefined') {
-                  document.documentElement.style.overflow = 'visible';
-                  document.body.style.overflow = 'visible';
-                  document.body.style.overflowY = 'auto';
+              if (typeof document !== 'undefined') {
+                const loadingScreen = document.querySelector('.loading-screen');
+                if (loadingScreen) {
+                  loadingScreen.classList.add('slide-up-exit');
                 }
                 
-                onLoadingComplete();
-              }, 800); // Match with animation duration
+                // After animation completes, call onLoadingComplete
+                setTimeout(() => {
+                  // Restore scrolling
+                  if (document && document.documentElement) {
+                    document.documentElement.style.overflow = 'visible';
+                  }
+                  if (document && document.body) {
+                    document.body.style.overflow = 'visible';
+                    document.body.style.overflowY = 'auto';
+                  }
+                  
+                  onLoadingComplete();
+                }, 800); // Match with animation duration
+              }
               return 100;
             } else {
               // If minimum time hasn't elapsed, cap at 99%

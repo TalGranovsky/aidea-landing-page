@@ -274,15 +274,17 @@ export default function Page() {
   
   // Use effect to handle initial loading
   useEffect(() => {
-    // Force background to black immediately
-    document.documentElement.style.backgroundColor = '#000000';
-    document.body.style.backgroundColor = '#000000';
-    
-    // Prevent FOUC (Flash of Unstyled Content)
-    document.documentElement.classList.add('js-loading');
-    
     // Only run on client side
     if (typeof window !== 'undefined') {
+      // Force background to black immediately
+      if (document && document.documentElement) {
+        document.documentElement.style.backgroundColor = '#000000';
+        document.body.style.backgroundColor = '#000000';
+        
+        // Prevent FOUC (Flash of Unstyled Content)
+        document.documentElement.classList.add('js-loading');
+      }
+      
       // Check if this is the first load of the site
       const isFirstLoad = !sessionStorage.getItem('hasVisitedSite');
       
@@ -296,19 +298,25 @@ export default function Page() {
         setTimeout(() => {
           setIsLoading(false);
           setShowLoadingScreen(false);
-          document.documentElement.classList.remove('js-loading');
+          if (document && document.documentElement) {
+            document.documentElement.classList.remove('js-loading');
+          }
         }, 100); // Small delay to ensure smooth transition
       }
     }
     
     return () => {
-      document.documentElement.classList.remove('js-loading');
+      if (typeof window !== 'undefined' && document && document.documentElement) {
+        document.documentElement.classList.remove('js-loading');
+      }
     };
   }, []);
 
   // Handle loading completion
   const handleLoadingComplete = () => {
-    document.documentElement.classList.remove('js-loading');
+    if (typeof window !== 'undefined' && document && document.documentElement) {
+      document.documentElement.classList.remove('js-loading');
+    }
     setIsLoading(false);
     setShowLoadingScreen(false);
   };
@@ -532,6 +540,35 @@ export default function Page() {
       }, 5000)
     }, 1500)
   }
+
+  // Set body styles immediately on mount - Restoring this with proper null checks
+  useEffect(() => {
+    // Only run on client side
+    if (typeof window !== 'undefined' && document && document.documentElement) {
+      // Prevent flash of unstyled content
+      document.documentElement.classList.add('js-loading');
+      
+      // Simulate minimum loading time to prevent flickering
+      const minLoadTime = setTimeout(() => {
+        setIsLoading(false);
+        if (document && document.documentElement) {
+          document.documentElement.classList.remove('js-loading');
+        }
+        
+        // Fade out loading screen after a short delay
+        setTimeout(() => {
+          setShowLoadingScreen(false);
+        }, 300);
+      }, 800);
+      
+      return () => {
+        clearTimeout(minLoadTime);
+        if (document && document.documentElement) {
+          document.documentElement.classList.remove('js-loading');
+        }
+      };
+    }
+  }, []);
 
   return (
     <>
