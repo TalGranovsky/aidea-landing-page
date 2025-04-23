@@ -20,8 +20,8 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
     // Safety check for SSR
     if (typeof window === 'undefined') return;
     
-    // Force minimum loading time to prevent jumps
-    const minLoadingTime = 2500; // 2.5 seconds minimum loading time
+    // Reduce minimum loading time for faster experience
+    const minLoadingTime = 1500; // Reduced from 2500ms to 1500ms
     startTimeRef.current = Date.now();
     lastUpdateTimeRef.current = Date.now();
     
@@ -30,32 +30,29 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
       const deltaTime = currentTime - lastUpdateTimeRef.current;
       const elapsedTime = currentTime - startTimeRef.current;
       
-      // Only update every 50ms for smoother progress
-      if (deltaTime > 50) {
+      // Update more frequently for smoother progress
+      if (deltaTime > 30) { // Reduced from 50ms to 30ms
         lastUpdateTimeRef.current = currentTime;
         
         // Calculate progress based on elapsed time, but ensure it doesn't reach 100% too quickly
         let increment;
         
-        // First phase: slow start (0-30%)
+        // Accelerate the loading phases
         if (progress < 30) {
-          increment = Math.random() * 0.3 + 0.1; // 0.1-0.4% increment
+          increment = Math.random() * 0.5 + 0.3; // Increased increment
         } 
-        // Second phase: moderate speed (30-70%)
         else if (progress < 70) {
-          increment = Math.random() * 0.5 + 0.2; // 0.2-0.7% increment
+          increment = Math.random() * 0.7 + 0.4; // Increased increment
         } 
-        // Final phase: slow down (70-99%)
         else if (progress < 99) {
-          increment = Math.random() * 0.2 + 0.05; // 0.05-0.25% increment
+          increment = Math.random() * 0.4 + 0.2; // Increased increment
         } 
-        // Ensure we reach exactly 100% at the end
         else {
           increment = 0;
           
           // Only reach 100% if minimum time has elapsed
           if (elapsedTime >= minLoadingTime) {
-            increment = Math.random() * 0.3 + 0.1; // Final push to 100%
+            increment = 1.0; // Faster final push to 100%
           }
         }
         
@@ -69,7 +66,7 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
               // After animation completes, call onLoadingComplete
               setTimeout(() => {
                 onLoadingComplete();
-              }, 800); // Match with animation duration
+              }, 500); // Reduced from 800ms to 500ms for faster transition
               return 100;
             } else {
               // If minimum time hasn't elapsed, cap at 99%

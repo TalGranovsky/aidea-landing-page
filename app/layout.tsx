@@ -54,7 +54,10 @@ export const metadata: Metadata = {
       },
     ],
   },
-  manifest: "/manifest.json"
+  manifest: "/manifest.json",
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=5',
+  themeColor: '#000000',
+  colorScheme: 'dark',
 };
 
 export const viewport: Viewport = {
@@ -73,6 +76,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta charSet="utf-8" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://unpkg.com" />
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" as="style" />
         <style>{`
           html, body {
             background-color: #000000 !important;

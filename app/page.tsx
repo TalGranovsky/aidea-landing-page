@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useRef, Suspense } from 'react'
+import React, { useState, useEffect, useRef, Suspense, lazy } from 'react'
 import Head from 'next/head'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { Roboto, Playfair_Display } from 'next/font/google'
@@ -10,7 +10,13 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import PageTransition from '@/components/PageTransition';
 import Script from 'next/script'
-import EmailDomainSuggestions from '@/components/EmailDomainSuggestions'
+import dynamic from 'next/dynamic'
+
+// Dynamically import non-critical components
+const EmailDomainSuggestions = dynamic(() => import('@/components/EmailDomainSuggestions'), {
+  ssr: false,
+  loading: () => <div className="text-gray-400 text-sm mt-1">Loading suggestions...</div>
+})
 
 // Country codes list
 const COUNTRY_CODES = [
@@ -537,6 +543,11 @@ export default function Page() {
       <Head>
         <title>AIDEA - Bringing your AI ideas to life</title>
         <meta name="description" content="AIDEA is a creative agency specializing in AI-powered solutions for businesses of all sizes." />
+        {/* Add preload for critical resources */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" as="style" />
+        <link rel="preload" href="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js" as="script" crossOrigin="anonymous" />
         <style jsx global>{`
           /* Prevent FOUC (Flash of Unstyled Content) */
           .js-loading {
@@ -727,16 +738,21 @@ export default function Page() {
       {/* Main content with slide-up animation when loading completes */}
       <div className={`min-h-screen bg-black text-white ${roboto.className} ${!isLoading ? 'animate-slide-up-enter' : 'opacity-0'}`}>
         {/* Navbar */}
-        <Suspense fallback={<div>Loading navigation...</div>}>
+        <Suspense fallback={<div className="h-16 bg-black"></div>}>
           <Navbar currentPath="/" />
         </Suspense>
         
         {/* Hero Section */}
         <section className="py-12 md:py-20 px-4 sm:px-6 relative min-h-[90vh] md:min-h-[80vh] flex items-center justify-center overflow-hidden">
-          {/* Spline 3D Animation as Background */}
+          {/* Spline 3D Animation as Background - Load with priority false for better performance */}
           <div className="absolute inset-0 w-full h-full z-0">
             <div className="absolute inset-0 bg-transparent"></div>
-            <Script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js" />
+            <Script 
+              type="module" 
+              src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js" 
+              strategy="lazyOnload"
+              crossOrigin="anonymous"
+            />
             <div 
               className="absolute inset-0 scale-[1.5] sm:scale-[1.3] md:scale-[1.1] lg:scale-100 origin-center"
               style={{ 
