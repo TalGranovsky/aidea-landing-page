@@ -44,6 +44,7 @@ export default function LetsBegin() {
   const [formError, setFormError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [apiError, setApiError] = useState('');
   const [selectedCountry, setSelectedCountry] = useState({ code: '+972', name: 'Israel' });
   const [countryDropdownOpen, setCountryDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -204,7 +205,7 @@ export default function LetsBegin() {
     return isValid;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Basic validation
@@ -226,11 +227,47 @@ export default function LetsBegin() {
     
     // Clear any previous errors
     setFormError('');
+    setApiError('');
     setIsSubmitting(true);
     
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const formDataToSubmit = {
+        ...formData,
+        phone: `${selectedCountry.code} ${phone}`,
+      };
+      
+      console.log('Submitting form data:', formDataToSubmit);
+      
+      // Submit form data to the API
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formDataToSubmit),
+      });
+      
+      // Get the raw response text
+      const responseText = await response.text();
+      console.log('Raw API response:', responseText);
+      
+      // Try to parse the response as JSON
+      let result;
+      try {
+        result = JSON.parse(responseText);
+        console.log('Parsed API response:', result);
+      } catch (parseError) {
+        console.error('Error parsing API response:', parseError);
+        throw new Error(`Server returned invalid JSON: ${responseText.substring(0, 100)}...`);
+      }
+      
+      if (!response.ok) {
+        const errorMessage = result?.message || `Server error: ${response.status} ${response.statusText}`;
+        console.error('API error:', errorMessage);
+        throw new Error(errorMessage);
+      }
+      
+      // Handle successful submission
       setFormSubmitted(true);
       
       // Reset form
@@ -251,7 +288,12 @@ export default function LetsBegin() {
       setTimeout(() => {
         setFormSubmitted(false);
       }, 5000);
-    }, 1500);
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setApiError(error instanceof Error ? error.message : String(error) || 'An unknown error occurred. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // List of countries with country codes
@@ -311,6 +353,27 @@ export default function LetsBegin() {
               </div>
               
               <div className="max-w-3xl 2k:max-w-4xl 4k:max-w-5xl mx-auto bg-black/40 backdrop-blur-lg border border-purple-500/20 rounded-xl p-6 md:p-10 2k:p-12 4k:p-16 shadow-xl shadow-purple-900/10">
+                {(formError || apiError) && (
+                  <div className="p-4 mb-6 bg-red-50 border border-red-200 rounded-lg">
+                    <div className="flex items-start">
+                      <div className="flex-shrink-0">
+                        <svg className="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd"></path>
+                        </svg>
+                      </div>
+                      <div className="ml-3">
+                        <h3 className="text-sm font-medium text-red-800">
+                          There was an error with your submission
+                        </h3>
+                        <div className="mt-2 text-sm text-red-700">
+                          {formError && <p>{formError}</p>}
+                          {apiError && <p>{apiError}</p>}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
                 {formSubmitted ? (
                   <div className="text-center py-12">
                     <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -319,13 +382,21 @@ export default function LetsBegin() {
                       </svg>
                     </div>
                     <h3 className="text-2xl font-bold text-white mb-2">Thank You!</h3>
-                    <p className="text-gray-300">Your message has been sent successfully. We&#39;ll be in touch soon!</p>
+                    <p className="text-gray-300 mb-4">Your message has been sent successfully. We'll be in touch soon!</p>
+                    <p className="text-gray-400 text-sm">We've also sent you a confirmation email with more details.</p>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6 2k:space-y-8 4k:space-y-10">
                     {formError && (
                       <div className="bg-red-500/20 border border-red-500/50 text-white px-4 py-3 2k:px-6 2k:py-4 4k:px-8 4k:py-5 rounded-lg">
                         {formError}
+                      </div>
+                    )}
+                    
+                    {apiError && (
+                      <div className="bg-red-500/20 border border-red-500/50 text-white px-4 py-3 2k:px-6 2k:py-4 4k:px-8 4k:py-5 rounded-lg">
+                        <p className="font-medium">Server Error:</p>
+                        <p>{apiError}</p>
                       </div>
                     )}
                     
