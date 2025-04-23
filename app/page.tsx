@@ -890,6 +890,11 @@ export default function Page() {
                     </svg>
                   </div>
                   <h3 className="text-xl md:text-2xl font-bold mb-6 md:mb-8 text-center">Project 1</h3>
+                  <div className="absolute bottom-4 right-4 w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-purple-500/20 arrow-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 text-white arrow-icon">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                    </svg>
+                  </div>
                 </div>
                 
                 {/* Center: Featured Card */}
@@ -897,6 +902,11 @@ export default function Page() {
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                   <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/30 via-transparent to-blue-600/30 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
                   <h3 className="text-2xl md:text-3xl font-bold mb-8 md:mb-12 text-center">Featured Project</h3>
+                  <div className="absolute bottom-4 right-4 w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-purple-500/20 arrow-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 text-white arrow-icon">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                    </svg>
+                  </div>
                 </div>
                 
                 {/* Top Right: Project Card 2 */}
@@ -909,6 +919,11 @@ export default function Page() {
                     </svg>
                   </div>
                   <h3 className="text-xl md:text-2xl font-bold mb-6 md:mb-8 text-center">Project 2</h3>
+                  <div className="absolute bottom-4 right-4 w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-purple-500/20 arrow-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 text-white arrow-icon">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                    </svg>
+                  </div>
                 </div>
                 
                 {/* Bottom Left: Project Card 4 */}
@@ -921,6 +936,11 @@ export default function Page() {
                     </svg>
                   </div>
                   <h3 className="text-xl md:text-2xl font-bold mb-6 md:mb-8 text-center">Project 4</h3>
+                  <div className="absolute bottom-4 right-4 w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-purple-500/20 arrow-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 text-white arrow-icon">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                    </svg>
+                  </div>
                 </div>
                 
                 {/* Bottom Right: Project Card 5 */}
@@ -933,6 +953,11 @@ export default function Page() {
                     </svg>
                   </div>
                   <h3 className="text-xl md:text-2xl font-bold mb-6 md:mb-8 text-center">Project 5</h3>
+                  <div className="absolute bottom-4 right-4 w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg shadow-purple-500/20 arrow-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 text-white arrow-icon">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
