@@ -276,28 +276,17 @@ export default function Page() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   
   // Track if this is the initial site load
-  const [showLoadingScreen, setShowLoadingScreen] = useState(false); 
-  const [isFirstLoad, setIsFirstLoad] = useState(false); 
+  const [showLoadingScreen, setShowLoadingScreen] = useState(true); 
+  const [isFirstLoad, setIsFirstLoad] = useState(true); 
   
-  // Use effect to handle initial loading - with safer implementation
+  // Use effect to handle initial loading - show loading screen on every page load
   useEffect(() => {
     // Only run on client side
     if (typeof window === 'undefined') return;
     
-    // Check if this is the first load of the site - only show loading on very first visit
-    const hasVisited = localStorage.getItem('hasVisitedSite'); 
-    const isFirstVisit = !hasVisited;
-    setIsFirstLoad(isFirstVisit);
-    
-    if (isFirstVisit) {
-      // First visit ever, show loading screen
-      setShowLoadingScreen(true);
-      // Mark as visited permanently
-      localStorage.setItem('hasVisitedSite', 'true');
-    } else {
-      // Not first visit, skip loading screen
-      setIsLoading(false);
-    }
+    // Always show loading screen on page load
+    setShowLoadingScreen(true);
+    setIsFirstLoad(true);
     
     // Add a class to the body element instead of manipulating style directly
     const bodyClasses = document.body.classList;
@@ -307,7 +296,7 @@ export default function Page() {
       bodyClasses.remove('loading-active');
     };
   }, []);
-
+  
   // Handle loading completion
   const handleLoadingComplete = () => {
     if (typeof window !== 'undefined') {
@@ -732,8 +721,8 @@ export default function Page() {
         `}</style>
       </Head>
       
-      {/* Only show loading screen on initial site load */}
-      {showLoadingScreen && isFirstLoad && <LoadingScreen onLoadingComplete={handleLoadingComplete} />}
+      {/* Always show loading screen on page load */}
+      {showLoadingScreen && <LoadingScreen onLoadingComplete={handleLoadingComplete} />}
       
       {/* Main content with slide-up animation when loading completes */}
       <div className={`min-h-screen bg-black text-white ${roboto.className} ${!isLoading ? 'animate-slide-up-enter' : 'opacity-0'}`}>
