@@ -562,7 +562,7 @@ export default function Page() {
         </Suspense>
         
         {/* Hero Section */}
-        <section className="py-12 md:py-20 px-4 sm:px-6 relative min-h-[90vh] md:min-h-[80vh] flex items-center justify-center overflow-hidden">
+        <section className="pt-52 sm:pt-56 md:pt-60 lg:pt-64 2k:pt-72 4k:pt-80 pb-12 md:pb-20 2k:pb-32 4k:pb-40 px-4 sm:px-6 relative min-h-[90vh] md:min-h-[80vh] flex items-center justify-center overflow-hidden">
           {/* Spline 3D Animation as Background - Load with priority false for better performance */}
           <div className="absolute inset-0 w-full h-full z-0">
             <div className="absolute inset-0 bg-transparent"></div>
@@ -587,29 +587,29 @@ export default function Page() {
           </div>
           
           <div className="hero-glow z-[1]" />
-          <div className="max-w-[1200px] w-full mx-auto text-center relative z-10">
-            <div className="flex flex-col items-center justify-center pt-16 sm:pt-12 md:pt-8 lg:pt-0">
-              <h1 className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 ${roboto.className} text-white leading-tight max-w-3xl mx-auto text-shadow-purple`}>
+          <div className="max-w-[1200px] 2k:max-w-[1800px] 4k:max-w-[2400px] w-full mx-auto text-center relative z-10">
+            <div className="flex flex-col items-center justify-center">
+              <h1 className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl 2k:text-8xl 4k:text-9xl font-bold mb-4 md:mb-6 2k:mb-8 4k:mb-10 ${roboto.className} text-white leading-tight max-w-3xl 2k:max-w-4xl 4k:max-w-6xl mx-auto text-shadow-purple`}>
                 <span className="block">YOUR CREATIVE</span>{" "}
                 <span className="block">AGENCY</span>
               </h1>
               <Link href="/lets-begin" legacyBehavior passHref>
                 <button 
-                  className="inline-flex items-center bg-gradient-to-r from-purple-600 to-blue-600 px-5 py-3 md:px-6 md:py-3 rounded-full text-white font-medium transition-all hover:opacity-90 hover:scale-[1.03] text-sm md:text-base"
+                  className="inline-flex items-center bg-gradient-to-r from-purple-600 to-blue-600 px-5 py-3 md:px-6 md:py-3 2k:px-8 2k:py-4 4k:px-10 4k:py-5 rounded-full text-white font-medium transition-all hover:opacity-90 hover:scale-[1.03] text-sm md:text-base 2k:text-xl 4k:text-2xl"
                 >
                   Let&#39;s Begin »
                 </button>
               </Link>
               
               {/* New tagline */}
-              <div className="mt-12 md:mt-16 mb-8">
-                <p className="text-lg md:text-xl text-white font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400 mb-6">
+              <div className="mt-12 md:mt-16 2k:mt-24 4k:mt-32 mb-8 2k:mb-12 4k:mb-16">
+                <p className="text-lg md:text-xl 2k:text-2xl 4k:text-3xl text-white font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400 mb-6 2k:mb-8 4k:mb-10">
                   Ready To Improve Your Brand with Limitless AI Solutions?
                 </p>
                 
                 {/* Animated down arrows - larger, lower, and clickable */}
                 <div 
-                  className="flex flex-col items-center mt-12 md:mt-16 cursor-pointer" 
+                  className="flex flex-col items-center mt-12 md:mt-16 2k:mt-24 4k:mt-32 cursor-pointer" 
                   onClick={() => {
                     const projectsSection = document.getElementById('projects');
                     if (projectsSection) {
@@ -618,7 +618,7 @@ export default function Page() {
                   }}
                 >
                   <div className="p-4 hover:scale-110 transition-transform duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12 md:w-16 md:h-16 text-purple-500 animate-bounce">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12 md:w-16 md:h-16 2k:w-20 2k:h-20 4k:w-24 4k:h-24 text-purple-500 animate-bounce">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
                     </svg>
                   </div>
@@ -629,10 +629,10 @@ export default function Page() {
         </section>
 
         {/* Notable Collaborations */}
-        <section id="noteable-collabs" className="py-10 md:py-16 bg-[#190a37]/50 backdrop-blur-md w-full overflow-hidden relative">
+        <section id="noteable-collabs" className="py-10 md:py-16 2k:py-24 4k:py-32 bg-[#190a37]/50 backdrop-blur-md w-full overflow-hidden relative">
           <div>
-            <div className="text-center mb-8 md:mb-12">
-              <h2 className={`text-2xl md:text-3xl font-medium ${roboto.className}`}>OUR NOTEABLE COLLABS</h2>
+            <div className="text-center mb-8 md:mb-12 2k:mb-16 4k:mb-20">
+              <h2 className={`text-2xl md:text-3xl 2k:text-4xl 4k:text-5xl font-medium ${roboto.className}`}>OUR NOTEABLE COLLABS</h2>
             </div>
             
             {/* Marquee for all screen sizes */}
@@ -640,39 +640,39 @@ export default function Page() {
               <div className="flex w-[200%] animate-marquee">
                 {/* First set of logos */}
                 <div className="flex w-1/2 justify-around items-center">
-                  <div className="w-20 h-20 md:w-28 md:h-28 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
-                    <img src="/images/ATLANTIC.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain transition-transform duration-500 group-hover:scale-110" />
+                  <div className="w-20 h-20 md:w-28 md:h-28 2k:w-36 2k:h-36 4k:w-44 4k:h-44 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
+                    <img src="/images/ATLANTIC.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 2k:w-24 2k:h-24 4k:w-32 4k:h-32 object-contain transition-transform duration-500 group-hover:scale-110" />
                   </div>
-                  <div className="w-20 h-20 md:w-28 md:h-28 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
-                    <img src="/images/WB.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain transition-transform duration-500 group-hover:scale-110" />
+                  <div className="w-20 h-20 md:w-28 md:h-28 2k:w-36 2k:h-36 4k:w-44 4k:h-44 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
+                    <img src="/images/WB.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 2k:w-24 2k:h-24 4k:w-32 4k:h-32 object-contain transition-transform duration-500 group-hover:scale-110" />
                   </div>
-                  <div className="w-20 h-20 md:w-28 md:h-28 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
-                    <img src="/images/Vector-3.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain transition-transform duration-500 group-hover:scale-110" />
+                  <div className="w-20 h-20 md:w-28 md:h-28 2k:w-36 2k:h-36 4k:w-44 4k:h-44 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
+                    <img src="/images/Vector-3.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 2k:w-24 2k:h-24 4k:w-32 4k:h-32 object-contain transition-transform duration-500 group-hover:scale-110" />
                   </div>
-                  <div className="w-20 h-20 md:w-28 md:h-28 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
-                    <img src="/images/alibaba.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain transition-transform duration-500 group-hover:scale-110" />
+                  <div className="w-20 h-20 md:w-28 md:h-28 2k:w-36 2k:h-36 4k:w-44 4k:h-44 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
+                    <img src="/images/alibaba.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 2k:w-24 2k:h-24 4k:w-32 4k:h-32 object-contain transition-transform duration-500 group-hover:scale-110" />
                   </div>
-                  <div className="w-20 h-20 md:w-28 md:h-28 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
-                    <img src="/images/GMC.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain transition-transform duration-500 group-hover:scale-110" />
+                  <div className="w-20 h-20 md:w-28 md:h-28 2k:w-36 2k:h-36 4k:w-44 4k:h-44 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
+                    <img src="/images/GMC.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 2k:w-24 2k:h-24 4k:w-32 4k:h-32 object-contain transition-transform duration-500 group-hover:scale-110" />
                   </div>
                 </div>
                 
                 {/* Duplicate set for infinite effect */}
                 <div className="flex w-1/2 justify-around items-center">
-                  <div className="w-20 h-20 md:w-28 md:h-28 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
-                    <img src="/images/ATLANTIC.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain transition-transform duration-500 group-hover:scale-110" />
+                  <div className="w-20 h-20 md:w-28 md:h-28 2k:w-36 2k:h-36 4k:w-44 4k:h-44 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
+                    <img src="/images/ATLANTIC.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 2k:w-24 2k:h-24 4k:w-32 4k:h-32 object-contain transition-transform duration-500 group-hover:scale-110" />
                   </div>
-                  <div className="w-20 h-20 md:w-28 md:h-28 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
-                    <img src="/images/WB.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain transition-transform duration-500 group-hover:scale-110" />
+                  <div className="w-20 h-20 md:w-28 md:h-28 2k:w-36 2k:h-36 4k:w-44 4k:h-44 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
+                    <img src="/images/WB.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 2k:w-24 2k:h-24 4k:w-32 4k:h-32 object-contain transition-transform duration-500 group-hover:scale-110" />
                   </div>
-                  <div className="w-20 h-20 md:w-28 md:h-28 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
-                    <img src="/images/Vector-3.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain transition-transform duration-500 group-hover:scale-110" />
+                  <div className="w-20 h-20 md:w-28 md:h-28 2k:w-36 2k:h-36 4k:w-44 4k:h-44 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
+                    <img src="/images/Vector-3.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 2k:w-24 2k:h-24 4k:w-32 4k:h-32 object-contain transition-transform duration-500 group-hover:scale-110" />
                   </div>
-                  <div className="w-20 h-20 md:w-28 md:h-28 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
-                    <img src="/images/alibaba.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain transition-transform duration-500 group-hover:scale-110" />
+                  <div className="w-20 h-20 md:w-28 md:h-28 2k:w-36 2k:h-36 4k:w-44 4k:h-44 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
+                    <img src="/images/alibaba.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 2k:w-24 2k:h-24 4k:w-32 4k:h-32 object-contain transition-transform duration-500 group-hover:scale-110" />
                   </div>
-                  <div className="w-20 h-20 md:w-28 md:h-28 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
-                    <img src="/images/GMC.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain transition-transform duration-500 group-hover:scale-110" />
+                  <div className="w-20 h-20 md:w-28 md:h-28 2k:w-36 2k:h-36 4k:w-44 4k:h-44 bg-[#1a0B38]/40 backdrop-blur-sm rounded-lg border border-white/10 flex items-center justify-center mx-2 hover:border-purple-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-purple-900/20 overflow-visible group">
+                    <img src="/images/GMC.png" alt="Partner Logo" className="w-12 h-12 md:w-16 md:h-16 2k:w-24 2k:h-24 4k:w-32 4k:h-32 object-contain transition-transform duration-500 group-hover:scale-110" />
                   </div>
                 </div>
               </div>
@@ -725,7 +725,7 @@ export default function Page() {
                   <div className="faceted-overlay"></div>
                   <div className="absolute inset-0 flex flex-col justify-between p-6">
                     <div className="flex items-start justify-between">
-                      <div className="w-12 h-12 md:w-14 md:h-14 bg-blue-900/40 rounded-full flex items-center justify-center relative z-10">
+                      <div className="w-12 h-12 bg-blue-900/40 rounded-full flex items-center justify-center relative z-10">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 md:w-7 md:h-7">
                           <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18" />
                           <line x1="7" y1="2" x2="7" y2="22" />
@@ -755,7 +755,7 @@ export default function Page() {
                   <div className="faceted-overlay"></div>
                   <div className="absolute inset-0 flex flex-col justify-between p-6">
                     <div className="flex items-start justify-between">
-                      <div className="w-12 h-12 md:w-14 md:h-14 bg-pink-900/40 rounded-full flex items-center justify-center relative z-10">
+                      <div className="w-12 h-12 bg-pink-900/40 rounded-full flex items-center justify-center relative z-10">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 md:w-7 md:h-7">
                           <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
                           <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
@@ -779,7 +779,7 @@ export default function Page() {
                   <div className="faceted-overlay"></div>
                   <div className="absolute inset-0 flex flex-col justify-between p-6">
                     <div className="flex items-start justify-between">
-                      <div className="w-12 h-12 md:w-14 md:h-14 bg-green-900/40 rounded-full flex items-center justify-center relative z-10">
+                      <div className="w-12 h-12 bg-green-900/40 rounded-full flex items-center justify-center relative z-10">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 md:w-7 md:h-7">
                           <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
                           <polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline>
@@ -807,8 +807,8 @@ export default function Page() {
                   <div className="faceted-overlay"></div>
                   <div className="absolute inset-0 flex flex-col justify-between p-6 md:p-8">
                     <div className="flex items-start justify-between">
-                      <div className="w-12 h-12 md:w-16 md:h-16 bg-indigo-900/40 rounded-full flex items-center justify-center relative z-10">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 md:w-8 md:h-8">
+                      <div className="w-12 h-12 bg-indigo-900/40 rounded-full flex items-center justify-center relative z-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 md:w-7 md:h-7">
                           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                         </svg>
                       </div>
@@ -830,63 +830,63 @@ export default function Page() {
         </section>
 
         {/* Advantages Section */}
-        <section className="py-16 md:py-24 px-4 sm:px-6 bg-gradient-to-b from-black to-[#0c0118] relative">
-          <div className="max-w-[1400px] mx-auto relative z-10">
-            <h2 className={`text-3xl md:text-5xl lg:text-6xl font-bold mb-12 md:mb-16 ${roboto.className} text-center`}>
+        <section className="py-16 md:py-24 2k:py-32 4k:py-40 px-4 sm:px-6 2k:px-10 4k:px-16 bg-gradient-to-b from-black to-[#0c0118] relative">
+          <div className="max-w-[1400px] 2k:max-w-[2000px] 4k:max-w-[2800px] mx-auto relative z-10">
+            <h2 className={`text-3xl md:text-5xl lg:text-6xl 2k:text-7xl 4k:text-8xl font-bold mb-12 md:mb-16 2k:mb-20 4k:mb-24 ${roboto.className} text-center`}>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600 purple-glow">Advantages</span>{" "}
               <span className="text-white">of our Services</span>
             </h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 2k:gap-12 4k:gap-16">
               {/* Advantage 1 */}
-              <div className="bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 p-8 hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-900/20 group">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-600/80 to-blue-600/80 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 text-white">
+              <div className="bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 p-8 2k:p-10 4k:p-12 hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-900/20 group">
+                <div className="w-16 h-16 2k:w-20 2k:h-20 4k:w-24 4k:h-24 bg-gradient-to-br from-purple-600/80 to-blue-600/80 rounded-full flex items-center justify-center mb-6 2k:mb-8 4k:mb-10 group-hover:scale-110 transition-transform duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 2k:w-10 2k:h-10 4k:w-12 4k:h-12 text-white">
                     <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
                   </svg>
                 </div>
-                <h3 className="text-xl md:text-2xl font-bold mb-4 text-white">Lightning Fast</h3>
-                <p className="text-gray-300">Our AI-powered services deliver results in seconds, not hours. Experience the fastest turnaround times in the industry.</p>
+                <h3 className="text-xl md:text-2xl 2k:text-3xl 4k:text-4xl font-bold mb-4 2k:mb-6 4k:mb-8 text-white">Lightning Fast</h3>
+                <p className="text-gray-300 2k:text-xl 4k:text-2xl">Our AI-powered services deliver results in seconds, not hours. Experience the fastest turnaround times in the industry.</p>
               </div>
               
               {/* Advantage 2 */}
-              <div className="bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 p-8 hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-900/20 group">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-600/80 to-blue-600/80 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 text-white">
+              <div className="bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 p-8 2k:p-10 4k:p-12 hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-900/20 group">
+                <div className="w-16 h-16 2k:w-20 2k:h-20 4k:w-24 4k:h-24 bg-gradient-to-br from-purple-600/80 to-blue-600/80 rounded-full flex items-center justify-center mb-6 2k:mb-8 4k:mb-10 group-hover:scale-110 transition-transform duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 2k:w-10 2k:h-10 4k:w-12 4k:h-12 text-white">
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                     <polyline points="22 4 12 14.01 9 11.01"></polyline>
                   </svg>
                 </div>
-                <h3 className="text-xl md:text-2xl font-bold mb-4 text-white">Unmatched Quality</h3>
-                <p className="text-gray-300">We combine cutting-edge AI with expert human oversight to ensure every project meets the highest standards of quality.</p>
+                <h3 className="text-xl md:text-2xl 2k:text-3xl 4k:text-4xl font-bold mb-4 2k:mb-6 4k:mb-8 text-white">Unmatched Quality</h3>
+                <p className="text-gray-300 2k:text-xl 4k:text-2xl">We combine cutting-edge AI with expert human oversight to ensure every project meets the highest standards of quality.</p>
               </div>
               
               {/* Advantage 3 */}
-              <div className="bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 p-8 hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-900/20 group">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-600/80 to-blue-600/80 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 text-white">
+              <div className="bg-[#1a0B38]/30 backdrop-blur-md rounded-xl border border-white/10 p-8 2k:p-10 4k:p-12 hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-900/20 group">
+                <div className="w-16 h-16 2k:w-20 2k:h-20 4k:w-24 4k:h-24 bg-gradient-to-br from-purple-600/80 to-blue-600/80 rounded-full flex items-center justify-center mb-6 2k:mb-8 4k:mb-10 group-hover:scale-110 transition-transform duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 2k:w-10 2k:h-10 4k:w-12 4k:h-12 text-white">
                     <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
                     <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
                   </svg>
                 </div>
-                <h3 className="text-xl md:text-2xl font-bold mb-4 text-white">Endless Scalability</h3>
-                <p className="text-gray-300">Whether you need one project or one thousand, our platform scales effortlessly to meet your business demands.</p>
+                <h3 className="text-xl md:text-2xl 2k:text-3xl 4k:text-4xl font-bold mb-4 2k:mb-6 4k:mb-8 text-white">Endless Scalability</h3>
+                <p className="text-gray-300 2k:text-xl 4k:text-2xl">Whether you need one project or one thousand, our platform scales effortlessly to meet your business demands.</p>
               </div>
             </div>
           </div>
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="py-12 md:py-20 px-4 sm:px-6 relative">
-          <div className="max-w-md mx-auto text-center">
-            <h2 className={`text-2xl md:text-4xl font-medium mb-4 md:mb-6 ${roboto.className}`}>Let&#39;s Have a Chat</h2>
-            <div className="max-w-md mx-auto">
-              <form className="space-y-3 md:space-y-4" onSubmit={handleFormSubmit} aria-label="Contact form">
+        <section id="contact" className="py-12 md:py-20 2k:py-28 4k:py-36 px-4 sm:px-6 2k:px-10 4k:px-16 relative">
+          <div className="max-w-md 2k:max-w-xl 4k:max-w-2xl mx-auto text-center">
+            <h2 className={`text-2xl md:text-4xl 2k:text-5xl 4k:text-6xl font-medium mb-4 md:mb-6 2k:mb-8 4k:mb-10 ${roboto.className}`}>Let&#39;s Have a Chat</h2>
+            <div className="max-w-md 2k:max-w-xl 4k:max-w-2xl mx-auto">
+              <form className="space-y-3 md:space-y-4 2k:space-y-6 4k:space-y-8" onSubmit={handleFormSubmit} aria-label="Contact form">
                 <div>
                   <input
                     type="text"
                     placeholder="Your name"
-                    className="w-full px-3 md:px-4 py-2.5 md:py-3 bg-neutral-800/80 border border-neutral-700 rounded-md text-sm md:text-base"
+                    className="w-full px-3 md:px-4 2k:px-5 4k:px-6 py-2.5 md:py-3 2k:py-4 4k:py-5 bg-neutral-800/80 border border-neutral-700 rounded-md text-sm md:text-base 2k:text-lg 4k:text-xl"
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
                     required
@@ -899,7 +899,7 @@ export default function Page() {
                     <input
                       type="email"
                       placeholder="johndoe@gmail.com"
-                      className={`w-full px-3 md:px-4 py-2.5 md:py-3 bg-neutral-800/80 border ${formErrors.email ? 'border-red-500' : formData.email && !formErrors.email ? 'border-green-500' : 'border-neutral-700'} rounded-md text-sm md:text-base pr-10`}
+                      className={`w-full px-3 md:px-4 2k:px-5 4k:px-6 py-2.5 md:py-3 2k:py-4 4k:py-5 bg-neutral-800/80 border ${formErrors.email ? 'border-red-500' : formData.email && !formErrors.email ? 'border-green-500' : 'border-neutral-700'} rounded-md text-sm md:text-base 2k:text-lg 4k:text-xl pr-10`}
                       value={formData.email}
                       onChange={handleEmailChange}
                       required
@@ -940,11 +940,11 @@ export default function Page() {
                       className="mt-2"
                     />
                     {formErrors.email && (
-                      <p id="email-error" className="text-red-500 text-xs mt-2 text-left">{formErrors.email}</p>
+                      <p id="email-error" className="text-red-500 text-xs 2k:text-sm 4k:text-base mt-2 text-left">{formErrors.email}</p>
                     )}
                     {formData.email && !formErrors.email && (
                       <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 2k:h-6 2k:w-6 4k:h-7 4k:w-7 text-green-500" viewBox="0 0 20 20" fill="currentColor">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                         </svg>
                       </div>
@@ -957,7 +957,7 @@ export default function Page() {
                       <button 
                         type="button"
                         id="countryCodeButton"
-                        className="flex items-center justify-between gap-2 bg-neutral-800/80 border border-neutral-700 rounded-l-md px-2 md:px-3 py-2.5 md:py-3 text-white min-w-[80px] md:min-w-[90px] text-sm md:text-base"
+                        className="flex items-center justify-between gap-2 bg-neutral-800/80 border border-neutral-700 rounded-l-md px-2 md:px-3 2k:px-4 4k:px-5 py-2.5 md:py-3 2k:py-4 4k:py-5 text-white min-w-[80px] md:min-w-[90px] 2k:min-w-[100px] 4k:min-w-[120px] text-sm md:text-base 2k:text-lg 4k:text-xl"
                         onClick={() => setShowCountryDropdown(prev => !prev)}
                         aria-label="Select country code"
                         aria-expanded={showCountryDropdown}
@@ -971,14 +971,14 @@ export default function Page() {
                       <div 
                         id="countryCodeDropdown" 
                         ref={countryDropdownRef}
-                        className={`absolute z-10 mt-1 w-60 sm:w-72 bg-neutral-800 border border-neutral-700 rounded-md shadow-lg ${showCountryDropdown ? '' : 'hidden'} max-h-60 overflow-y-auto`}
+                        className={`absolute z-10 mt-1 w-60 sm:w-72 2k:w-80 4k:w-100 bg-neutral-800 border border-neutral-700 rounded-md shadow-lg ${showCountryDropdown ? '' : 'hidden'} max-h-60 overflow-y-auto`}
                       >
                         <div className="p-2">
                           <input 
                             type="text" 
                             id="countrySearch"
                             placeholder="Search country or code..." 
-                            className="w-full px-2 py-1 bg-neutral-700/50 border border-neutral-600 rounded-md text-sm mb-2"
+                            className="w-full px-2 py-1 bg-neutral-700/50 border border-neutral-600 rounded-md text-sm 2k:text-base 4k:text-lg mb-2"
                             value={countrySearchTerm}
                             onChange={(e) => setCountrySearchTerm(e.target.value)}
                             onKeyDown={(e) => {
@@ -1017,7 +1017,7 @@ export default function Page() {
                                 }}
                               >
                                 <div>
-                                  <span className="w-12 md:w-14 inline-block font-medium text-sm md:text-base">{country.code}</span> {country.name}
+                                  <span className="w-12 md:w-14 2k:w-16 4k:w-18 inline-block font-medium text-sm md:text-base 2k:text-lg 4k:text-xl">{country.code}</span> {country.name}
                                 </div>
                                 {selectedCountry.code === country.code && (
                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" className="text-white">
@@ -1034,7 +1034,7 @@ export default function Page() {
                       <input
                         type="tel"
                         placeholder={selectedCountry.code === '+972' ? '54-232-7876' : '(555) 123-4567'}
-                        className={`w-full px-3 md:px-4 py-2.5 md:py-3 bg-neutral-800/80 border ${formErrors.phone ? 'border-red-500' : formData.phone && !formErrors.phone ? 'border-green-500' : 'border-neutral-700'} rounded-r-md border-l-0 text-sm md:text-base pr-10`}
+                        className={`w-full px-3 md:px-4 2k:px-5 4k:px-6 py-2.5 md:py-3 2k:py-4 4k:py-5 bg-neutral-800/80 border ${formErrors.phone ? 'border-red-500' : formData.phone && !formErrors.phone ? 'border-green-500' : 'border-neutral-700'} rounded-r-md border-l-0 text-sm md:text-base 2k:text-lg 4k:text-xl pr-10`}
                         value={formData.phone}
                         onChange={handlePhoneChange}
                         required
@@ -1044,50 +1044,37 @@ export default function Page() {
                       />
                       {formData.phone && !formErrors.phone && (
                         <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 2k:h-6 2k:w-6 4k:h-7 4k:w-7 text-green-500" viewBox="0 0 20 20" fill="currentColor">
                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                           </svg>
                         </div>
                       )}
                     </div>
                     {formErrors.phone && (
-                      <p id="phone-error" className="text-red-500 text-xs mt-2 text-left">{formErrors.phone}</p>
+                      <p id="phone-error" className="text-red-500 text-xs 2k:text-sm 4k:text-base mt-2 text-left">{formErrors.phone}</p>
                     )}
                   </div>
                 </div>
                 <div>
                   <textarea
+                    placeholder="Your message"
                     rows={4}
-                    placeholder="Message"
-                    className="w-full px-3 md:px-4 py-2.5 md:py-3 bg-neutral-800/80 border border-neutral-700 rounded-md resize-none text-sm md:text-base"
+                    className="w-full px-3 md:px-4 2k:px-5 4k:px-6 py-2.5 md:py-3 2k:py-4 4k:py-5 bg-neutral-800/80 border border-neutral-700 rounded-md text-sm md:text-base 2k:text-lg 4k:text-xl"
                     value={formData.message}
                     onChange={(e) => setFormData({...formData, message: e.target.value})}
                     required
-                    aria-label="Message"
-                  ></textarea>
+                    aria-label="Your message"
+                  />
                 </div>
-                <button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 py-2.5 md:py-3 rounded-md text-white font-medium text-sm md:text-base relative"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? (
-                    <>
-                      <span className="opacity-0">Send Message</span>
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                      </div>
-                    </>
-                  ) : "Send Message"}
-                </button>
-                {formSubmitted && (
-                  <div className="bg-green-500/20 border border-green-500 text-green-200 px-4 py-2 rounded-md text-sm">
-                    Thank you! Your message has been sent successfully.
-                  </div>
-                )}
+                <div>
+                  <button
+                    type="submit"
+                    className="w-full px-6 py-3 2k:px-8 2k:py-4 4k:px-10 4k:py-5 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-medium rounded-md hover:opacity-90 transition-opacity text-sm md:text-base 2k:text-lg 4k:text-xl"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? 'Sending...' : 'Send Message'}
+                  </button>
+                </div>
               </form>
             </div>
           </div>
