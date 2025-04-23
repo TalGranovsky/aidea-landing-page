@@ -300,17 +300,17 @@ export default function LetsBegin() {
               <Navbar currentPath="/lets-begin" />
             </Suspense>
             
-            <section className="container mx-auto px-4 py-16 md:py-24 pt-24 pb-20">
-              <div className="max-w-4xl mx-auto text-center mb-16">
-                <h1 className={`text-4xl sm:text-5xl md:text-6xl font-bold mb-6 ${playfair.className} text-white leading-tight`}>
+            <section className="container mx-auto px-4 py-16 md:py-24 pt-32 md:pt-36 lg:pt-40 2k:pt-52 4k:pt-64 pb-20 2k:pb-28 4k:pb-36">
+              <div className="max-w-4xl 2k:max-w-5xl 4k:max-w-6xl mx-auto text-center mb-16 2k:mb-24 4k:mb-32">
+                <h1 className={`text-4xl sm:text-5xl md:text-6xl 2k:text-7xl 4k:text-8xl font-bold mb-6 2k:mb-8 4k:mb-10 ${playfair.className} text-white leading-tight`}>
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600">Let&#39;s Begin</span> Your Journey
                 </h1>
-                <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
+                <p className="text-lg md:text-xl 2k:text-2xl 4k:text-3xl text-gray-300 max-w-2xl 2k:max-w-3xl 4k:max-w-4xl mx-auto">
                   Ready to transform your ideas into reality? Fill out the form below and our team will get back to you within 24 hours.
                 </p>
               </div>
               
-              <div className="max-w-3xl mx-auto bg-black/40 backdrop-blur-lg border border-purple-500/20 rounded-xl p-6 md:p-10 shadow-xl shadow-purple-900/10">
+              <div className="max-w-3xl 2k:max-w-4xl 4k:max-w-5xl mx-auto bg-black/40 backdrop-blur-lg border border-purple-500/20 rounded-xl p-6 md:p-10 2k:p-12 4k:p-16 shadow-xl shadow-purple-900/10">
                 {formSubmitted ? (
                   <div className="text-center py-12">
                     <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -322,30 +322,30 @@ export default function LetsBegin() {
                     <p className="text-gray-300">Your message has been sent successfully. We&#39;ll be in touch soon!</p>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-6">
+                  <form onSubmit={handleSubmit} className="space-y-6 2k:space-y-8 4k:space-y-10">
                     {formError && (
-                      <div className="bg-red-500/20 border border-red-500/50 text-white px-4 py-3 rounded-lg">
+                      <div className="bg-red-500/20 border border-red-500/50 text-white px-4 py-3 2k:px-6 2k:py-4 4k:px-8 4k:py-5 rounded-lg">
                         {formError}
                       </div>
                     )}
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 2k:gap-8 4k:gap-10">
                       <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1">Your Name *</label>
+                        <label htmlFor="name" className="block text-sm 2k:text-base 4k:text-lg font-medium text-gray-300 mb-1 2k:mb-2 4k:mb-3">Your Name *</label>
                         <input
                           type="text"
                           id="name"
                           name="name"
                           value={formData.name}
                           onChange={handleInputChange}
-                          className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                          className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 2k:px-5 2k:py-4 4k:px-6 4k:py-5 text-white 2k:text-lg 4k:text-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                           placeholder="John Doe"
                           required
                         />
                       </div>
                       
                       <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">Email Address *</label>
+                        <label htmlFor="email" className="block text-sm 2k:text-base 4k:text-lg font-medium text-gray-300 mb-1 2k:mb-2 4k:mb-3">Email Address *</label>
                         <div className="relative">
                           <input
                             type="email"
@@ -353,7 +353,7 @@ export default function LetsBegin() {
                             name="email"
                             value={formData.email}
                             onChange={handleInputChange}
-                            className={`w-full bg-black/50 border ${formErrors.email ? 'border-red-500' : formData.email && !formErrors.email ? 'border-green-500' : 'border-gray-700'} rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all pr-10`}
+                            className={`w-full bg-black/50 border ${formErrors.email ? 'border-red-500' : formData.email && !formErrors.email ? 'border-green-500' : 'border-gray-700'} rounded-lg px-4 py-3 2k:px-5 2k:py-4 4k:px-6 4k:py-5 text-white 2k:text-lg 4k:text-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all pr-10`}
                             placeholder="johndoe@gmail.com"
                             required
                             aria-label="Email address"
@@ -384,41 +384,41 @@ export default function LetsBegin() {
                       </div>
                     </div>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 2k:gap-8 4k:gap-10">
                       <div>
-                        <label htmlFor="company" className="block text-sm font-medium text-gray-300 mb-1">Your Company</label>
+                        <label htmlFor="company" className="block text-sm 2k:text-base 4k:text-lg font-medium text-gray-300 mb-1 2k:mb-2 4k:mb-3">Your Company</label>
                         <input
                           type="text"
                           id="company"
                           name="company"
                           value={formData.company}
                           onChange={handleInputChange}
-                          className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                          className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 2k:px-5 2k:py-4 4k:px-6 4k:py-5 text-white 2k:text-lg 4k:text-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                           placeholder="Company Name"
                         />
                       </div>
                       
                       <div>
-                        <label htmlFor="budget" className="block text-sm font-medium text-gray-300 mb-1">Your Budget (Optional)</label>
+                        <label htmlFor="budget" className="block text-sm 2k:text-base 4k:text-lg font-medium text-gray-300 mb-1 2k:mb-2 4k:mb-3">Your Budget (Optional)</label>
                         <input
                           type="text"
                           id="budget"
                           name="budget"
                           value={formData.budget}
                           onChange={handleInputChange}
-                          className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                          className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 2k:px-5 2k:py-4 4k:px-6 4k:py-5 text-white 2k:text-lg 4k:text-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                           placeholder="$5,000 - $10,000"
                         />
                       </div>
                     </div>
                     
                     <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-1">Phone Number *</label>
+                      <label htmlFor="phone" className="block text-sm 2k:text-base 4k:text-lg font-medium text-gray-300 mb-1 2k:mb-2 4k:mb-3">Phone Number *</label>
                       <div className="flex">
                         <div className="relative">
                           <button
                             type="button"
-                            className="flex items-center gap-2 bg-black/50 border border-gray-700 rounded-l-lg px-3 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                            className="flex items-center gap-2 bg-black/50 border border-gray-700 rounded-l-lg px-3 py-3 2k:px-4 2k:py-4 4k:px-5 4k:py-5 text-white 2k:text-lg 4k:text-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                             onClick={() => setCountryDropdownOpen(!countryDropdownOpen)}
                             aria-label="Select country code"
                             aria-expanded={countryDropdownOpen}
@@ -472,7 +472,7 @@ export default function LetsBegin() {
                         <div className="relative flex-1">
                           <input
                             type="tel"
-                            className={`w-full bg-black/50 border ${formErrors.phone ? 'border-red-500' : phone && !formErrors.phone ? 'border-green-500' : 'border-gray-700'} border-l-0 rounded-r-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all pr-10`}
+                            className={`w-full bg-black/50 border ${formErrors.phone ? 'border-red-500' : phone && !formErrors.phone ? 'border-green-500' : 'border-gray-700'} border-l-0 rounded-r-lg px-4 py-3 2k:px-5 2k:py-4 4k:px-6 4k:py-5 text-white 2k:text-lg 4k:text-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all pr-10`}
                             placeholder={selectedCountry.code === '+972' ? '54-232-7876' : '(555) 123-4567'}
                             value={phone}
                             onChange={handlePhoneChange}
@@ -496,42 +496,35 @@ export default function LetsBegin() {
                     </div>
                     
                     <div>
-                      <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-1">Message *</label>
+                      <label htmlFor="message" className="block text-sm 2k:text-base 4k:text-lg font-medium text-gray-300 mb-1 2k:mb-2 4k:mb-3">Message *</label>
                       <textarea
                         id="message"
                         name="message"
                         value={formData.message}
                         onChange={handleInputChange}
                         rows={5}
-                        className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                        className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 2k:px-5 2k:py-4 4k:px-6 4k:py-5 text-white 2k:text-lg 4k:text-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                         placeholder="Tell us about your project..."
                         required
                       ></textarea>
                     </div>
                     
-                    <div className="text-center">
+                    <div className="mt-8 2k:mt-10 4k:mt-12">
                       <button
                         type="submit"
-                        className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-medium rounded-full transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 relative"
+                        className={`w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 2k:py-4 2k:px-8 4k:py-5 4k:px-10 rounded-lg 2k:text-xl 4k:text-2xl transition-all duration-300 flex items-center justify-center ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                         disabled={isSubmitting}
                       >
                         {isSubmitting ? (
                           <>
-                            <span className="opacity-0">Send Message</span>
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                              </svg>
-                            </div>
+                            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 2k:h-6 2k:w-6 4k:h-8 4k:w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Sending...
                           </>
                         ) : (
-                          <>
-                            <span>Send Message</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                              <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                            </svg>
-                          </>
+                          'Send Message'
                         )}
                       </button>
                     </div>

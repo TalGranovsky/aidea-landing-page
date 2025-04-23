@@ -35,11 +35,27 @@ export default function ClientLayout({ children, robotoClassName }: ClientLayout
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
       </head>
-      <body className={`${robotoClassName} bg-black bg-dotted-grid`}>
+      <body className={`${robotoClassName} bg-black`}>
         <style jsx global>{`
           html, body {
             background-color: #000000 !important;
             color: #ffffff;
+          }
+          
+          body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+              radial-gradient(circle at center, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 1) 70%),
+              radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.1) 2px, transparent 0);
+            background-size: 100% 100%, 32px 32px;
+            background-position: center, center;
+            pointer-events: none;
+            z-index: -1;
           }
           
           /* Prevent flash of unstyled content */

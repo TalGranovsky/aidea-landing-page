@@ -220,18 +220,18 @@ export default function Projects() {
         </Suspense>
 
         {/* Page Content */}
-        <div className="pt-24 pb-16">
-          <div className="container mx-auto px-4">
+        <div className="pt-24 md:pt-28 lg:pt-32 2k:pt-48 4k:pt-64 pb-16 2k:pb-24 4k:pb-32">
+          <div className="max-w-7xl 2k:max-w-[1800px] 4k:max-w-[2400px] mx-auto px-4 sm:px-6 lg:px-8 2k:px-12 4k:px-16">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="text-center mb-16"
+              className="text-center mb-16 2k:mb-24 4k:mb-32"
             >
-              <h1 className={`text-4xl sm:text-5xl md:text-6xl font-bold mb-4 ${playfair.className} text-white`}>
+              <h1 className={`text-4xl sm:text-5xl md:text-6xl 2k:text-7xl 4k:text-8xl font-bold mb-4 2k:mb-6 4k:mb-8 ${playfair.className} text-white`}>
                 Our Projects
               </h1>
-              <p className="text-lg text-neutral-400 max-w-2xl mx-auto">
+              <p className="text-lg 2k:text-xl 4k:text-2xl text-neutral-400 max-w-2xl 2k:max-w-3xl 4k:max-w-4xl mx-auto">
                 Explore our portfolio of AI-powered creative work
               </p>
             </motion.div>
@@ -241,40 +241,40 @@ export default function Projects() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="flex flex-wrap justify-center gap-4 mb-12"
+              className="flex flex-wrap justify-center gap-4 2k:gap-6 4k:gap-8 mb-12 2k:mb-16 4k:mb-20"
             >
               <button 
-                className={`filter-button px-4 py-2 rounded-full text-sm ${activeFilter === 'all' ? 'text-purple-400 active' : 'text-neutral-400'}`}
+                className={`filter-button px-4 py-2 2k:px-6 2k:py-3 4k:px-8 4k:py-4 rounded-full text-sm 2k:text-base 4k:text-lg ${activeFilter === 'all' ? 'text-purple-400 active' : 'text-neutral-400'}`}
                 onClick={() => setActiveFilter('all')}
               >
                 All Projects
               </button>
               <button 
-                className={`filter-button px-4 py-2 rounded-full text-sm ${activeFilter === 'branding' ? 'text-purple-400 active' : 'text-neutral-400'}`}
+                className={`filter-button px-4 py-2 2k:px-6 2k:py-3 4k:px-8 4k:py-4 rounded-full text-sm 2k:text-base 4k:text-lg ${activeFilter === 'branding' ? 'text-purple-400 active' : 'text-neutral-400'}`}
                 onClick={() => setActiveFilter('branding')}
               >
                 Branding
               </button>
               <button 
-                className={`filter-button px-4 py-2 rounded-full text-sm ${activeFilter === 'web' ? 'text-purple-400 active' : 'text-neutral-400'}`}
+                className={`filter-button px-4 py-2 2k:px-6 2k:py-3 4k:px-8 4k:py-4 rounded-full text-sm 2k:text-base 4k:text-lg ${activeFilter === 'web' ? 'text-purple-400 active' : 'text-neutral-400'}`}
                 onClick={() => setActiveFilter('web')}
               >
                 Web Development
               </button>
               <button 
-                className={`filter-button px-4 py-2 rounded-full text-sm ${activeFilter === '3d' ? 'text-purple-400 active' : 'text-neutral-400'}`}
+                className={`filter-button px-4 py-2 2k:px-6 2k:py-3 4k:px-8 4k:py-4 rounded-full text-sm 2k:text-base 4k:text-lg ${activeFilter === '3d' ? 'text-purple-400 active' : 'text-neutral-400'}`}
                 onClick={() => setActiveFilter('3d')}
               >
                 3D Models
               </button>
               <button 
-                className={`filter-button px-4 py-2 rounded-full text-sm ${activeFilter === 'music' ? 'text-purple-400 active' : 'text-neutral-400'}`}
+                className={`filter-button px-4 py-2 2k:px-6 2k:py-3 4k:px-8 4k:py-4 rounded-full text-sm 2k:text-base 4k:text-lg ${activeFilter === 'music' ? 'text-purple-400 active' : 'text-neutral-400'}`}
                 onClick={() => setActiveFilter('music')}
               >
                 Music
               </button>
               <button 
-                className={`filter-button px-4 py-2 rounded-full text-sm ${activeFilter === 'video' ? 'text-purple-400 active' : 'text-neutral-400'}`}
+                className={`filter-button px-4 py-2 2k:px-6 2k:py-3 4k:px-8 4k:py-4 rounded-full text-sm 2k:text-base 4k:text-lg ${activeFilter === 'video' ? 'text-purple-400 active' : 'text-neutral-400'}`}
                 onClick={() => setActiveFilter('video')}
               >
                 Video
@@ -282,7 +282,7 @@ export default function Projects() {
             </motion.div>
 
             {/* Projects Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 2k:gap-10 4k:gap-12">
               {filteredProjects.map((project, index) => (
                 <motion.div
                   key={project.id}
@@ -306,20 +306,20 @@ export default function Projects() {
                     <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                     <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/20 via-transparent to-blue-600/20 rounded-xl blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-1000 animate-gradient-shift"></div>
                     
-                    <div className="project-overlay absolute inset-0 p-4 flex flex-col justify-end z-10">
-                      <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                      <div className="flex flex-wrap gap-2 mb-3">
+                    <div className="project-overlay absolute inset-0 p-4 2k:p-6 4k:p-8 flex flex-col justify-end z-10">
+                      <h3 className="text-xl 2k:text-2xl 4k:text-3xl font-bold mb-2 2k:mb-3 4k:mb-4">{project.title}</h3>
+                      <div className="flex flex-wrap gap-2 2k:gap-3 4k:gap-4 mb-3 2k:mb-4 4k:mb-5">
                         {project.tags.map((tag, i) => (
-                          <span key={i} className="text-xs bg-black/50 backdrop-blur-sm px-2 py-1 rounded-full text-neutral-300">
+                          <span key={i} className="text-xs 2k:text-sm 4k:text-base bg-black/50 backdrop-blur-sm px-2 py-1 2k:px-3 2k:py-1.5 4k:px-4 4k:py-2 rounded-full text-neutral-300">
                             {tag}
                           </span>
                         ))}
                       </div>
-                      <p className="text-sm text-neutral-300 line-clamp-2">{project.description}</p>
+                      <p className="text-sm 2k:text-base 4k:text-lg text-neutral-300 line-clamp-2">{project.description}</p>
                     </div>
                   </div>
-                  <div className="p-4 bg-neutral-900/50 relative z-10">
-                    <button className="text-sm text-purple-400 hover:text-purple-300 transition-colors">
+                  <div className="p-4 2k:p-6 4k:p-8 bg-neutral-900/50 relative z-10">
+                    <button className="text-sm 2k:text-base 4k:text-lg text-purple-400 hover:text-purple-300 transition-colors">
                       View Project →
                     </button>
                   </div>
@@ -328,10 +328,10 @@ export default function Projects() {
             </div>
             
             {/* CTA Section */}
-            <div className="mt-16 text-center">
+            <div className="mt-16 2k:mt-24 4k:mt-32 text-center">
               <Link 
                 href="/lets-begin" 
-                className="inline-block bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-8 rounded-full transition-colors duration-300"
+                className="inline-block bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-8 2k:py-4 2k:px-10 4k:py-5 4k:px-12 rounded-full transition-colors duration-300 text-base 2k:text-xl 4k:text-2xl"
                 onClick={(e) => {
                   e.preventDefault();
                   handleNavigation('/lets-begin');
