@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { getSupabaseClient } from '@/lib/supabase';
 import { sendUserConfirmation, sendAdminNotification } from '@/lib/email';
 
 export async function POST(request: NextRequest) {
@@ -38,10 +38,11 @@ export async function POST(request: NextRequest) {
     let submissionData = null;
     
     try {
+      // Get the Supabase client
+      const supabase = getSupabaseClient();
+      
       // Store the submission in Supabase
       console.log('Attempting to store in Supabase...');
-      console.log('Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL);
-      
       const { data, error } = await supabase
         .from('contact_submissions')
         .insert([
