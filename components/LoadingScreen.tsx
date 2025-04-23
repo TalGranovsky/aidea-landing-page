@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Define props interface
 interface LoadingScreenProps {
@@ -8,97 +8,63 @@ interface LoadingScreenProps {
 }
 
 export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
-  // State to track loading progress (starting at 0% for accurate feedback)
-  const [progress, setProgress] = useState(0);
-  const animationFrameRef = useRef<number | null>(null);
-  const [mounted, setMounted] = useState(false);
+  // State to track loading progress
+  const [progress, setProgress] = useState(1);
+  const [isComplete, setIsComplete] = useState(false);
   
-  // Set mounted state when component mounts
+  // Simple timer-based loading simulation
   useEffect(() => {
-    setMounted(true);
-    return () => setMounted(false);
-  }, []);
-  
-  // Simulate loading progress - adjusted to be about 4 seconds
-  useEffect(() => {
-    // Safety check for SSR and mounting
-    if (!mounted) return;
+    // Total loading time in ms (4 seconds)
+    const totalLoadingTime = 4000;
+    // Update interval in ms (50ms = 20 updates per second)
+    const updateInterval = 50;
+    // Number of updates to reach 100%
+    const totalUpdates = totalLoadingTime / updateInterval;
+    // Progress increment per update
+    const increment = 100 / totalUpdates;
     
-    // Set to 4 seconds minimum loading time
-    const minLoadingTime = 4000; // 4 seconds
-    const startTime = Date.now();
-    let lastUpdateTime = Date.now();
+    let currentProgress = 1;
+    let timer: NodeJS.Timeout;
     
-    // Start with a small initial progress to show movement
-    setProgress(1);
-    
-    const simulateLoading = () => {
-      const currentTime = Date.now();
-      const deltaTime = currentTime - lastUpdateTime;
-      const elapsedTime = currentTime - startTime;
+    // Function to update progress
+    const updateProgress = () => {
+      currentProgress += increment;
       
-      // Update every 30ms for smooth progress
-      if (deltaTime > 30) {
-        lastUpdateTime = currentTime;
+      if (currentProgress >= 100) {
+        // Cap at 100% and complete
+        setProgress(100);
+        setIsComplete(true);
         
-        // Calculate progress based on elapsed time
-        // We want to reach 100% in about 4 seconds
-        const targetProgress = Math.min((elapsedTime / minLoadingTime) * 100, 99);
-        
-        // Smooth progress updates with slight randomness for natural feel
-        let increment = (targetProgress - progress) * 0.1; // Smooth easing
-        increment = Math.max(0.2, Math.min(increment, 2)); // Clamp between 0.2 and 2
-        
-        // If we've reached minimum time, go to 100%
-        if (elapsedTime >= minLoadingTime && progress > 95) {
-          setProgress(100);
-          
-          // Complete after reaching 100%
-          setTimeout(() => {
-            if (mounted) {
-              onLoadingComplete();
-            }
-          }, 400); // Transition delay
-          
-          return;
-        }
-        
-        setProgress(prev => Math.min(prev + increment, targetProgress));
-      }
-      
-      // Continue animation loop if not at 100% or if minimum time hasn't elapsed
-      if (progress < 100 || elapsedTime < minLoadingTime) {
-        animationFrameRef.current = requestAnimationFrame(simulateLoading);
+        // Call onLoadingComplete after a short delay
+        setTimeout(() => {
+          onLoadingComplete();
+        }, 500);
+      } else {
+        // Update progress and schedule next update
+        setProgress(Math.min(currentProgress, 99));
+        timer = setTimeout(updateProgress, updateInterval);
       }
     };
     
-    // Start the animation loop
-    animationFrameRef.current = requestAnimationFrame(simulateLoading);
+    // Start the progress updates
+    timer = setTimeout(updateProgress, updateInterval);
     
-    // Cleanup function
+    // Cleanup
     return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
+      if (timer) clearTimeout(timer);
     };
-  }, [progress, onLoadingComplete, mounted]);
+  }, [onLoadingComplete]);
   
-  // Don't render anything on the server or before mounting
-  if (typeof window === 'undefined' || !mounted) {
-    return null;
-  }
-
   return (
     <div 
-      className={`loading-screen fixed inset-0 flex flex-col items-center justify-center bg-black z-[9999] ${progress >= 100 ? 'slide-up-exit' : ''}`}
+      className={`loading-screen fixed inset-0 flex flex-col items-center justify-center bg-black z-[9999] ${isComplete ? 'slide-up-exit' : ''}`}
       style={{ 
-        willChange: 'transform', 
         visibility: 'visible',
         opacity: 1,
         backgroundColor: '#000000'
       }}
     >
-      {/* Purple haze effects - adding back for visual interest */}
+      {/* Purple haze effects */}
       <div className="purple-haze purple-haze-1"></div>
       <div className="purple-haze purple-haze-2"></div>
       
@@ -125,11 +91,10 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
           <div 
             className="h-full rounded-full"
             style={{
-              width: `${Math.max(1, Math.floor(progress))}%`, // Ensure at least 1% width
+              width: `${Math.floor(progress)}%`,
               background: 'linear-gradient(90deg, #6d28d9, #9333ea, #6d28d9)',
               boxShadow: '0 0 15px rgba(123, 0, 215, 0.7)',
-              transition: 'width 200ms ease-out', // Smoother transition
-              willChange: 'width',
+              transition: 'width 50ms linear',
             }}
           />
         </div>
@@ -137,7 +102,7 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
         {/* Loading info */}
         <div className="w-full flex justify-between text-sm text-white" style={{ fontFamily: "'Roboto', sans-serif" }}>
           <span>LOADING</span>
-          <span>{Math.max(1, Math.floor(progress))}%</span>
+          <span>{Math.floor(progress)}%</span>
         </div>
       </div>
 
