@@ -288,20 +288,23 @@ export default function Page() {
     setShowLoadingScreen(true);
     setIsFirstLoad(true);
     
-    // Add a class to the body element instead of manipulating style directly
-    const bodyClasses = document.body.classList;
-    bodyClasses.add('loading-active');
+    // Don't manipulate DOM directly in the initial render
+    // Instead use CSS classes
+    if (document && document.body) {
+      document.body.classList.add('loading-active');
+    }
     
     return () => {
-      bodyClasses.remove('loading-active');
+      if (document && document.body) {
+        document.body.classList.remove('loading-active');
+      }
     };
   }, []);
   
   // Handle loading completion
   const handleLoadingComplete = () => {
-    if (typeof window !== 'undefined') {
-      const bodyClasses = document.body.classList;
-      bodyClasses.remove('loading-active');
+    if (typeof window !== 'undefined' && document && document.body) {
+      document.body.classList.remove('loading-active');
     }
     setIsLoading(false);
     setShowLoadingScreen(false);

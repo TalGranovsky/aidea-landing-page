@@ -11,18 +11,28 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
   // State to track loading progress (starting at 0% for accurate feedback)
   const [progress, setProgress] = useState(0);
   const animationFrameRef = useRef<number | null>(null);
+  const [mounted, setMounted] = useState(false);
+  
+  // Set mounted state when component mounts
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
   
   // Simulate loading progress - adjusted to be about 4 seconds
   useEffect(() => {
-    // Safety check for SSR
-    if (typeof window === 'undefined') return;
+    // Safety check for SSR and mounting
+    if (!mounted) return;
     
     // Set to 4 seconds minimum loading time
     const minLoadingTime = 4000; // 4 seconds
     const startTime = Date.now();
     let lastUpdateTime = Date.now();
     
-    const simulateLoading = (timestamp: number) => {
+    // Start with a small initial progress to show movement
+    setProgress(1);
+    
+    const simulateLoading = () => {
       const currentTime = Date.now();
       const deltaTime = currentTime - lastUpdateTime;
       const elapsedTime = currentTime - startTime;
@@ -39,16 +49,15 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
         let increment = (targetProgress - progress) * 0.1; // Smooth easing
         increment = Math.max(0.2, Math.min(increment, 2)); // Clamp between 0.2 and 2
         
-        // Add slight randomness for natural feel
-        increment += (Math.random() * 0.3 - 0.15);
-        
         // If we've reached minimum time, go to 100%
         if (elapsedTime >= minLoadingTime && progress > 95) {
           setProgress(100);
           
           // Complete after reaching 100%
           setTimeout(() => {
-            onLoadingComplete();
+            if (mounted) {
+              onLoadingComplete();
+            }
           }, 400); // Transition delay
           
           return;
@@ -72,10 +81,10 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [progress, onLoadingComplete]);
+  }, [progress, onLoadingComplete, mounted]);
   
-  // Don't render anything on the server
-  if (typeof window === 'undefined') {
+  // Don't render anything on the server or before mounting
+  if (typeof window === 'undefined' || !mounted) {
     return null;
   }
 
@@ -116,7 +125,7 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
           <div 
             className="h-full rounded-full"
             style={{
-              width: `${Math.floor(progress)}%`,
+              width: `${Math.max(1, Math.floor(progress))}%`, // Ensure at least 1% width
               background: 'linear-gradient(90deg, #6d28d9, #9333ea, #6d28d9)',
               boxShadow: '0 0 15px rgba(123, 0, 215, 0.7)',
               transition: 'width 200ms ease-out', // Smoother transition
@@ -128,7 +137,7 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
         {/* Loading info */}
         <div className="w-full flex justify-between text-sm text-white" style={{ fontFamily: "'Roboto', sans-serif" }}>
           <span>LOADING</span>
-          <span>{Math.floor(progress)}%</span>
+          <span>{Math.max(1, Math.floor(progress))}%</span>
         </div>
       </div>
 
